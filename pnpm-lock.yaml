@@ -208,8 +208,8 @@ catalogs:
       specifier: ^1.4.7
       version: 1.4.7
     dotenv:
-      specifier: ^16.5.0
-      version: 16.5.0
+      specifier: ^17.2.0
+      version: 17.2.0
     echarts:
       specifier: ^5.6.0
       version: 5.6.0
@@ -1002,7 +1002,7 @@ importers:
         version: 1.11.13
       dotenv:
         specifier: 'catalog:'
-        version: 16.5.0
+        version: 17.2.0
       rollup:
         specifier: 'catalog:'
         version: 4.40.1
@@ -5743,6 +5743,10 @@ packages:
 
   dotenv@16.5.0:
     resolution: {integrity: sha512-m/C+AwOAr9/W1UOIZUo232ejMNnJAJtYQjUbHoNTBNTJSvqzzDh7vnrei3o3r3m9blf6ZoDkvcw0VmozNRFJxg==}
+    engines: {node: '>=12'}
+
+  dotenv@17.2.0:
+    resolution: {integrity: sha512-Q4sgBT60gzd0BB0lSyYD3xM4YxrXA9y4uBDof1JNYGzOXrQdQ6yX+7XIAqoFOGQFOTK1D3Hts5OllpxMDZFONQ==}
     engines: {node: '>=12'}
 
   dotenv@8.6.0:
@@ -15142,6 +15146,8 @@ snapshots:
   dotenv@16.0.3: {}
 
   dotenv@16.5.0: {}
+
+  dotenv@17.2.0: {}
 
   dotenv@8.6.0: {}
 
