@@ -17,7 +17,7 @@ withDefaults(defineProps<Props>(), {});
     <CardHeader>
       <CardTitle class="text-xl">{{ title }}</CardTitle>
     </CardHeader>
-    <CardContent>
+    <CardContent class="h-full">
       <slot></slot>
     </CardContent>
   </Card>

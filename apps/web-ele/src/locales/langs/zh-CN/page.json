@@ -10,5 +10,19 @@
     "title": "概览",
     "analytics": "分析页",
     "workspace": "工作台"
+  },
+  "ems": {
+    "title": "驾驶舱"
+  },
+  "other": {
+    "energyOverview": "能源综合概况",
+    "windPowerMap": "能量流向图",
+    "comprehensiveReports": "综合报表",
+    "enterpriseEnergyReport": "企业能源报表",
+    "enterpriseIncomeReport": "企业收益报表",
+    "photovoltaicIncomeReport": "光伏收益报表",
+    "energyStorageIncomeReport": "储能收益报表",
+    "chargingIncomeReport": "充电收益报表",
+    "windPowerIncomeReport": "风电收益报表"
   }
 }

@@ -4,19 +4,39 @@ import type { BasicOption } from '@vben/types';
 
 import { computed, markRaw } from 'vue';
 
-import { AuthenticationLogin, SliderCaptcha, z } from '@vben/common-ui';
+import { AuthenticationLogin, ImageCaptcha, z } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
+import { getCaptchaApi } from '#/api/core/auth';
 import { useAuthStore } from '#/store';
 
 defineOptions({ name: 'Login' });
 
 const authStore = useAuthStore();
 
+async function fetchCaptchaImage(): Promise<string> {
+  try {
+    const response = await getCaptchaApi();
+    // Due to response interceptor, response is already the 'result' object
+    const imageData = response?.img;
+
+    if (!imageData || typeof imageData !== 'string') {
+      throw new Error(
+        `Invalid captcha image data. Expected string in img property, got: ${typeof imageData}`,
+      );
+    }
+
+    return imageData;
+  } catch (error) {
+    console.error('Failed to fetch captcha:', error);
+    throw error;
+  }
+}
+
 const MOCK_USER_OPTIONS: BasicOption[] = [
   {
     label: 'Super',
-    value: 'vben',
+    value: 'FAQC',
   },
   {
     label: 'Admin',
@@ -42,7 +62,7 @@ const formSchema = computed((): VbenFormSchema[] => {
         .string()
         .min(1, { message: $t('authentication.selectAccount') })
         .optional()
-        .default('vben'),
+        .default('FAQC'),
     },
     {
       component: 'VbenInput',
@@ -58,14 +78,14 @@ const formSchema = computed((): VbenFormSchema[] => {
             if (findUser) {
               form.setValues({
                 password: '123456',
-                username: findUser.value,
+                account: findUser.value,
               });
             }
           }
         },
         triggerFields: ['selectAccount'],
       },
-      fieldName: 'username',
+      fieldName: 'account',
       label: $t('authentication.username'),
       rules: z.string().min(1, { message: $t('authentication.usernameTip') }),
     },
@@ -79,12 +99,24 @@ const formSchema = computed((): VbenFormSchema[] => {
       rules: z.string().min(1, { message: $t('authentication.passwordTip') }),
     },
     {
-      component: markRaw(SliderCaptcha),
-      fieldName: 'captcha',
-      rules: z.boolean().refine((value) => value, {
-        message: $t('authentication.verifyRequiredTip'),
-      }),
+      component: markRaw(ImageCaptcha),
+      componentProps: {
+        placeholder: $t('authentication.captchaTip'),
+        captchaApi: fetchCaptchaImage,
+        refreshTitle: $t('authentication.captchaRefresh'),
+        loadingText: $t('authentication.captchaLoading'),
+      },
+      fieldName: 'code',
+      label: $t('authentication.captcha'),
+      rules: z.string().min(1, { message: $t('authentication.captchaTip') }),
     },
+    // {
+    //   component: markRaw(SliderCaptcha),
+    //   fieldName: 'captcha',
+    //   rules: z.boolean().refine((value) => value, {
+    //     message: $t('authentication.verifyRequiredTip'),
+    //   }),
+    // },
   ];
 });
 </script>

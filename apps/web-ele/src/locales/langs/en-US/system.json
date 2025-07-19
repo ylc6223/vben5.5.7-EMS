@@ -61,5 +61,30 @@
     "operation": "Operation",
     "permissions": "Permissions",
     "setPermissions": "Permissions"
+  },
+  "energyReport": {
+    "title": "Enterprise Energy Report",
+    "description": "Display detailed data of enterprise load and photovoltaic power generation",
+    "time": "Time",
+    "load": "Load(kW·h)",
+    "wind": "Wind Power(kW·h)",
+    "storage": "Energy Storage(kW·h)",
+    "chargingPile": "Charging Pile(kW·h)",
+    "grid": "Grid(kW·h)",
+    "solar": "Solar(kW·h)",
+    "consumption": "Consumption",
+    "gridConnection": "Grid Connection",
+    "total": "Total",
+    "charge": "Charge",
+    "discharge": "Discharge",
+    "timeSlots": {
+      "sharp": "Sharp",
+      "peak": "Peak",
+      "flat": "Flat",
+      "valley": "Valley",
+      "deepValley": "Deep Valley",
+      "total": "Total"
+    },
+    "refreshData": "Refresh Data"
   }
 }

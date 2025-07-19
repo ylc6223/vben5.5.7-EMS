@@ -20,6 +20,20 @@ const fallbackNotFoundRoute: RouteRecordRaw = {
   path: '/:path(.*)*',
 };
 
+/*
+角色分3种
+1. 超级管理员 super
+2. 管理员 admin
+3. 普通用户 user
+
+配置路由权限
+{
+  meta: {
+    authority: ['super'],
+  },
+},
+*/
+
 /** 基本路由，这些路由是必须存在的 */
 const coreRoutes: RouteRecordRaw[] = [
   /**

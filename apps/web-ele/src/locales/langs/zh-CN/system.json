@@ -63,5 +63,30 @@
     "permissions": "权限",
     "setPermissions": "授权"
   },
+  "energyReport": {
+    "title": "企业能源报表",
+    "description": "显示企业负荷和光伏发电的详细数据",
+    "time": "时间",
+    "load": "负荷(kW·h)",
+    "wind": "风电(kW·h)",
+    "storage": "储能(kW·h)",
+    "chargingPile": "充电桩(kW·h)",
+    "grid": "电网(kW·h)",
+    "solar": "光伏(kW·h)",
+    "consumption": "消纳",
+    "gridConnection": "上网",
+    "total": "总",
+    "charge": "充电",
+    "discharge": "放电",
+    "timeSlots": {
+      "sharp": "尖",
+      "peak": "峰",
+      "flat": "平",
+      "valley": "谷",
+      "deepValley": "深谷",
+      "total": "总"
+    },
+    "refreshData": "刷新数据"
+  },
   "title": "系统管理"
 }

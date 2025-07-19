@@ -3,7 +3,7 @@ import type { DrawerPlacement, DrawerState } from '@vben/common-ui';
 
 import { Page, useVbenDrawer } from '@vben/common-ui';
 
-import { Button, Card } from 'ant-design-vue';
+import { ElButton, ElCard } from 'element-plus';
 
 import DocButton from '../doc-button.vue';
 import AutoHeightDemo from './auto-height-demo.vue';
@@ -111,85 +111,85 @@ function openFormDrawer() {
     <SharedDataDrawer />
     <FormDrawer />
 
-    <Card class="mb-4" title="基本使用">
+    <ElCard class="mb-4" title="基本使用">
       <p class="mb-3">一个基础的抽屉示例</p>
-      <Button class="mb-2" type="primary" @click="openBaseDrawer('right')">
+      <ElButton class="mb-2" type="primary" @click="openBaseDrawer('right')">
         右侧打开
-      </Button>
-      <Button
+      </ElButton>
+      <ElButton
         class="mb-2 ml-2"
         type="primary"
         @click="openBaseDrawer('bottom')"
       >
         底部打开
-      </Button>
-      <Button class="mb-2 ml-2" type="primary" @click="openBaseDrawer('left')">
+      </ElButton>
+      <ElButton class="mb-2 ml-2" type="primary" @click="openBaseDrawer('left')">
         左侧打开
-      </Button>
-      <Button class="mb-2 ml-2" type="primary" @click="openBaseDrawer('top')">
+      </ElButton>
+      <ElButton class="mb-2 ml-2" type="primary" @click="openBaseDrawer('top')">
         顶部打开
-      </Button>
-      <Button class="mb-2 ml-2" type="primary" @click="openBlurDrawer">
+      </ElButton>
+      <ElButton class="mb-2 ml-2" type="primary" @click="openBlurDrawer">
         遮罩层模糊效果
-      </Button>
-    </Card>
+      </ElButton>
+    </ElCard>
 
-    <Card class="mb-4" title="在内容区域打开">
+    <ElCard class="mb-4" title="在内容区域打开">
       <p class="mb-3">指定抽屉在内容区域打开，不会覆盖顶部和左侧菜单等区域</p>
-      <Button class="mb-2" type="primary" @click="openInContentDrawer('right')">
+      <ElButton class="mb-2" type="primary" @click="openInContentDrawer('right')">
         右侧打开
-      </Button>
-      <Button
+      </ElButton>
+      <ElButton
         class="mb-2 ml-2"
         type="primary"
         @click="openInContentDrawer('bottom')"
       >
         底部打开
-      </Button>
-      <Button
+      </ElButton>
+      <ElButton
         class="mb-2 ml-2"
         type="primary"
         @click="openInContentDrawer('left')"
       >
         左侧打开
-      </Button>
-      <Button
+      </ElButton>
+      <ElButton
         class="mb-2 ml-2"
         type="primary"
         @click="openInContentDrawer('top')"
       >
         顶部打开
-      </Button>
-      <Button class="mb-2 ml-2" type="primary" @click="openMaxContentDrawer">
+      </ElButton>
+      <ElButton class="mb-2 ml-2" type="primary" @click="openMaxContentDrawer">
         内容区域全屏打开
-      </Button>
-    </Card>
+      </ElButton>
+    </ElCard>
 
-    <Card class="mb-4" title="内容高度自适应滚动">
+    <ElCard class="mb-4" title="内容高度自适应滚动">
       <p class="mb-3">可根据内容自动计算滚动高度</p>
-      <Button type="primary" @click="openAutoHeightDrawer">打开抽屉</Button>
-    </Card>
+      <ElButton type="primary" @click="openAutoHeightDrawer">打开抽屉</ElButton>
+    </ElCard>
 
-    <Card class="mb-4" title="动态配置示例">
+    <ElCard class="mb-4" title="动态配置示例">
       <p class="mb-3">通过 setState 动态调整抽屉数据</p>
-      <Button type="primary" @click="openDynamicDrawer">打开抽屉</Button>
-      <Button class="ml-2" type="primary" @click="handleUpdateTitle">
+      <ElButton type="primary" @click="openDynamicDrawer">打开抽屉</ElButton>
+      <ElButton class="ml-2" type="primary" @click="handleUpdateTitle">
         从外部修改标题并打开
-      </Button>
-    </Card>
+      </ElButton>
+    </ElCard>
 
-    <Card class="mb-4" title="内外数据共享示例">
+    <ElCard class="mb-4" title="内外数据共享示例">
       <p class="mb-3">通过共享 sharedData 来进行数据交互</p>
-      <Button type="primary" @click="openSharedDrawer">
+      <ElButton type="primary" @click="openSharedDrawer">
         打开抽屉并传递数据
-      </Button>
-    </Card>
+      </ElButton>
+    </ElCard>
 
-    <Card class="mb-4" title="表单抽屉示例">
+    <ElCard class="mb-4" title="表单抽屉示例">
       <p class="mb-3">打开抽屉并设置表单schema以及数据</p>
-      <Button type="primary" @click="openFormDrawer">
+      <ElButton type="primary" @click="openFormDrawer">
         打开抽屉并设置表单schema以及数据
-      </Button>
-    </Card>
+      </ElButton>
+    </ElCard>
   </Page>
 </template>

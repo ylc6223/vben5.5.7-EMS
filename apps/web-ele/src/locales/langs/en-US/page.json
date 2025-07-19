@@ -10,5 +10,19 @@
     "title": "Dashboard",
     "analytics": "Analytics",
     "workspace": "Workspace"
+  },
+  "ems":{
+    "title": "Cockpit"
+  },
+  "other":{
+    "energyOverview": "Energy Overview",
+    "windPowerMap": "Energy Flow Chart",
+    "comprehensiveReports": "Comprehensive Reports",
+    "enterpriseEnergyReport": "Enterprise Energy Report",
+    "enterpriseIncomeReport": "Enterprise Income Report",
+    "photovoltaicIncomeReport": "Photovoltaic Income Report",
+    "energyStorageIncomeReport": "Energy Storage Income Report",
+    "chargingIncomeReport": "Charging Income Report",
+    "windPowerIncomeReport": "Wind Power Income Report"
   }
 }

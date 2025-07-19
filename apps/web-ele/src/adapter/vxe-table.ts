@@ -1,3 +1,6 @@
+import type { Recordable } from '@vben/types';
+// import type { Recordable } from '@vben-core/typings';
+
 import { h } from 'vue';
 
 import { setupVbenVxeTable, useVbenVxeGrid } from '@vben/plugins/vxe-table';
@@ -5,7 +8,6 @@ import { setupVbenVxeTable, useVbenVxeGrid } from '@vben/plugins/vxe-table';
 import { ElButton, ElImage } from 'element-plus';
 
 import { useVbenForm } from './form';
-import type {Recordable} from "@vben-core/typings";
 
 setupVbenVxeTable({
   configVxeTable: (vxeUI) => {

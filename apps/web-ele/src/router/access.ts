@@ -29,7 +29,14 @@ async function generateAccess(options: GenerateMenuAndRoutesOptions) {
         duration: 1500,
         message: `${$t('common.loadingMenu')}...`,
       });
-      return await getAllMenusApi();
+      try {
+        return await getAllMenusApi();
+      } catch (error) {
+        console.error('Failed to fetch menu list:', error);
+        ElMessage.error('获取菜单失败，使用默认菜单');
+        // 返回空数组或默认菜单结构
+        return [];
+      }
     },
     // 可以指定没有权限跳转403页面
     forbiddenComponent,
