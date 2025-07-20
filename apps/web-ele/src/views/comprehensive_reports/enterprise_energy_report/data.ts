@@ -1,75 +1,60 @@
 import type { OnActionClickFn, VxeTableGridOptions } from '#/adapter/vxe-table';
+import type { EnterpriseEnergyReportData } from '#/api/energy/report';
 
 import { $t } from '#/locales';
+// 报表类型定义
+export type ReportType = 'monthly' | 'yearly';
 
-// 企业能源报表数据类型定义
-export interface EnterpriseEnergyReportData {
-  time: string; // 时间
-  // 负荷数据
-  loadSharp: number; // 负荷-尖
-  loadPeak: number; // 负荷-峰
-  loadFlat: number; // 负荷-平
-  loadValley: number; // 负荷-谷
-  loadDeepValley: number; // 负荷-深谷
-  loadTotal: number; // 负荷-总
-  // 风电数据
-  windSharp: number; // 风电-尖
-  windPeak: number; // 风电-峰
-  windFlat: number; // 风电-平
-  windValley: number; // 风电-谷
-  windDeepValley: number; // 风电-深谷
-  windTotal: number; // 风电-总
-  // 储能数据 - 充电部分
-  storageChargeSharp: number; // 储能充电-尖
-  storageChargePeak: number; // 储能充电-峰
-  storageChargeFlat: number; // 储能充电-平
-  storageChargeValley: number; // 储能充电-谷
-  storageChargeDeepValley: number; // 储能充电-深谷
-  storageChargeTotal: number; // 储能充电-总
-  // 储能数据 - 放电部分
-  storageDischargeSharp: number; // 储能放电-尖
-  storageDischargePeak: number; // 储能放电-峰
-  storageDischargeFlat: number; // 储能放电-平
-  storageDischargeValley: number; // 储能放电-谷
-  storageDischargeDeepValley: number; // 储能放电-深谷
-  storageDischargeTotal: number; // 储能放电-总
-  // 充电桩数据
-  chargingPileSharp: number; // 充电桩-尖
-  chargingPilePeak: number; // 充电桩-峰
-  chargingPileFlat: number; // 充电桩-平
-  chargingPileValley: number; // 充电桩-谷
-  chargingPileDeepValley: number; // 充电桩-深谷
-  chargingPileTotal: number; // 充电桩-总
-  // 电网数据
-  gridSharp: number; // 电网-尖
-  gridPeak: number; // 电网-峰
-  gridFlat: number; // 电网-平
-  gridValley: number; // 电网-谷
-  gridDeepValley: number; // 电网-深谷
-  gridTotal: number; // 电网-总
-  // 光伏数据 - 消纳部分
-  solarConsumptionSharp: number; // 光伏消纳-尖
-  solarConsumptionPeak: number; // 光伏消纳-峰
-  solarConsumptionFlat: number; // 光伏消纳-平
-  solarConsumptionValley: number; // 光伏消纳-谷
-  solarConsumptionDeepValley: number; // 光伏消纳-深谷
-  solarConsumptionTotal: number; // 光伏消纳-总
-  // 上网
-  gridConnection: number; // 上网
-  // 总
-  grandTotal: number; // 总
-}
-
+/**
+ * 企业能源报表表格列配置函数
+ *
+ * 该函数用于生成企业能源报表表格的列配置，包括时间列、负荷数据、风电数据、
+ * 储能数据（充电/放电）、充电桩数据、电网数据、光伏数据等多个分组列。
+ *
+ * @param reportType - 报表类型，'monthly' 为月报，'yearly' 为年报
+ * @param onActionClick - 可选的操作按钮点击回调函数
+ *   - 类型: OnActionClickFn<EnterpriseEnergyReportData>
+ *   - 说明: 当表格中的操作按钮被点击时触发的回调函数
+ *   - 参数: { code: string, row: EnterpriseEnergyReportData }
+ *     - code: 操作代码，如 'edit', 'delete', 'view' 等
+ *     - row: 当前行的数据对象，包含完整的企业能源报表数据
+ *   - 返回值: void
+ *   - 示例: (params) => { console.log('操作:', params.code, '数据:', params.row) }
+ *
+ * @returns VxeTableGridOptions<EnterpriseEnergyReportData>['columns']
+ *   返回 VXE Table 表格的列配置数组，包含以下列组：
+ *   - 时间列: 固定在左侧的时间显示列（月报显示日期，年报显示月份）
+ *   - 负荷(kW·h): 包含尖、峰、平、谷、深谷、总计等子列
+ *   - 风电(kW·h): 包含尖、峰、平、谷、深谷、总计等子列
+ *   - 储能(kW·h): 包含充电和放电两个子分组，每个分组含尖、峰、平、谷、深谷、总计
+ *   - 充电桩(kW·h): 包含尖、峰、平、谷、深谷、总计等子列
+ *   - 电网(kW·h): 包含尖、峰、平、谷、深谷、总计等子列
+ *   - 光伏(kW·h): 包含消纳子分组（尖、峰、平、谷、深谷、总计）、上网列、总计列
+ *
+ * @example
+ * ```typescript
+ * // 月报列配置
+ * const monthlyColumns = useColumns('monthly', ({ code, row }) => {
+ *   console.log('月报操作:', code, row);
+ * });
+ *
+ * // 年报列配置
+ * const yearlyColumns = useColumns('yearly');
+ * ```
+ */
 export function useColumns(
+  reportType: ReportType = 'monthly',
   onActionClick?: OnActionClickFn<EnterpriseEnergyReportData>,
 ): VxeTableGridOptions<EnterpriseEnergyReportData>['columns'] {
   return [
-    // 时间列
+    // 时间列 - 根据报表类型显示不同标题
     {
       align: 'center',
       field: 'time',
       fixed: 'left',
-      title: $t('system.energyReport.time'),
+      title: reportType === 'monthly'
+        ? $t('system.energyReport.date')
+        : $t('system.energyReport.month'),
       width: 120,
     },
     // 负荷(kW·h)分组

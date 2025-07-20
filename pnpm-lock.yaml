@@ -635,6 +635,9 @@ importers:
 
   apps/web-ele:
     dependencies:
+      '@vben-core/form-ui':
+        specifier: workspace:*
+        version: link:../../packages/@core/ui-kit/form-ui
       '@vben-core/menu-ui':
         specifier: workspace:*
         version: link:../../packages/@core/ui-kit/menu-ui

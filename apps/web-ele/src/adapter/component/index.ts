@@ -171,6 +171,7 @@ export type ComponentType =
   | 'Input'
   | 'InputNumber'
   | 'RadioGroup'
+  | 'RangePicker'
   | 'Select'
   | 'Space'
   | 'Switch'
@@ -309,6 +310,34 @@ async function initComponentAdapter() {
           ...props,
           ...attrs,
           ...extraProps,
+        },
+        slots,
+      );
+    },
+    RangePicker: (props, { attrs, slots }) => {
+      const { name, id, type } = props;
+      const extraProps: Recordable<any> = {};
+
+      // 处理表单字段名映射
+      if (name && !Array.isArray(name)) {
+        extraProps.name = [name, `${name}_end`];
+      }
+      if (id && !Array.isArray(id)) {
+        extraProps.id = [id, `${id}_end`];
+      }
+
+      // 确定日期选择器类型，支持 Element Plus DatePicker 的所有范围类型
+      // 支持的类型：daterange, monthrange, yearrange, datetimerange 等
+      // 默认为 daterange（日期范围选择器）
+      const pickerType = type || 'daterange';
+
+      return h(
+        ElDatePicker,
+        {
+          ...props,
+          ...attrs,
+          ...extraProps,
+          type: pickerType,
         },
         slots,
       );

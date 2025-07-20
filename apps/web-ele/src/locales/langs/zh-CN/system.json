@@ -67,6 +67,8 @@
     "title": "企业能源报表",
     "description": "显示企业负荷和光伏发电的详细数据",
     "time": "时间",
+    "date": "日期",
+    "month": "月份",
     "load": "负荷(kW·h)",
     "wind": "风电(kW·h)",
     "storage": "储能(kW·h)",

@@ -1,454 +1,51 @@
 <script lang="ts" setup>
-import type { EnterpriseEnergyReportData } from './data';
+import type { VbenFormProps } from '@vben-core/form-ui';
 
 import type { VxeTableGridOptions } from '#/adapter/vxe-table';
+import type { EnterpriseEnergyReportData } from '#/api/energy/report';
+
+import { ref, watch } from 'vue';
 
 import { Page } from '@vben/common-ui';
-import { IconifyIcon } from '@vben/icons';
 import { $t } from '@vben/locales';
 
-import { ElButton } from 'element-plus';
+import dayjs from 'dayjs';
+import { ElTabs, ElTabPane } from 'element-plus';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
+import { getEnterpriseEnergyReportApi } from '#/api/energy/report';
 
-import { useColumns } from './data';
+import { useColumns, type ReportType } from './data';
 
-// 模拟数据获取函数
-async function getEnergyReportData(): Promise<{
+// 当前激活的标签页
+const activeTab = ref('monthly');
+
+// API数据获取函数
+async function getEnergyReportData(params?: {
+  endTime?: string;
+  startTime?: string;
+  reportType?: ReportType;
+}): Promise<{
   items: EnterpriseEnergyReportData[];
 }> {
-  // 这里应该调用实际的API，现在使用模拟数据
-  const mockData: EnterpriseEnergyReportData[] = [
-    {
-      time: '2025-07-02',
-      loadSharp: 120.5,
-      loadPeak: 98.3,
-      loadFlat: 85.2,
-      loadValley: 65.8,
-      loadDeepValley: 45.2,
-      loadTotal: 414,
-      windSharp: 15.2,
-      windPeak: 18.6,
-      windFlat: 22.1,
-      windValley: 28.5,
-      windDeepValley: 32.8,
-      windTotal: 117.2,
-      storageChargeSharp: 0,
-      storageChargePeak: 0,
-      storageChargeFlat: 5.2,
-      storageChargeValley: 12.8,
-      storageChargeDeepValley: 18.5,
-      storageChargeTotal: 36.5,
-      storageDischargeSharp: 8.2,
-      storageDischargePeak: 6.5,
-      storageDischargeFlat: 3.1,
-      storageDischargeValley: 0,
-      storageDischargeDeepValley: 0,
-      storageDischargeTotal: 17.8,
-      chargingPileSharp: 5.2,
-      chargingPilePeak: 4.8,
-      chargingPileFlat: 3.5,
-      chargingPileValley: 2.1,
-      chargingPileDeepValley: 1.8,
-      chargingPileTotal: 17.4,
-      gridSharp: 95.1,
-      gridPeak: 78.5,
-      gridFlat: 59.6,
-      gridValley: 35.6,
-      gridDeepValley: 25.2,
-      gridTotal: 294,
-      solarConsumptionSharp: 0,
-      solarConsumptionPeak: 0,
-      solarConsumptionFlat: 0,
-      solarConsumptionValley: 0,
-      solarConsumptionDeepValley: 0,
-      solarConsumptionTotal: 0,
-      gridConnection: 0,
-      grandTotal: 0,
-    },
-    {
-      time: '2025-07-03',
-      loadSharp: 115.2,
-      loadPeak: 92.1,
-      loadFlat: 78.9,
-      loadValley: 62.3,
-      loadDeepValley: 42.8,
-      loadTotal: 391.3,
-      windSharp: 12.8,
-      windPeak: 16.3,
-      windFlat: 19.8,
-      windValley: 25.2,
-      windDeepValley: 29.6,
-      windTotal: 103.7,
-      storageChargeSharp: 0,
-      storageChargePeak: 0,
-      storageChargeFlat: 4.8,
-      storageChargeValley: 11.2,
-      storageChargeDeepValley: 16.8,
-      storageChargeTotal: 32.8,
-      storageDischargeSharp: 7.5,
-      storageDischargePeak: 5.8,
-      storageDischargeFlat: 2.8,
-      storageDischargeValley: 0,
-      storageDischargeDeepValley: 0,
-      storageDischargeTotal: 16.1,
-      chargingPileSharp: 4.8,
-      chargingPilePeak: 4.2,
-      chargingPileFlat: 3.1,
-      chargingPileValley: 1.9,
-      chargingPileDeepValley: 1.5,
-      chargingPileTotal: 15.5,
-      gridSharp: 87.6,
-      gridPeak: 71.6,
-      gridFlat: 55.8,
-      gridValley: 34.2,
-      gridDeepValley: 24.1,
-      gridTotal: 273.3,
-      solarConsumptionSharp: 0,
-      solarConsumptionPeak: 0,
-      solarConsumptionFlat: 0,
-      solarConsumptionValley: 0,
-      solarConsumptionDeepValley: 0,
-      solarConsumptionTotal: 0,
-      gridConnection: 0,
-      grandTotal: 0,
-    },
-    {
-      time: '2025-07-04',
-      loadSharp: 185.6,
-      loadPeak: 156.8,
-      loadFlat: 142.3,
-      loadValley: 98.5,
-      loadDeepValley: 75.2,
-      loadTotal: 658.4,
-      windSharp: 35.6,
-      windPeak: 42.3,
-      windFlat: 38.9,
-      windValley: 28.5,
-      windDeepValley: 22.1,
-      windTotal: 167.4,
-      storageChargeSharp: 0,
-      storageChargePeak: 0,
-      storageChargeFlat: 8.5,
-      storageChargeValley: 15.2,
-      storageChargeDeepValley: 12.8,
-      storageChargeTotal: 36.5,
-      storageDischargeSharp: 18.5,
-      storageDischargePeak: 15.2,
-      storageDischargeFlat: 8.9,
-      storageDischargeValley: 2.1,
-      storageDischargeDeepValley: 0,
-      storageDischargeTotal: 44.7,
-      chargingPileSharp: 12.5,
-      chargingPilePeak: 15.8,
-      chargingPileFlat: 18.2,
-      chargingPileValley: 8.5,
-      chargingPileDeepValley: 3.2,
-      chargingPileTotal: 58.2,
-      gridSharp: 147.5,
-      gridPeak: 98.7,
-      gridFlat: 85.2,
-      gridValley: 61.5,
-      gridDeepValley: 49.8,
-      gridTotal: 442.7,
-      solarConsumptionSharp: 25.8,
-      solarConsumptionPeak: 32.1,
-      solarConsumptionFlat: 28.9,
-      solarConsumptionValley: 15.6,
-      solarConsumptionDeepValley: 8.2,
-      solarConsumptionTotal: 110.6,
-      gridConnection: 45.2,
-      grandTotal: 155.8,
-    },
-    {
-      time: '2025-07-05',
-      loadSharp: 220.8,
-      loadPeak: 198.5,
-      loadFlat: 175.6,
-      loadValley: 125.3,
-      loadDeepValley: 95.8,
-      loadTotal: 816,
-      windSharp: 45.8,
-      windPeak: 52.6,
-      windFlat: 48.3,
-      windValley: 35.2,
-      windDeepValley: 28.9,
-      windTotal: 210.8,
-      storageChargeSharp: 0,
-      storageChargePeak: 2.5,
-      storageChargeFlat: 12.8,
-      storageChargeValley: 18.5,
-      storageChargeDeepValley: 8.2,
-      storageChargeTotal: 42,
-      storageDischargeSharp: 25.8,
-      storageDischargePeak: 22.5,
-      storageDischargeFlat: 15.2,
-      storageDischargeValley: 5.8,
-      storageDischargeDeepValley: 2.1,
-      storageDischargeTotal: 71.4,
-      chargingPileSharp: 18.5,
-      chargingPilePeak: 22.8,
-      chargingPileFlat: 25.6,
-      chargingPileValley: 15.2,
-      chargingPileDeepValley: 8.5,
-      chargingPileTotal: 90.6,
-      gridSharp: 176.5,
-      gridPeak: 123.2,
-      gridFlat: 98.7,
-      gridValley: 74.8,
-      gridDeepValley: 58.2,
-      gridTotal: 531.4,
-      solarConsumptionSharp: 85.6,
-      solarConsumptionPeak: 92.3,
-      solarConsumptionFlat: 78.9,
-      solarConsumptionValley: 65.2,
-      solarConsumptionDeepValley: 45.8,
-      solarConsumptionTotal: 367.8,
-      gridConnection: 125.6,
-      grandTotal: 493.4,
-    },
-    {
-      time: '2025-07-06',
-      loadSharp: 135.8,
-      loadPeak: 112.6,
-      loadFlat: 95.4,
-      loadValley: 72.3,
-      loadDeepValley: 52.1,
-      loadTotal: 468.2,
-      windSharp: 18.5,
-      windPeak: 22.8,
-      windFlat: 26.3,
-      windValley: 31.2,
-      windDeepValley: 35.6,
-      windTotal: 134.4,
-      storageChargeSharp: 0,
-      storageChargePeak: 1.2,
-      storageChargeFlat: 6.8,
-      storageChargeValley: 14.5,
-      storageChargeDeepValley: 20.2,
-      storageChargeTotal: 42.7,
-      storageDischargeSharp: 12.5,
-      storageDischargePeak: 9.8,
-      storageDischargeFlat: 5.2,
-      storageDischargeValley: 1.5,
-      storageDischargeDeepValley: 0,
-      storageDischargeTotal: 29,
-      chargingPileSharp: 8.2,
-      chargingPilePeak: 7.5,
-      chargingPileFlat: 5.8,
-      chargingPileValley: 3.2,
-      chargingPileDeepValley: 2.1,
-      chargingPileTotal: 26.8,
-      gridSharp: 108.6,
-      gridPeak: 89.3,
-      gridFlat: 68.7,
-      gridValley: 42.8,
-      gridDeepValley: 31.5,
-      gridTotal: 340.9,
-      solarConsumptionSharp: 12.5,
-      solarConsumptionPeak: 18.6,
-      solarConsumptionFlat: 22.3,
-      solarConsumptionValley: 15.8,
-      solarConsumptionDeepValley: 8.9,
-      solarConsumptionTotal: 78.1,
-      gridConnection: 28.5,
-      grandTotal: 106.6,
-    },
-    {
-      time: '2025-07-07',
-      loadSharp: 198.5,
-      loadPeak: 165.8,
-      loadFlat: 148.2,
-      loadValley: 105.6,
-      loadDeepValley: 82.3,
-      loadTotal: 700.4,
-      windSharp: 42.1,
-      windPeak: 48.5,
-      windFlat: 44.8,
-      windValley: 32.6,
-      windDeepValley: 26.8,
-      windTotal: 194.8,
-      storageChargeSharp: 0,
-      storageChargePeak: 3.2,
-      storageChargeFlat: 9.8,
-      storageChargeValley: 16.5,
-      storageChargeDeepValley: 12.8,
-      storageChargeTotal: 42.3,
-      storageDischargeSharp: 22.5,
-      storageDischargePeak: 18.6,
-      storageDischargeFlat: 12.3,
-      storageDischargeValley: 4.2,
-      storageDischargeDeepValley: 1.5,
-      storageDischargeTotal: 59.1,
-      chargingPileSharp: 15.8,
-      chargingPilePeak: 19.2,
-      chargingPileFlat: 22.5,
-      chargingPileValley: 12.8,
-      chargingPileDeepValley: 6.5,
-      chargingPileTotal: 76.8,
-      gridSharp: 158.2,
-      gridPeak: 108.5,
-      gridFlat: 92.6,
-      gridValley: 68.5,
-      gridDeepValley: 54.2,
-      gridTotal: 482,
-      solarConsumptionSharp: 68.5,
-      solarConsumptionPeak: 78.9,
-      solarConsumptionFlat: 65.2,
-      solarConsumptionValley: 52.8,
-      solarConsumptionDeepValley: 35.6,
-      solarConsumptionTotal: 301,
-      gridConnection: 98.5,
-      grandTotal: 399.5,
-    },
-    {
-      time: '2025-07-08',
-      loadSharp: 142.6,
-      loadPeak: 118.5,
-      loadFlat: 102.8,
-      loadValley: 78.5,
-      loadDeepValley: 58.2,
-      loadTotal: 500.6,
-      windSharp: 22.8,
-      windPeak: 28.5,
-      windFlat: 32.1,
-      windValley: 38.6,
-      windDeepValley: 42.3,
-      windTotal: 164.3,
-      storageChargeSharp: 0,
-      storageChargePeak: 2.1,
-      storageChargeFlat: 7.5,
-      storageChargeValley: 15.8,
-      storageChargeDeepValley: 22.5,
-      storageChargeTotal: 47.9,
-      storageDischargeSharp: 15.2,
-      storageDischargePeak: 12.8,
-      storageDischargeFlat: 8.5,
-      storageDischargeValley: 2.8,
-      storageDischargeDeepValley: 0.5,
-      storageDischargeTotal: 39.8,
-      chargingPileSharp: 9.8,
-      chargingPilePeak: 8.5,
-      chargingPileFlat: 6.8,
-      chargingPileValley: 4.2,
-      chargingPileDeepValley: 2.8,
-      chargingPileTotal: 32.1,
-      gridSharp: 118.5,
-      gridPeak: 95.2,
-      gridFlat: 75.8,
-      gridValley: 48.5,
-      gridDeepValley: 36.2,
-      gridTotal: 374.2,
-      solarConsumptionSharp: 18.5,
-      solarConsumptionPeak: 25.8,
-      solarConsumptionFlat: 32.1,
-      solarConsumptionValley: 22.5,
-      solarConsumptionDeepValley: 12.8,
-      solarConsumptionTotal: 111.7,
-      gridConnection: 38.5,
-      grandTotal: 150.2,
-    },
-    {
-      time: '2025-07-09',
-      loadSharp: 165.8,
-      loadPeak: 138.2,
-      loadFlat: 125.6,
-      loadValley: 89.5,
-      loadDeepValley: 68.2,
-      loadTotal: 587.3,
-      windSharp: 28.5,
-      windPeak: 35.2,
-      windFlat: 38.9,
-      windValley: 42.6,
-      windDeepValley: 46.8,
-      windTotal: 192,
-      storageChargeSharp: 0,
-      storageChargePeak: 1.8,
-      storageChargeFlat: 8.2,
-      storageChargeValley: 17.5,
-      storageChargeDeepValley: 25.8,
-      storageChargeTotal: 53.3,
-      storageDischargeSharp: 18.5,
-      storageDischargePeak: 15.2,
-      storageDischargeFlat: 10.8,
-      storageDischargeValley: 3.5,
-      storageDischargeDeepValley: 1.2,
-      storageDischargeTotal: 49.2,
-      chargingPileSharp: 12.5,
-      chargingPilePeak: 10.8,
-      chargingPileFlat: 8.5,
-      chargingPileValley: 5.2,
-      chargingPileDeepValley: 3.5,
-      chargingPileTotal: 40.5,
-      gridSharp: 135.8,
-      gridPeak: 112.5,
-      gridFlat: 89.6,
-      gridValley: 58.2,
-      gridDeepValley: 42.8,
-      gridTotal: 438.9,
-      solarConsumptionSharp: 32.5,
-      solarConsumptionPeak: 42.8,
-      solarConsumptionFlat: 48.5,
-      solarConsumptionValley: 35.2,
-      solarConsumptionDeepValley: 18.5,
-      solarConsumptionTotal: 177.5,
-      gridConnection: 58.2,
-      grandTotal: 235.7,
-    },
-    {
-      time: '2025-07-10',
-      loadSharp: 189.5,
-      loadPeak: 158.6,
-      loadFlat: 142.8,
-      loadValley: 98.5,
-      loadDeepValley: 75.8,
-      loadTotal: 665.2,
-      windSharp: 35.8,
-      windPeak: 42.5,
-      windFlat: 39.6,
-      windValley: 28.9,
-      windDeepValley: 23.5,
-      windTotal: 170.3,
-      storageChargeSharp: 0,
-      storageChargePeak: 2.8,
-      storageChargeFlat: 9.5,
-      storageChargeValley: 16.8,
-      storageChargeDeepValley: 15.2,
-      storageChargeTotal: 44.3,
-      storageDischargeSharp: 21.5,
-      storageDischargePeak: 18.2,
-      storageDischargeFlat: 12.8,
-      storageDischargeValley: 4.5,
-      storageDischargeDeepValley: 1.8,
-      storageDischargeTotal: 58.8,
-      chargingPileSharp: 16.8,
-      chargingPilePeak: 20.5,
-      chargingPileFlat: 23.8,
-      chargingPileValley: 14.2,
-      chargingPileDeepValley: 7.5,
-      chargingPileTotal: 82.8,
-      gridSharp: 152.5,
-      gridPeak: 118.8,
-      gridFlat: 95.2,
-      gridValley: 68.5,
-      gridDeepValley: 52.8,
-      gridTotal: 487.8,
-      solarConsumptionSharp: 58.5,
-      solarConsumptionPeak: 68.2,
-      solarConsumptionFlat: 62.8,
-      solarConsumptionValley: 48.5,
-      solarConsumptionDeepValley: 32.8,
-      solarConsumptionTotal: 270.8,
-      gridConnection: 85.2,
-      grandTotal: 356,
-    },
-  ];
-
-  return { items: mockData };
+  try {
+    const response = await getEnterpriseEnergyReportApi(params);
+    return {
+      items: response.items,
+    };
+  } catch (error) {
+    console.error('获取企业能源报表数据失败:', error);
+    // 如果API调用失败，返回空数据
+    return {
+      items: [],
+    };
+  }
 }
 
 // 计算表尾合计数据
-function calculateFooterData(data: EnterpriseEnergyReportData[]): EnterpriseEnergyReportData {
+function calculateFooterData(
+  data: EnterpriseEnergyReportData[],
+): EnterpriseEnergyReportData {
   const footerData: any = {
     time: '合计',
   };
@@ -460,7 +57,7 @@ function calculateFooterData(data: EnterpriseEnergyReportData[]): EnterpriseEner
   // 获取第一行数据的所有字段
   const firstRow = data[0];
 
-  Object.keys(firstRow).forEach(key => {
+  Object.keys(firstRow).forEach((key) => {
     if (key !== 'time') {
       // 计算每列的总和
       const total = data.reduce((sum, row) => {
@@ -474,83 +71,311 @@ function calculateFooterData(data: EnterpriseEnergyReportData[]): EnterpriseEner
   return footerData;
 }
 
-const [Grid, gridApi] = useVbenVxeGrid({
-  gridOptions: {
-    columns: useColumns(),
-    height: 'auto',
-    keepSource: true,
-    showFooter: true, // 开启表尾显示
-    footerData: [{
+// 创建动态表单配置函数
+function createFormOptions(reportType: ReportType): VbenFormProps {
+  const isMonthly = reportType === 'monthly';
+
+  return {
+    // 默认展开搜索表单
+    collapsed: false,
+    // 所有表单项共用配置
+    commonConfig: {
+      // 所有表单项统一样式
+      componentProps: {
+        class: 'w-full',
+      },
+    },
+    // 字段映射时间 - 根据报表类型调整格式
+    fieldMappingTime: [
+      [
+        'time',
+        ['startTime', 'endTime'],
+        isMonthly ? 'YYYY-MM-DD' : 'YYYY-MM'
+      ]
+    ],
+    schema: [
+      {
+        component: 'RangePicker',
+        // 根据报表类型设置默认值
+        defaultValue: isMonthly
+          ? [dayjs().subtract(7, 'days'), dayjs()]
+          : [dayjs().subtract(11, 'months').startOf('month'), dayjs().endOf('month')],
+        fieldName: 'time',
+        label: isMonthly ? '日期范围' : '月份范围',
+        componentProps: {
+          class: 'w-full',
+          startPlaceholder: isMonthly ? '开始日期' : '开始月份',
+          endPlaceholder: isMonthly ? '结束日期' : '结束月份',
+          rangeSeparator: '至',
+          format: isMonthly ? 'YYYY-MM-DD' : 'YYYY-MM',
+          valueFormat: isMonthly ? 'YYYY-MM-DD' : 'YYYY-MM',
+          clearable: true,
+          size: 'default',
+          // 年报使用月份选择器
+          type: isMonthly ? 'daterange' : 'monthrange',
+        },
+      },
+    ],
+    // 控制表单是否显示折叠按钮
+    showCollapseButton: false,
+    // 是否在字段值改变时提交表单
+    submitOnChange: true,
+    // 按下回车时是否提交表单
+    submitOnEnter: false,
+    // 表单布局
+    layout: 'horizontal',
+  };
+}
+
+// 创建基础表格配置
+const createGridOptions = (reportType: ReportType) => ({
+  columns: useColumns(reportType),
+  height: 'auto',
+  keepSource: true,
+  showFooter: true, // 开启表尾显示
+  footerData: [
+    {
       time: '合计',
       // 初始化所有数值字段为0
-      loadSharp: 0, loadPeak: 0, loadFlat: 0, loadValley: 0, loadDeepValley: 0, loadTotal: 0,
-      windSharp: 0, windPeak: 0, windFlat: 0, windValley: 0, windDeepValley: 0, windTotal: 0,
-      storageChargeSharp: 0, storageChargePeak: 0, storageChargeFlat: 0, storageChargeValley: 0, storageChargeDeepValley: 0, storageChargeTotal: 0,
-      storageDischargeSharp: 0, storageDischargePeak: 0, storageDischargeFlat: 0, storageDischargeValley: 0, storageDischargeDeepValley: 0, storageDischargeTotal: 0,
-      chargingPileSharp: 0, chargingPilePeak: 0, chargingPileFlat: 0, chargingPileValley: 0, chargingPileDeepValley: 0, chargingPileTotal: 0,
-      gridSharp: 0, gridPeak: 0, gridFlat: 0, gridValley: 0, gridDeepValley: 0, gridTotal: 0,
-      solarConsumptionSharp: 0, solarConsumptionPeak: 0, solarConsumptionFlat: 0, solarConsumptionValley: 0, solarConsumptionDeepValley: 0, solarConsumptionTotal: 0,
-      gridConnection: 0, grandTotal: 0,
-    }],
-    pagerConfig: {
-      enabled: false,
+      loadSharp: 0,
+      loadPeak: 0,
+      loadFlat: 0,
+      loadValley: 0,
+      loadDeepValley: 0,
+      loadTotal: 0,
+      windSharp: 0,
+      windPeak: 0,
+      windFlat: 0,
+      windValley: 0,
+      windDeepValley: 0,
+      windTotal: 0,
+      storageChargeSharp: 0,
+      storageChargePeak: 0,
+      storageChargeFlat: 0,
+      storageChargeValley: 0,
+      storageChargeDeepValley: 0,
+      storageChargeTotal: 0,
+      storageDischargeSharp: 0,
+      storageDischargePeak: 0,
+      storageDischargeFlat: 0,
+      storageDischargeValley: 0,
+      storageDischargeDeepValley: 0,
+      storageDischargeTotal: 0,
+      chargingPileSharp: 0,
+      chargingPilePeak: 0,
+      chargingPileFlat: 0,
+      chargingPileValley: 0,
+      chargingPileDeepValley: 0,
+      chargingPileTotal: 0,
+      gridSharp: 0,
+      gridPeak: 0,
+      gridFlat: 0,
+      gridValley: 0,
+      gridDeepValley: 0,
+      gridTotal: 0,
+      solarConsumptionSharp: 0,
+      solarConsumptionPeak: 0,
+      solarConsumptionFlat: 0,
+      solarConsumptionValley: 0,
+      solarConsumptionDeepValley: 0,
+      solarConsumptionTotal: 0,
+      gridConnection: 0,
+      grandTotal: 0,
     },
+  ],
+  pagerConfig: {
+    enabled: false,
+  },
+  rowConfig: {
+    keyField: 'time',
+  },
+  toolbarConfig: {
+    search: false,
+    custom: true,
+    export: true,
+    refresh: { code: 'query' },
+    zoom: true,
+  },
+} as VxeTableGridOptions<EnterpriseEnergyReportData>);
+
+
+// 月报表格
+const [MonthlyGrid, monthlyGridApi] = useVbenVxeGrid({
+  formOptions: createFormOptions('monthly'),
+  showSearchForm: true,
+  gridOptions: {
+    ...createGridOptions('monthly'),
     proxyConfig: {
       ajax: {
-        query: async (_params) => {
-          const result = await getEnergyReportData();
+        query: async (_params: any, formValues: any) => {
+          // 使用 formValues 中的时间参数进行数据过滤
+          console.log('月报搜索参数:', formValues);
+          const result = await getEnergyReportData({
+            startTime: formValues?.startTime,
+            endTime: formValues?.endTime,
+            reportType: 'monthly',
+          });
           // 计算表尾合计数据并更新
           if (result.items && result.items.length > 0) {
             const calculatedFooter = calculateFooterData(result.items);
             // 更新表尾数据
-            gridApi.setGridOptions({
-              footerData: [calculatedFooter]
+            monthlyGridApi.setGridOptions({
+              footerData: [calculatedFooter],
             });
           }
           return result;
         },
       },
     },
-    rowConfig: {
-      keyField: 'time',
+  },
+});
+
+// 年报表格
+const [YearlyGrid, yearlyGridApi] = useVbenVxeGrid({
+  formOptions: createFormOptions('yearly'),
+  showSearchForm: true,
+  gridOptions: {
+    ...createGridOptions('yearly'),
+    proxyConfig: {
+      ajax: {
+        query: async (_params: any, formValues: any) => {
+          // 使用 formValues 中的时间参数进行数据过滤
+          console.log('年报搜索参数:', formValues);
+          const result = await getEnergyReportData({
+            startTime: formValues?.startTime,
+            endTime: formValues?.endTime,
+            reportType: 'yearly',
+          });
+          // 计算表尾合计数据并更新
+          if (result.items && result.items.length > 0) {
+            const calculatedFooter = calculateFooterData(result.items);
+            // 更新表尾数据
+            yearlyGridApi.setGridOptions({
+              footerData: [calculatedFooter],
+            });
+          }
+          return result;
+        },
+      },
     },
-    toolbarConfig: {
-      custom: true,
-      export: true,
-      refresh: { code: 'query' },
-      zoom: true,
-    },
-  } as VxeTableGridOptions<EnterpriseEnergyReportData>,
+  },
 });
 
 function onRefresh() {
-  gridApi.query();
+  if (activeTab.value === 'monthly') {
+    monthlyGridApi.query();
+  } else {
+    yearlyGridApi.query();
+  }
 }
+
+// 监听标签页切换，自动刷新对应表格
+watch(activeTab, (newTab) => {
+  // 延迟执行，确保组件已经渲染
+  setTimeout(() => {
+    if (newTab === 'monthly') {
+      monthlyGridApi.query();
+    } else {
+      yearlyGridApi.query();
+    }
+  }, 100);
+});
 </script>
 <template>
   <Page auto-content-height>
-    <Grid
-      :table-title="$t('system.energyReport.title')"
-      :table-title-help="$t('system.energyReport.description')"
-    >
-      <template #toolbar-tools>
-        <ElButton type="primary" @click="onRefresh">
-          <IconifyIcon icon="carbon:refresh" class="mr-1 size-4" />
-          {{ $t('system.energyReport.refreshData') }}
-        </ElButton>
-      </template>
-    </Grid>
+    <ElTabs v-model="activeTab" tab-position="left" class="energy-report-tabs">
+      <ElTabPane label="月报" name="monthly">
+        <MonthlyGrid
+          :table-title="$t('system.energyReport.title') + ' - 月报'"
+          :table-title-help="$t('system.energyReport.description')"
+        />
+      </ElTabPane>
+      <ElTabPane label="年报" name="yearly">
+        <YearlyGrid
+          :table-title="$t('system.energyReport.title') + ' - 年报'"
+          :table-title-help="$t('system.energyReport.description')"
+        />
+      </ElTabPane>
+    </ElTabs>
   </Page>
 </template>
 
 <style lang="scss" scoped>
+// 页面整体布局样式
+.page-container {
+  @apply h-full;
+}
+
+// ElTabs 样式优化
+.energy-report-tabs {
+  @apply h-full;
+
+  // 标签页导航样式
+  :deep(.el-tabs__nav-wrap) {
+    @apply bg-background border-border border-r;
+  }
+
+  :deep(.el-tabs__nav) {
+    @apply bg-background;
+  }
+
+  :deep(.el-tabs__item) {
+    @apply text-foreground transition-colors duration-200;
+
+    &:hover {
+      @apply text-primary;
+    }
+
+    &.is-active {
+      @apply text-primary font-medium;
+    }
+  }
+
+  // 标签页内容区域
+  :deep(.el-tabs__content) {
+    @apply h-full overflow-hidden;
+  }
+
+  :deep(.el-tab-pane) {
+    @apply h-full;
+  }
+}
+
+// 表单区域样式优化
+:deep(.vben-form) {
+  .vben-form-item {
+    @apply mb-4;
+  }
+
+  .vben-form-label {
+    @apply text-foreground font-medium;
+  }
+}
+
+// 工具栏按钮样式
+:deep(.vxe-toolbar) {
+  .vben-button {
+    @apply transition-all duration-200;
+
+    &:hover {
+      @apply shadow-md;
+    }
+  }
+}
+
+// VXE Table 样式优化 - 遵循设计系统
 :deep(.vxe-table) {
   // 边框合并设置
   border-collapse: collapse;
+  @apply border-border overflow-hidden rounded-md border;
 
-  // 表头背景色设置 - 参考 group-[.is-active]:bg-primary/15 dark:group-[.is-active]:bg-accent
+  // 表头样式 - 恢复原来的设置并遵循设计系统
   .vxe-header--column {
     background-color: hsl(var(--primary) / 0.15) !important;
+    border-right: 1px solid white;
+    border-bottom: 1px solid white;
+    font-weight: 600;
+    color: inherit !important;
   }
 
   // 深色模式下的表头背景色
@@ -567,16 +392,22 @@ function onRefresh() {
     color: inherit !important;
   }
 
-  // 表头边框使用白色
-  .vxe-header--column {
-    border-right: 1px solid white;
-    border-bottom: 1px solid white;
-  }
-
   // 数据行边框使用设计系统颜色
   .vxe-body--column {
     border-right: 1px solid hsl(var(--border));
     border-bottom: 1px solid hsl(var(--border));
+  }
+
+  // 悬停效果
+  .vxe-body--row:hover {
+    background-color: hsl(var(--accent) / 0.1);
+  }
+
+  // 表尾合计行样式
+  .vxe-footer--column {
+    background-color: hsl(var(--muted));
+    font-weight: 600;
+    border-right: 1px solid hsl(var(--border));
   }
 
   // 只对真正的最后一列（表格最右侧）移除右边框
@@ -616,6 +447,29 @@ function onRefresh() {
   .vxe-table--render-default.border--outer .vxe-cell--col-resizable:before,
   .vxe-table--render-default.border--inner .vxe-cell--col-resizable:before {
     display: none !important;
+  }
+
+  // 表格内容文字样式
+  .vxe-cell {
+    @apply text-foreground;
+  }
+
+  // 数字列右对齐
+  .vxe-cell--number {
+    @apply text-right;
+  }
+}
+
+// 响应式设计
+@media (max-width: 768px) {
+  :deep(.vxe-table) {
+    font-size: 12px;
+  }
+
+  :deep(.vben-form) {
+    .vben-form-item {
+      @apply mb-3;
+    }
   }
 }
 </style>

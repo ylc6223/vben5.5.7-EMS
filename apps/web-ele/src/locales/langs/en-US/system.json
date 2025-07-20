@@ -66,6 +66,8 @@
     "title": "Enterprise Energy Report",
     "description": "Display detailed data of enterprise load and photovoltaic power generation",
     "time": "Time",
+    "date": "Date",
+    "month": "Month",
     "load": "Load(kW·h)",
     "wind": "Wind Power(kW·h)",
     "storage": "Energy Storage(kW·h)",
