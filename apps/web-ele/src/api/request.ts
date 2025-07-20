@@ -80,7 +80,7 @@ function createRequestClient(baseURL: string, options?: RequestClientOptions) {
       // successCode: 0,
 
       // 新配置 - 符合后端返回的响应结构
-      codeField: 'type',
+      codeField: 'code',
       dataField: 'result',
       type: 'success',
     }),
