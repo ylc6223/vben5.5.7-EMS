@@ -74,10 +74,14 @@ function createRequestClient(baseURL: string, options?: RequestClientOptions) {
   // 处理返回的响应数据格式
   client.addResponseInterceptor(
     defaultResponseInterceptor({
-      codeField: 'code',
+      // 原始配置
+      // codeField: 'code',
       // dataField: 'data',
-      dataField: 'result',
       // successCode: 0,
+
+      // 新配置 - 符合后端返回的响应结构
+      codeField: 'type',
+      dataField: 'result',
       type: 'success',
     }),
   );

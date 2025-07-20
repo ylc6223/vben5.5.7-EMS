@@ -98,18 +98,18 @@ const formSchema = computed((): VbenFormSchema[] => {
       label: $t('authentication.password'),
       rules: z.string().min(1, { message: $t('authentication.passwordTip') }),
     },
-    {
-      component: markRaw(ImageCaptcha),
-      componentProps: {
-        placeholder: $t('authentication.captchaTip'),
-        captchaApi: fetchCaptchaImage,
-        refreshTitle: $t('authentication.captchaRefresh'),
-        loadingText: $t('authentication.captchaLoading'),
-      },
-      fieldName: 'code',
-      label: $t('authentication.captcha'),
-      rules: z.string().min(1, { message: $t('authentication.captchaTip') }),
-    },
+    // {
+    //   component: markRaw(ImageCaptcha),
+    //   componentProps: {
+    //     placeholder: $t('authentication.captchaTip'),
+    //     captchaApi: fetchCaptchaImage,
+    //     refreshTitle: $t('authentication.captchaRefresh'),
+    //     loadingText: $t('authentication.captchaLoading'),
+    //   },
+    //   fieldName: 'code',
+    //   label: $t('authentication.captcha'),
+    //   rules: z.string().min(1, { message: $t('authentication.captchaTip') }),
+    // },
     // {
     //   component: markRaw(SliderCaptcha),
     //   fieldName: 'captcha',

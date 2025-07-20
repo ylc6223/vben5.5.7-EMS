@@ -1,11 +1,30 @@
 import type { EventHandlerRequest, H3Event } from 'h3';
 
 export function useResponseSuccess<T = any>(data: T) {
+  // 原始格式
+  // return {
+  //   code: 0,
+  //   data,
+  //   error: null,
+  //   message: 'ok',
+  // };
+
+  // 新格式 - 符合前端期望的响应结构
   return {
-    code: 0,
-    data,
-    error: null,
-    message: 'ok',
+    code: 200,
+    type: 'success',
+    message: '',
+    result: data,
+    extras: null,
+    time: new Date().toLocaleString('zh-CN', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+    }).replace(/\//g, '-'),
   };
 }
 
@@ -31,11 +50,30 @@ export function usePageResponseSuccess<T = any>(
 }
 
 export function useResponseError(message: string, error: any = null) {
+  // 原始格式
+  // return {
+  //   code: -1,
+  //   data: null,
+  //   error,
+  //   message,
+  // };
+
+  // 新格式 - 符合前端期望的响应结构
   return {
-    code: -1,
-    data: null,
-    error,
+    code: 400,
+    type: 'error',
     message,
+    result: null,
+    extras: error,
+    time: new Date().toLocaleString('zh-CN', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+    }).replace(/\//g, '-'),
   };
 }
 
