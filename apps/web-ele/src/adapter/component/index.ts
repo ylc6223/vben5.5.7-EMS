@@ -124,6 +124,11 @@ const ElUpload = defineAsyncComponent(() =>
   ]).then(([res]) => res.ElUpload),
 );
 
+// 导入自定义 SearchSelector 组件
+const SearchSelector = defineAsyncComponent(() =>
+  import('../../views/comprehensive_reports/components/SearchSelector.vue'),
+);
+
 const withDefaultPlaceholder = <T extends Component>(
   component: T,
   type: 'input' | 'select',
@@ -172,6 +177,7 @@ export type ComponentType =
   | 'InputNumber'
   | 'RadioGroup'
   | 'RangePicker'
+  | 'SearchSelector'
   | 'Select'
   | 'Space'
   | 'Switch'
@@ -342,6 +348,7 @@ async function initComponentAdapter() {
         slots,
       );
     },
+    SearchSelector: withDefaultPlaceholder(SearchSelector, 'select'),
     TreeSelect: withDefaultPlaceholder(ElTreeSelect, 'select'),
     Upload: ElUpload,
   };

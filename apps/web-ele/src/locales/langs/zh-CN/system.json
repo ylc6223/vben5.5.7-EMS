@@ -88,7 +88,26 @@
       "deepValley": "深谷",
       "total": "总"
     },
-    "refreshData": "刷新数据"
+    "refreshData": "刷新数据",
+    "tabs": {
+      "monthly": "月报",
+      "yearly": "年报"
+    },
+    "form": {
+      "enterpriseSelect": "企业选择",
+      "enterprisePlaceholder": "请选择企业",
+      "enterpriseSearchPlaceholder": "输入企业名称搜索",
+      "dateRange": "日期范围",
+      "monthRange": "月份范围",
+      "startDate": "开始日期",
+      "endDate": "结束日期",
+      "startMonth": "开始月份",
+      "endMonth": "结束月份",
+      "separator": "至"
+    },
+    "footer": {
+      "total": "合计"
+    }
   },
   "title": "系统管理"
 }

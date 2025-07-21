@@ -87,6 +87,25 @@
       "deepValley": "Deep Valley",
       "total": "Total"
     },
-    "refreshData": "Refresh Data"
+    "refreshData": "Refresh Data",
+    "tabs": {
+      "monthly": "Monthly Report",
+      "yearly": "Yearly Report"
+    },
+    "form": {
+      "enterpriseSelect": "Enterprise Selection",
+      "enterprisePlaceholder": "Please select enterprise",
+      "enterpriseSearchPlaceholder": "Enter enterprise name to search",
+      "dateRange": "Date Range",
+      "monthRange": "Month Range",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "startMonth": "Start Month",
+      "endMonth": "End Month",
+      "separator": "to"
+    },
+    "footer": {
+      "total": "Total"
+    }
   }
 }

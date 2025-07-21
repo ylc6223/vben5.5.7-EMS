@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import type { VbenFormProps } from '@vben-core/form-ui';
 
+import type { ReportType } from './data';
+
 import type { VxeTableGridOptions } from '#/adapter/vxe-table';
 import type { EnterpriseEnergyReportData } from '#/api/energy/report';
 
@@ -10,12 +12,13 @@ import { Page } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
 import dayjs from 'dayjs';
-import { ElTabs, ElTabPane } from 'element-plus';
+import { ElTabPane, ElTabs } from 'element-plus';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { getEnterpriseEnergyReportApi } from '#/api/energy/report';
+import { searchEnterprisesApi } from '#/api/energy/enterprise';
 
-import { useColumns, type ReportType } from './data';
+import { useColumns } from './data';
 
 // 当前激活的标签页
 const activeTab = ref('monthly');
@@ -23,8 +26,9 @@ const activeTab = ref('monthly');
 // API数据获取函数
 async function getEnergyReportData(params?: {
   endTime?: string;
-  startTime?: string;
+  enterprise?: string;
   reportType?: ReportType;
+  startTime?: string;
 }): Promise<{
   items: EnterpriseEnergyReportData[];
 }> {
@@ -47,7 +51,7 @@ function calculateFooterData(
   data: EnterpriseEnergyReportData[],
 ): EnterpriseEnergyReportData {
   const footerData: any = {
-    time: '合计',
+    time: $t('system.energyReport.footer.total'),
   };
 
   if (data.length === 0) {
@@ -87,26 +91,75 @@ function createFormOptions(reportType: ReportType): VbenFormProps {
     },
     // 字段映射时间 - 根据报表类型调整格式
     fieldMappingTime: [
-      [
-        'time',
-        ['startTime', 'endTime'],
-        isMonthly ? 'YYYY-MM-DD' : 'YYYY-MM'
-      ]
+      ['time', ['startTime', 'endTime'], isMonthly ? 'YYYY-MM-DD' : 'YYYY-MM'],
     ],
     schema: [
+      {
+        component: 'SearchSelector',
+        fieldName: 'enterprise',
+        label: $t('system.energyReport.form.enterpriseSelect'),
+        componentProps: {
+          class: 'w-full sm:max-w-xs md:max-w-sm lg:max-w-md xl:max-w-sm',
+          placeholder: $t('system.energyReport.form.enterprisePlaceholder'),
+          searchPlaceholder: $t('system.energyReport.form.enterpriseSearchPlaceholder'),
+          buttonType: 'default',
+          buttonSize: 'default',
+          placement: 'bottom-start',
+          popoverWidth: 300,
+          filterable: true,
+          remote: false, // 设置为 false，这样组件会在挂载时自动加载数据
+          // 使用异步数据源获取企业列表
+          dataSource: async (keyword?: string) => {
+            try {
+              console.log('SearchSelector dataSource called with keyword:', keyword);
+              // 调用企业搜索API，当 keyword 为空或 undefined 时，获取所有企业列表
+              const result = await searchEnterprisesApi(keyword || undefined);
+              console.log('Enterprise list loaded:', result.length, 'items');
+              return result;
+            } catch (error) {
+              console.error('获取企业列表失败:', error);
+              // 如果API调用失败，返回模拟数据作为降级方案
+              const mockData = [
+                // { label: '北京新能源科技有限公司', value: 'enterprise_001' },
+                // { label: '上海绿色电力集团', value: 'enterprise_002' },
+                // { label: '深圳智慧能源股份公司', value: 'enterprise_003' },
+                // { label: '广州清洁能源发展公司', value: 'enterprise_004' },
+                // { label: '杭州可再生能源企业', value: 'enterprise_005' },
+              ];
+
+              // 如果有搜索关键词，进行过滤
+              if (keyword && keyword.trim()) {
+                return mockData.filter(item =>
+                  item.label.toLowerCase().includes(keyword.toLowerCase())
+                );
+              }
+
+              console.log('Using fallback enterprise data:', mockData.length, 'items');
+              return mockData;
+            }
+          },
+          // 监听企业选择变化
+          onChange: (value: string | number, option: any) => {
+            console.log('Enterprise selected:', value, option);
+          },
+        },
+      },
       {
         component: 'RangePicker',
         // 根据报表类型设置默认值
         defaultValue: isMonthly
           ? [dayjs().subtract(7, 'days'), dayjs()]
-          : [dayjs().subtract(11, 'months').startOf('month'), dayjs().endOf('month')],
+          : [
+              dayjs().subtract(11, 'months').startOf('month'),
+              dayjs().endOf('month'),
+            ],
         fieldName: 'time',
-        label: isMonthly ? '日期范围' : '月份范围',
+        label: isMonthly ? $t('system.energyReport.form.dateRange') : $t('system.energyReport.form.monthRange'),
         componentProps: {
           class: 'w-full',
-          startPlaceholder: isMonthly ? '开始日期' : '开始月份',
-          endPlaceholder: isMonthly ? '结束日期' : '结束月份',
-          rangeSeparator: '至',
+          startPlaceholder: isMonthly ? $t('system.energyReport.form.startDate') : $t('system.energyReport.form.startMonth'),
+          endPlaceholder: isMonthly ? $t('system.energyReport.form.endDate') : $t('system.energyReport.form.endMonth'),
+          rangeSeparator: $t('system.energyReport.form.separator'),
           format: isMonthly ? 'YYYY-MM-DD' : 'YYYY-MM',
           valueFormat: isMonthly ? 'YYYY-MM-DD' : 'YYYY-MM',
           clearable: true,
@@ -128,76 +181,76 @@ function createFormOptions(reportType: ReportType): VbenFormProps {
 }
 
 // 创建基础表格配置
-const createGridOptions = (reportType: ReportType) => ({
-  columns: useColumns(reportType),
-  height: 'auto',
-  keepSource: true,
-  showFooter: true, // 开启表尾显示
-  footerData: [
-    {
-      time: '合计',
-      // 初始化所有数值字段为0
-      loadSharp: 0,
-      loadPeak: 0,
-      loadFlat: 0,
-      loadValley: 0,
-      loadDeepValley: 0,
-      loadTotal: 0,
-      windSharp: 0,
-      windPeak: 0,
-      windFlat: 0,
-      windValley: 0,
-      windDeepValley: 0,
-      windTotal: 0,
-      storageChargeSharp: 0,
-      storageChargePeak: 0,
-      storageChargeFlat: 0,
-      storageChargeValley: 0,
-      storageChargeDeepValley: 0,
-      storageChargeTotal: 0,
-      storageDischargeSharp: 0,
-      storageDischargePeak: 0,
-      storageDischargeFlat: 0,
-      storageDischargeValley: 0,
-      storageDischargeDeepValley: 0,
-      storageDischargeTotal: 0,
-      chargingPileSharp: 0,
-      chargingPilePeak: 0,
-      chargingPileFlat: 0,
-      chargingPileValley: 0,
-      chargingPileDeepValley: 0,
-      chargingPileTotal: 0,
-      gridSharp: 0,
-      gridPeak: 0,
-      gridFlat: 0,
-      gridValley: 0,
-      gridDeepValley: 0,
-      gridTotal: 0,
-      solarConsumptionSharp: 0,
-      solarConsumptionPeak: 0,
-      solarConsumptionFlat: 0,
-      solarConsumptionValley: 0,
-      solarConsumptionDeepValley: 0,
-      solarConsumptionTotal: 0,
-      gridConnection: 0,
-      grandTotal: 0,
+const createGridOptions = (reportType: ReportType) =>
+  ({
+    columns: useColumns(reportType),
+    height: 'auto',
+    keepSource: true,
+    showFooter: true, // 开启表尾显示
+    footerData: [
+      {
+        time: $t('system.energyReport.footer.total'),
+        // 初始化所有数值字段为0
+        loadSharp: 0,
+        loadPeak: 0,
+        loadFlat: 0,
+        loadValley: 0,
+        loadDeepValley: 0,
+        loadTotal: 0,
+        windSharp: 0,
+        windPeak: 0,
+        windFlat: 0,
+        windValley: 0,
+        windDeepValley: 0,
+        windTotal: 0,
+        storageChargeSharp: 0,
+        storageChargePeak: 0,
+        storageChargeFlat: 0,
+        storageChargeValley: 0,
+        storageChargeDeepValley: 0,
+        storageChargeTotal: 0,
+        storageDischargeSharp: 0,
+        storageDischargePeak: 0,
+        storageDischargeFlat: 0,
+        storageDischargeValley: 0,
+        storageDischargeDeepValley: 0,
+        storageDischargeTotal: 0,
+        chargingPileSharp: 0,
+        chargingPilePeak: 0,
+        chargingPileFlat: 0,
+        chargingPileValley: 0,
+        chargingPileDeepValley: 0,
+        chargingPileTotal: 0,
+        gridSharp: 0,
+        gridPeak: 0,
+        gridFlat: 0,
+        gridValley: 0,
+        gridDeepValley: 0,
+        gridTotal: 0,
+        solarConsumptionSharp: 0,
+        solarConsumptionPeak: 0,
+        solarConsumptionFlat: 0,
+        solarConsumptionValley: 0,
+        solarConsumptionDeepValley: 0,
+        solarConsumptionTotal: 0,
+        gridConnection: 0,
+        grandTotal: 0,
+      },
+    ],
+    pagerConfig: {
+      enabled: false,
     },
-  ],
-  pagerConfig: {
-    enabled: false,
-  },
-  rowConfig: {
-    keyField: 'time',
-  },
-  toolbarConfig: {
-    search: false,
-    custom: true,
-    export: true,
-    refresh: { code: 'query' },
-    zoom: true,
-  },
-} as VxeTableGridOptions<EnterpriseEnergyReportData>);
-
+    rowConfig: {
+      keyField: 'time',
+    },
+    toolbarConfig: {
+      search: false,
+      custom: true,
+      export: true,
+      refresh: { code: 'query' },
+      zoom: true,
+    },
+  }) as VxeTableGridOptions<EnterpriseEnergyReportData>;
 
 // 月报表格
 const [MonthlyGrid, monthlyGridApi] = useVbenVxeGrid({
@@ -206,15 +259,29 @@ const [MonthlyGrid, monthlyGridApi] = useVbenVxeGrid({
   gridOptions: {
     ...createGridOptions('monthly'),
     proxyConfig: {
+      autoLoad: false, // 禁用自动加载，只有在用户主动搜索时才查询
       ajax: {
         query: async (_params: any, formValues: any) => {
-          // 使用 formValues 中的时间参数进行数据过滤
+          // 使用 formValues 中的时间参数和企业选择进行数据过滤
           console.log('月报搜索参数:', formValues);
+
+          // 检查是否已选择企业，如果没有选择企业则不查询数据
+          if (!formValues?.enterprise) {
+            console.log('未选择企业，跳过月报数据查询');
+            return {
+              items: [],
+            };
+          }
+
+          console.log('开始查询月报数据，企业:', formValues.enterprise);
           const result = await getEnergyReportData({
             startTime: formValues?.startTime,
             endTime: formValues?.endTime,
+            enterprise: formValues?.enterprise,
             reportType: 'monthly',
           });
+          console.log('月报数据查询完成，数据条数:', result.items?.length || 0);
+
           // 计算表尾合计数据并更新
           if (result.items && result.items.length > 0) {
             const calculatedFooter = calculateFooterData(result.items);
@@ -237,15 +304,29 @@ const [YearlyGrid, yearlyGridApi] = useVbenVxeGrid({
   gridOptions: {
     ...createGridOptions('yearly'),
     proxyConfig: {
+      autoLoad: false, // 禁用自动加载，只有在用户主动搜索时才查询
       ajax: {
         query: async (_params: any, formValues: any) => {
-          // 使用 formValues 中的时间参数进行数据过滤
+          // 使用 formValues 中的时间参数和企业选择进行数据过滤
           console.log('年报搜索参数:', formValues);
+
+          // 检查是否已选择企业，如果没有选择企业则不查询数据
+          if (!formValues?.enterprise) {
+            console.log('未选择企业，跳过年报数据查询');
+            return {
+              items: [],
+            };
+          }
+
+          console.log('开始查询年报数据，企业:', formValues.enterprise);
           const result = await getEnergyReportData({
             startTime: formValues?.startTime,
             endTime: formValues?.endTime,
+            enterprise: formValues?.enterprise,
             reportType: 'yearly',
           });
+          console.log('年报数据查询完成，数据条数:', result.items?.length || 0);
+
           // 计算表尾合计数据并更新
           if (result.items && result.items.length > 0) {
             const calculatedFooter = calculateFooterData(result.items);
@@ -284,15 +365,15 @@ watch(activeTab, (newTab) => {
 <template>
   <Page auto-content-height>
     <ElTabs v-model="activeTab" tab-position="left" class="energy-report-tabs">
-      <ElTabPane label="月报" name="monthly">
+      <ElTabPane :label="$t('system.energyReport.tabs.monthly')" name="monthly">
         <MonthlyGrid
-          :table-title="$t('system.energyReport.title') + ' - 月报'"
+          :table-title="`${$t('system.energyReport.title')} - ${$t('system.energyReport.tabs.monthly')}`"
           :table-title-help="$t('system.energyReport.description')"
         />
       </ElTabPane>
-      <ElTabPane label="年报" name="yearly">
+      <ElTabPane :label="$t('system.energyReport.tabs.yearly')" name="yearly">
         <YearlyGrid
-          :table-title="$t('system.energyReport.title') + ' - 年报'"
+          :table-title="`${$t('system.energyReport.title')} - ${$t('system.energyReport.tabs.yearly')}`"
           :table-title-help="$t('system.energyReport.description')"
         />
       </ElTabPane>
