@@ -15,6 +15,7 @@ interface ApiUserInfo {
   orgType: string;
   posName: string | null;
   buttons: string[];
+  homePath?: string;
 }
 
 /**
@@ -35,7 +36,7 @@ export function transformApiUserInfo(apiUserInfo: ApiUserInfo): UserInfo {
 
     // UserInfo扩展字段
     desc: apiUserInfo.introduction || apiUserInfo.signature || `${apiUserInfo.realName} - ${apiUserInfo.orgName}`,
-    homePath: "/dashboard", // 默认首页路径
+    homePath: apiUserInfo.homePath || "/", // 使用API返回的homePath，默认为根路径
     token: "", // token通常在登录时单独设置
 
     // 保留原始API数据作为扩展信息

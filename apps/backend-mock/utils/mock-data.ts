@@ -14,6 +14,7 @@ export const MOCK_USERS: UserInfo[] = [
     realName: 'Vben',
     roles: ['super'],
     username: 'vben',
+    homePath: '/energy/overview',
   },
   {
     id: 1,
@@ -21,7 +22,7 @@ export const MOCK_USERS: UserInfo[] = [
     realName: 'Admin',
     roles: ['admin'],
     username: 'admin',
-    homePath: '/workspace',
+    homePath: '/energy/overview',
   },
   {
     id: 2,
@@ -29,7 +30,7 @@ export const MOCK_USERS: UserInfo[] = [
     realName: 'Jack',
     roles: ['user'],
     username: 'jack',
-    homePath: '/analytics',
+    homePath: '/energy/overview',
   },
   {
     id: 3,

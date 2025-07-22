@@ -21,6 +21,7 @@ export default defineEventHandler(async (event) => {
       orgName: '富奥汽车',
       orgType: '201',
       posName: '系统管理员',
+      homePath: '/energy/overview',
       buttons: [
         'sysUser:page',
         'sysUser:update',
@@ -76,6 +77,7 @@ export default defineEventHandler(async (event) => {
       orgName: 'Vben组织',
       orgType: '100',
       posName: '超级管理员',
+      homePath: '/energy/overview',
       buttons: [
         'super:all',
         'admin:all',
@@ -93,6 +95,7 @@ export default defineEventHandler(async (event) => {
       orgName: '管理组织',
       orgType: '200',
       posName: '管理员',
+      homePath: '/energy/overview',
       buttons: [
         'admin:all',
         'user:read'
@@ -109,6 +112,7 @@ export default defineEventHandler(async (event) => {
       orgName: '用户组织',
       orgType: '300',
       posName: '普通用户',
+      homePath: '/energy/overview',
       buttons: [
         'user:read'
       ]

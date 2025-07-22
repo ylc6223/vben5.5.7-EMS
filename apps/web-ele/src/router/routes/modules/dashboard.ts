@@ -8,6 +8,7 @@ const routes: RouteRecordRaw[] = [
       icon: 'lucide:layout-dashboard',
       order: -1,
       title: $t('page.dashboard.title'),
+      hideInMenu: true,
     },
     name: 'Dashboard',
     path: '/dashboard',
@@ -53,6 +54,7 @@ const routes: RouteRecordRaw[] = [
     path: '/energy/overview',
     component: () => import('#/views/energy_overview/index.vue'),
     meta: {
+      affixTab: true,
       icon: 'ion:grid-outline',
       title: $t('page.other.energyOverview'),
       order: 2,
