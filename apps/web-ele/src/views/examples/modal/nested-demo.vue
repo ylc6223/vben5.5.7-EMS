@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useVbenModal } from '@vben/common-ui';
 
-import { Button } from 'ant-design-vue';
+import { ElButton } from 'element-plus';
 
 import DragDemo from './drag-demo.vue';
 
@@ -18,7 +18,7 @@ function openNestedModal() {
 </script>
 <template>
   <Modal title="嵌套弹窗示例">
-    <Button @click="openNestedModal" type="primary">打开子弹窗</Button>
+    <ElButton @click="openNestedModal" type="primary">打开子弹窗</ElButton>
     <BaseModal />
   </Modal>
 </template>

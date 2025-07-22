@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useVbenModal } from '@vben/common-ui';
 
-import { message } from 'ant-design-vue';
+import { ElMessage } from 'element-plus';
 
 const [Modal, modalApi] = useVbenModal({
   draggable: true,
@@ -9,7 +9,7 @@ const [Modal, modalApi] = useVbenModal({
     modalApi.close();
   },
   onConfirm() {
-    message.info('onConfirm');
+    ElMessage.info('onConfirm');
     // modalApi.close();
   },
 });

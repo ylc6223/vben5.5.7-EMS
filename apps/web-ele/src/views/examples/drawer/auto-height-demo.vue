@@ -3,7 +3,7 @@ import { ref } from 'vue';
 
 import { useVbenDrawer } from '@vben/common-ui';
 
-import { Button, message } from 'ant-design-vue';
+import { ElButton, ElMessage } from 'element-plus';
 
 const list = ref<number[]>([]);
 
@@ -12,7 +12,7 @@ const [Drawer, drawerApi] = useVbenDrawer({
     drawerApi.close();
   },
   onConfirm() {
-    message.info('onConfirm');
+    ElMessage.info('onConfirm');
     // drawerApi.close();
   },
   onOpenChange(isOpen) {
@@ -41,7 +41,7 @@ function handleUpdate(len: number) {
     </div>
 
     <template #prepend-footer>
-      <Button type="link" @click="handleUpdate(6)">点击更新数据</Button>
+      <ElButton type="primary" link @click="handleUpdate(6)">点击更新数据</ElButton>
     </template>
   </Drawer>
 </template>

@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import type { RefSelectProps } from 'ant-design-vue/es/select';
+import type { SelectInstance } from 'element-plus';
 
 import { ref } from 'vue';
 
 import { Page } from '@vben/common-ui';
 
-import { Button, Card, message, Space } from 'ant-design-vue';
+import { ElButton, ElCard, ElMessage, ElSpace } from 'element-plus';
 
 import { useVbenForm } from '#/adapter/form';
 
@@ -51,8 +51,8 @@ const [BaseForm, formApi] = useVbenForm({
     {
       component: 'Select',
       componentProps: {
-        allowClear: true,
-        filterOption: true,
+        clearable: true,        // allowClear -> clearable
+        filterable: true,       // showSearch -> filterable
         options: [
           {
             label: '选项1',
@@ -64,7 +64,6 @@ const [BaseForm, formApi] = useVbenForm({
           },
         ],
         placeholder: '请选择',
-        showSearch: true,
       },
       fieldName: 'fieldOptions',
       label: '下拉选',
@@ -75,9 +74,7 @@ const [BaseForm, formApi] = useVbenForm({
 });
 
 function onSubmit(values: Record<string, any>) {
-  message.success({
-    content: `form values: ${JSON.stringify(values)}`,
-  });
+  ElMessage.success(`form values: ${JSON.stringify(values)}`);
 }
 
 function handleClick(
@@ -134,7 +131,36 @@ function handleClick(
     }
     case 'componentRef': {
       // 获取下拉组件的实例，并调用它的focus方法
-      formApi.getFieldComponentRef<RefSelectProps>('fieldOptions')?.focus?.();
+      try {
+        const componentRef = formApi.getFieldComponentRef('fieldOptions');
+        console.log('获取到的组件引用:', componentRef);
+
+        if (componentRef) {
+          // 尝试调用 focus 方法
+          if (typeof componentRef.focus === 'function') {
+            componentRef.focus();
+            ElMessage.success('组件获取焦点成功');
+          }
+          // 尝试调用 toggleMenu 方法
+          else if (typeof componentRef.toggleMenu === 'function') {
+            componentRef.toggleMenu();
+            ElMessage.success('打开下拉菜单成功');
+          }
+          // 如果都没有，显示可用方法
+          else {
+            const methods = Object.getOwnPropertyNames(componentRef).filter(
+              name => typeof componentRef[name] === 'function'
+            );
+            console.log('组件可用方法:', methods);
+            ElMessage.warning(`组件不支持 focus 方法，可用方法: ${methods.join(', ')}`);
+          }
+        } else {
+          ElMessage.error('无法获取组件实例，请检查字段名是否正确');
+        }
+      } catch (error) {
+        console.error('获取组件引用失败:', error);
+        ElMessage.error(`获取组件引用失败: ${error.message}`);
+      }
       break;
     }
     case 'disabled': {
@@ -226,7 +252,7 @@ function handleClick(
           fieldName: 'fieldOptions',
         },
       ]);
-      message.success('字段 `fieldOptions` 下拉选项更新成功。');
+      ElMessage.success('字段 `fieldOptions` 下拉选项更新成功。');
       break;
     }
     case 'updateSubmitButton': {
@@ -241,34 +267,47 @@ function handleClick(
 
 <template>
   <Page description="表单组件api操作示例。" title="表单组件">
-    <Space class="mb-5 flex-wrap">
-      <Button @click="handleClick('updateSchema')">updateSchema</Button>
-      <Button @click="handleClick('labelWidth')">更改labelWidth</Button>
-      <Button @click="handleClick('resetLabelWidth')">还原labelWidth</Button>
-      <Button @click="handleClick('disabled')">禁用表单</Button>
-      <Button @click="handleClick('resetDisabled')">解除禁用</Button>
-      <Button @click="handleClick('reverseActionButtons')">
+    <ElSpace class="mb-5 flex-wrap">
+      <ElButton @click="handleClick('updateSchema')">updateSchema</ElButton>
+      <ElButton @click="handleClick('labelWidth')">更改labelWidth</ElButton>
+      <ElButton @click="handleClick('resetLabelWidth')">
+        还原labelWidth
+      </ElButton>
+      <ElButton @click="handleClick('disabled')">禁用表单</ElButton>
+      <ElButton @click="handleClick('resetDisabled')">解除禁用</ElButton>
+      <ElButton @click="handleClick('reverseActionButtons')">
         翻转操作按钮位置
-      </Button>
-      <Button @click="handleClick('hiddenAction')">隐藏操作按钮</Button>
-      <Button @click="handleClick('showAction')">显示操作按钮</Button>
-      <Button @click="handleClick('hiddenResetButton')">隐藏重置按钮</Button>
-      <Button @click="handleClick('showResetButton')">显示重置按钮</Button>
-      <Button @click="handleClick('hiddenSubmitButton')">隐藏提交按钮</Button>
-      <Button @click="handleClick('showSubmitButton')">显示提交按钮</Button>
-      <Button @click="handleClick('updateResetButton')">修改重置按钮</Button>
-      <Button @click="handleClick('updateSubmitButton')">修改提交按钮</Button>
-      <Button @click="handleClick('updateActionAlign')">
+      </ElButton>
+      <ElButton @click="handleClick('hiddenAction')">隐藏操作按钮</ElButton>
+      <ElButton @click="handleClick('showAction')">显示操作按钮</ElButton>
+      <ElButton @click="handleClick('hiddenResetButton')">
+        隐藏重置按钮
+      </ElButton>
+      <ElButton @click="handleClick('showResetButton')">显示重置按钮</ElButton>
+      <ElButton @click="handleClick('hiddenSubmitButton')">
+        隐藏提交按钮
+      </ElButton>
+      <ElButton @click="handleClick('showSubmitButton')">显示提交按钮</ElButton>
+      <ElButton @click="handleClick('updateResetButton')">
+        修改重置按钮
+      </ElButton>
+      <ElButton @click="handleClick('updateSubmitButton')">
+        修改提交按钮
+      </ElButton>
+      <ElButton @click="handleClick('updateActionAlign')">
         调整操作按钮位置
-      </Button>
-      <Button @click="handleClick('batchAddSchema')"> 批量添加表单项 </Button>
-      <Button @click="handleClick('batchDeleteSchema')">
+      </ElButton>
+      <ElButton @click="handleClick('batchAddSchema')">
+        批量添加表单项
+      </ElButton>
+      <ElButton @click="handleClick('batchDeleteSchema')">
         批量删除表单项
-      </Button>
-      <Button @click="handleClick('componentRef')">下拉组件获取焦点</Button>
-    </Space>
-    <Card title="操作示例">
+      </ElButton>
+      <ElButton @click="handleClick('componentRef')">下拉组件获取焦点</ElButton>
+    </ElSpace>
+    <ElCard>
+      <template #header>操作示例</template>
       <BaseForm />
-    </Card>
+    </ElCard>
   </Page>
 </template>

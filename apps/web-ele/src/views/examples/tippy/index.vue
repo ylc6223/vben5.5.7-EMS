@@ -5,14 +5,14 @@ import { reactive } from 'vue';
 
 import { Page, Tippy } from '@vben/common-ui';
 
-import { Button, Card, Flex } from 'ant-design-vue';
+import { ElButton, ElCard, ElSpace } from 'element-plus';
 
 import { useVbenForm } from '#/adapter/form';
 
 const tippyProps = reactive<TippyProps>({
   animation: 'shift-away',
   arrow: true,
-  content: '这是一个提示',
+  message: '这是一个提示',
   delay: [200, 200],
   duration: 200,
   followCursor: false,
@@ -247,57 +247,63 @@ function goDoc() {
           Tippy
           是一个轻量级的提示工具库，它可以用来创建各种交互式提示，如工具提示、引导提示等。
         </p>
-        <Button type="link" size="small" @click="goDoc">查看文档</Button>
+        <ElButton link type="primary" size="small" @click="goDoc">
+          查看文档
+        </ElButton>
       </div>
     </template>
-    <Card title="指令形式使用">
+    <ElCard>
+      <template #header>指令形式使用</template>
       <p class="mb-4">
         指令形式使用比较简洁，直接在需要展示tooltip的组件上用v-tippy传递配置，适用于固定内容的工具提示。
       </p>
-      <Flex warp="warp" gap="20" align="center">
-        <Button v-tippy="'这是一个提示，使用了默认的配置'">默认配置</Button>
+      <ElSpace warp="warp" gap="20" align="center">
+        <ElButton v-tippy="'这是一个提示，使用了默认的配置'">默认配置</ElButton>
 
-        <Button
-          v-tippy="{ theme: 'light', content: '这是一个提示，总是light主题' }"
+        <ElButton
+          v-tippy="{ theme: 'light', message: '这是一个提示，总是light主题' }"
         >
           指定主题
-        </Button>
-        <Button
+        </ElButton>
+        <ElButton
           v-tippy="{
             theme: 'light',
-            content: '这个提示将在点燃组件100毫秒后激活',
+            message: '这个提示将在点燃组件100毫秒后激活',
             delay: 100,
           }"
         >
           指定延时
-        </Button>
-        <Button
+        </ElButton>
+        <ElButton
           v-tippy="{
-            content: '本提示的动画为`scale`',
+            message: '本提示的动画为`scale`',
             animation: 'scale',
           }"
         >
           指定动画
-        </Button>
-      </Flex>
-    </Card>
-    <Card title="组件形式使用" class="mt-4">
+        </ElButton>
+      </ElSpace>
+    </ElCard>
+    <ElCard class="mt-4">
+      <template #header>组件形式使用</template>
       <div class="flex w-full justify-center">
         <Tippy v-bind="tippyProps">
-          <Button>鼠标移到这个组件上来体验效果</Button>
+          <ElButton>鼠标移到这个组件上来体验效果</ElButton>
         </Tippy>
       </div>
 
       <Form class="mt-4" />
-      <template #actions>
+      <div class="mt-4 pt-4 border-t border-gray-200">
         <p
           class="text-secondary-foreground hover:text-secondary-foreground cursor-default"
         >
           更多配置请
-          <Button type="link" size="small" @click="goDoc">查看文档</Button>
+          <ElButton link type="primary" size="small" @click="goDoc">
+            查看文档
+          </ElButton>
           ，这里只列出了一些常用的配置
         </p>
-      </template>
-    </Card>
+      </div>
+    </ElCard>
   </Page>
 </template>

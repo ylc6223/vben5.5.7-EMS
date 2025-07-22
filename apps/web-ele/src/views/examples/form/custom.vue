@@ -3,7 +3,7 @@ import { h, markRaw } from 'vue';
 
 import { Page } from '@vben/common-ui';
 
-import { Card, Input, message } from 'ant-design-vue';
+import { ElCard, ElInput, ElMessage } from 'element-plus';
 
 import { useVbenForm, z } from '#/adapter/form';
 
@@ -42,7 +42,7 @@ const [Form] = useVbenForm({
       }),
     },
     {
-      component: h(Input, { placeholder: '请输入Field2' }),
+      component: h(ElInput, { placeholder: '请输入Field2' }),
       fieldName: 'field2',
       label: '自定义组件',
       modelPropName: 'value',
@@ -56,7 +56,17 @@ const [Form] = useVbenForm({
     },
     {
       component: markRaw(TwoFields),
-      defaultValue: [undefined, ''],
+      componentProps: {
+        options: [
+          { label: '个人', value: 'personal' },
+          { label: '工作', value: 'work' },
+          { label: '私密', value: 'private' },
+          { label: '其他', value: 'other' },
+        ],
+        selectPlaceholder: '选择类型',
+        inputPlaceholder: '请输入手机号码',
+      },
+      defaultValue: [undefined, undefined],
       disabledOnChangeListener: false,
       fieldName: 'field4',
       formItemClass: 'col-span-1',
@@ -81,20 +91,19 @@ const [Form] = useVbenForm({
 });
 
 function onSubmit(values: Record<string, any>) {
-  message.success({
-    content: `form values: ${JSON.stringify(values)}`,
-  });
+  ElMessage.success(`form values: ${JSON.stringify(values)}`);
 }
 </script>
 
 <template>
   <Page description="表单组件自定义示例" title="表单组件">
-    <Card title="基础示例">
+    <ElCard>
+      <template #header>基础示例</template>
       <Form>
         <template #field3="slotProps">
-          <Input placeholder="请输入" v-bind="slotProps" />
+          <ElInput placeholder="请输入" v-bind="slotProps" />
         </template>
       </Form>
-    </Card>
+    </ElCard>
   </Page>
 </template>

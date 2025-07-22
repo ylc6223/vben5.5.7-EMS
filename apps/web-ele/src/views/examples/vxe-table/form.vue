@@ -4,7 +4,7 @@ import type { VxeTableGridOptions } from '#/adapter/vxe-table';
 
 import { Page } from '@vben/common-ui';
 
-import { message } from 'ant-design-vue';
+import { ElMessage } from 'element-plus';
 import dayjs from 'dayjs';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
@@ -74,7 +74,7 @@ const formOptions: VbenFormProps = {
   submitOnEnter: false,
 };
 
-const gridOptions: VxeTableGridOptions<RowType> = {
+const gridOptions: VxeTableGridOptions<ElRowType> = {
   checkboxConfig: {
     highlight: true,
     labelField: 'name',
@@ -95,7 +95,7 @@ const gridOptions: VxeTableGridOptions<RowType> = {
   proxyConfig: {
     ajax: {
       query: async ({ page }, formValues) => {
-        message.success(`Query params: ${JSON.stringify(formValues)}`);
+        ElMessage.success(`Query params: ${JSON.stringify(formValues)}`);
         return await getExampleTableApi({
           page: page.currentPage,
           pageSize: page.pageSize,

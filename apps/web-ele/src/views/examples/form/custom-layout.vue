@@ -3,7 +3,7 @@ import { h } from 'vue';
 
 import { Page } from '@vben/common-ui';
 
-import { Card } from 'ant-design-vue';
+import { ElCard } from 'element-plus';
 
 import { useVbenForm } from '#/adapter/form';
 
@@ -21,18 +21,55 @@ const [CustomLayoutForm] = useVbenForm({
   schema: [
     {
       component: 'Select',
+      componentProps: {
+        options: [
+          { label: '选项1', value: '1' },
+          { label: '选项2', value: '2' },
+          { label: '选项3', value: '3' },
+        ],
+        placeholder: '请选择',
+      },
       fieldName: 'field1',
-      label: '字符串',
+      label: '下拉选择',
     },
     {
       component: 'TreeSelect',
+      componentProps: {
+        data: [
+          {
+            label: '节点1',
+            value: 'node1',
+            children: [
+              { label: '子节点1-1', value: 'node1-1' },
+              { label: '子节点1-2', value: 'node1-2' },
+            ],
+          },
+          {
+            label: '节点2',
+            value: 'node2',
+            children: [
+              { label: '子节点2-1', value: 'node2-1' },
+              { label: '子节点2-2', value: 'node2-2' },
+            ],
+          },
+        ],
+        placeholder: '请选择',
+      },
       fieldName: 'field2',
-      label: '字符串',
+      label: '树形选择',
     },
     {
       component: 'Mentions',
+      componentProps: {
+        options: [
+          { label: '@张三', value: 'zhangsan' },
+          { label: '@李四', value: 'lisi' },
+          { label: '@王五', value: 'wangwu' },
+        ],
+        placeholder: '请输入 @ 提及用户',
+      },
       fieldName: 'field3',
-      label: '字符串',
+      label: '提及组件',
     },
     {
       component: 'Input',
@@ -104,8 +141,9 @@ const [CustomLayoutForm] = useVbenForm({
     <template #extra>
       <DocButton class="mb-2" path="/components/common-ui/vben-form" />
     </template>
-    <Card title="使用tailwind自定义布局">
+    <ElCard>
+      <template #header>使用tailwind自定义布局</template>
       <CustomLayoutForm />
-    </Card>
+    </ElCard>
   </Page>
 </template>

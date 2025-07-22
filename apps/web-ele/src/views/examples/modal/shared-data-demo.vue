@@ -3,7 +3,7 @@ import { ref } from 'vue';
 
 import { useVbenModal } from '@vben/common-ui';
 
-import { message } from 'ant-design-vue';
+import { ElMessage } from 'element-plus';
 
 const data = ref();
 
@@ -12,7 +12,7 @@ const [Modal, modalApi] = useVbenModal({
     modalApi.close();
   },
   onConfirm() {
-    message.info('onConfirm');
+    ElMessage.info('onConfirm');
     // modalApi.close();
   },
   onOpenChange(isOpen: boolean) {

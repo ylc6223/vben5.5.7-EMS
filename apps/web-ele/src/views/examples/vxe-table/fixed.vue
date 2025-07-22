@@ -3,7 +3,7 @@ import type { VxeGridProps } from '#/adapter/vxe-table';
 
 import { Page } from '@vben/common-ui';
 
-import { Button } from 'ant-design-vue';
+import { ElButton } from 'element-plus';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { getExampleTableApi } from '#/api';
@@ -17,7 +17,7 @@ interface RowType {
   releaseDate: string;
 }
 
-const gridOptions: VxeGridProps<RowType> = {
+const gridOptions: VxeGridProps<ElRowType> = {
   columns: [
     { fixed: 'left', title: '序号', type: 'seq', width: 50 },
     { field: 'category', title: 'Category', width: 300 },
@@ -62,7 +62,7 @@ const [Grid] = useVbenVxeGrid({ gridOptions });
   <Page auto-content-height>
     <Grid>
       <template #action>
-        <Button type="link">编辑</Button>
+        <ElButton link type="primary">编辑</ElButton>
       </template>
     </Grid>
   </Page>

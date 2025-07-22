@@ -2,7 +2,7 @@
 import { VBEN_DOC_URL } from '@vben/constants';
 import { openWindow } from '@vben/utils';
 
-import { Button } from 'ant-design-vue';
+import { ElButton } from 'element-plus';
 
 const props = defineProps<{ path: string }>();
 
@@ -18,5 +18,5 @@ function handleClick() {
 </script>
 
 <template>
-  <Button @click="handleClick">查看组件文档</Button>
+  <ElButton @click="handleClick">查看组件文档</ElButton>
 </template>

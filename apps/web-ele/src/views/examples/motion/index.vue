@@ -5,16 +5,7 @@ import { Page } from '@vben/common-ui';
 import { Motion, MotionGroup, MotionPresets } from '@vben/plugins/motion';
 
 import { refAutoReset, watchDebounced } from '@vueuse/core';
-import {
-  Button,
-  Card,
-  Col,
-  Form,
-  FormItem,
-  InputNumber,
-  Row,
-  Select,
-} from 'ant-design-vue';
+import { ElButton, ElCard, ElCol, ElForm, ElFormItem, ElInputNumber, ElOption, ElRow, ElSelect } from 'element-plus';
 // 本例子用不到visible类型的动画。带有VisibleOnce和Visible的类型会在组件进入视口被显示时执行动画，
 const presets = MotionPresets.filter((v) => !v.includes('Visible'));
 const showCard1 = refAutoReset(true, 100);
@@ -62,24 +53,27 @@ function openDocPage() {
   <Page title="Motion">
     <template #description>
       <span>一个易于使用的为其它组件赋予动画效果的组件。</span>
-      <Button type="link" @click="openDocPage">查看文档</Button>
+      <ElButton link type="primary" @click="openDocPage">查看文档</ElButton>
     </template>
-    <Card title="使用指令" :body-style="{ minHeight: '5rem' }">
-      <template #extra>
-        <Button type="primary" @click="showCard1 = false">重载</Button>
+    <ElCard :body-style="{ minHeight: '5rem' }">
+      <template #header>
+        <div class="flex items-center justify-between">
+          <span>使用指令</span>
+          <ElButton type="primary" @click="showCard1 = false">重载</ElButton>
+        </div>
       </template>
       <div>
         <div class="relative flex gap-2 overflow-hidden" v-if="showCard1">
-          <Button v-motion-fade-visible>fade</Button>
-          <Button v-motion-pop-visible :duration="500">pop</Button>
-          <Button v-motion-slide-left>slide-left</Button>
-          <Button v-motion-slide-right>slide-right</Button>
-          <Button v-motion-slide-bottom>slide-bottom</Button>
-          <Button v-motion-slide-top>slide-top</Button>
+          <ElButton v-motion-fade-visible>fade</ElButton>
+          <ElButton v-motion-pop-visible :duration="500">pop</ElButton>
+          <ElButton v-motion-slide-left>slide-left</ElButton>
+          <ElButton v-motion-slide-right>slide-right</ElButton>
+          <ElButton v-motion-slide-bottom>slide-bottom</ElButton>
+          <ElButton v-motion-slide-top>slide-top</ElButton>
         </div>
       </div>
-    </Card>
-    <Card
+    </ElCard>
+    <ElCard
       class="mt-2"
       title="使用组件（将内部作为一个整体添加动画）"
       :body-style="{ padding: 0 }"
@@ -92,7 +86,7 @@ function openDocPage() {
           v-if="showCard2"
           class="flex items-center gap-2"
         >
-          <Button size="large">这个按钮在显示时会有动画效果</Button>
+          <ElButton size="large">这个按钮在显示时会有动画效果</ElButton>
           <span>附属组件，会作为整体处理动画</span>
         </Motion>
       </div>
@@ -109,51 +103,52 @@ function openDocPage() {
             v-for="i in 5"
             :key="i"
           >
-            <Button size="large">按钮{{ i }}</Button>
+            <ElButton size="large">按钮{{ i }}</ElButton>
           </Motion>
         </div>
       </div>
       <div>
-        <Form :model="motionProps" :label-col="{ span: 10 }">
-          <Row>
-            <Col :span="8">
-              <FormItem prop="preset" label="动画效果">
-                <Select v-model:value="motionProps.preset">
-                  <Select.Option
+        <ElForm :model="motionProps" :label-col="{ span: 10 }">
+          <ElRow>
+            <ElCol :span="8">
+              <ElFormItem prop="preset" label="动画效果">
+                <ElSelect v-model="motionProps.preset">
+                  <ElOption
                     :value="preset"
+                    :label="preset"
                     v-for="preset in presets"
                     :key="preset"
                   >
                     {{ preset }}
-                  </Select.Option>
-                </Select>
-              </FormItem>
-            </Col>
-            <Col :span="8">
-              <FormItem prop="duration" label="持续时间">
-                <InputNumber v-model:value="motionProps.duration" />
-              </FormItem>
-            </Col>
-            <Col :span="8">
-              <FormItem prop="delay" label="延迟动画">
-                <InputNumber v-model:value="motionProps.delay" />
-              </FormItem>
-            </Col>
-            <Col :span="8">
-              <FormItem prop="hovered.scale" label="Hover缩放">
-                <InputNumber v-model:value="motionProps.hovered.scale" />
-              </FormItem>
-            </Col>
-            <Col :span="8">
-              <FormItem prop="hovered.tapped" label="按下时缩放">
-                <InputNumber v-model:value="motionProps.tapped.scale" />
-              </FormItem>
-            </Col>
-          </Row>
-        </Form>
+                  </ElOption>
+                </ElSelect>
+              </ElFormItem>
+            </ElCol>
+            <ElCol :span="8">
+              <ElFormItem prop="duration" label="持续时间">
+                <ElInputNumber v-model="motionProps.duration" />
+              </ElFormItem>
+            </ElCol>
+            <ElCol :span="8">
+              <ElFormItem prop="delay" label="延迟动画">
+                <ElInputNumber v-model="motionProps.delay" />
+              </ElFormItem>
+            </ElCol>
+            <ElCol :span="8">
+              <ElFormItem prop="hovered.scale" label="Hover缩放">
+                <ElInputNumber v-model="motionProps.hovered.scale" />
+              </ElFormItem>
+            </ElCol>
+            <ElCol :span="8">
+              <ElFormItem prop="hovered.tapped" label="按下时缩放">
+                <ElInputNumber v-model="motionProps.tapped.scale" />
+              </ElFormItem>
+            </ElCol>
+          </ElRow>
+        </ElForm>
       </div>
-    </Card>
-    <Card
+    </ElCard>
+    <ElCard
       class="mt-2"
       title="分组动画（每个子元素都会应用相同的独立动画）"
       :body-style="{ padding: 0 }"
@@ -162,52 +157,53 @@ function openDocPage() {
         class="relative flex min-h-32 items-center justify-center gap-2 overflow-hidden"
       >
         <MotionGroup v-bind="motionGroupProps" v-if="showCard3">
-          <Button size="large">按钮1</Button>
-          <Button size="large">按钮2</Button>
-          <Button size="large">按钮3</Button>
-          <Button size="large">按钮4</Button>
-          <Button size="large">按钮5</Button>
+          <ElButton size="large">按钮1</ElButton>
+          <ElButton size="large">按钮2</ElButton>
+          <ElButton size="large">按钮3</ElButton>
+          <ElButton size="large">按钮4</ElButton>
+          <ElButton size="large">按钮5</ElButton>
         </MotionGroup>
       </div>
       <div>
-        <Form :model="motionGroupProps" :label-col="{ span: 10 }">
-          <Row>
-            <Col :span="8">
-              <FormItem prop="preset" label="动画效果">
-                <Select v-model:value="motionGroupProps.preset">
-                  <Select.Option
+        <ElForm :model="motionGroupProps" :label-col="{ span: 10 }">
+          <ElRow>
+            <ElCol :span="8">
+              <ElFormItem prop="preset" label="动画效果">
+                <ElSelect v-model="motionGroupProps.preset">
+                  <ElOption
                     :value="preset"
+                    :label="preset"
                     v-for="preset in presets"
                     :key="preset"
                   >
                     {{ preset }}
-                  </Select.Option>
-                </Select>
-              </FormItem>
-            </Col>
-            <Col :span="8">
-              <FormItem prop="duration" label="持续时间">
-                <InputNumber v-model:value="motionGroupProps.duration" />
-              </FormItem>
-            </Col>
-            <Col :span="8">
-              <FormItem prop="delay" label="延迟动画">
-                <InputNumber v-model:value="motionGroupProps.delay" />
-              </FormItem>
-            </Col>
-            <Col :span="8">
-              <FormItem prop="hovered.scale" label="Hover缩放">
-                <InputNumber v-model:value="motionGroupProps.hovered.scale" />
-              </FormItem>
-            </Col>
-            <Col :span="8">
-              <FormItem prop="hovered.tapped" label="按下时缩放">
-                <InputNumber v-model:value="motionGroupProps.tapped.scale" />
-              </FormItem>
-            </Col>
-          </Row>
-        </Form>
+                  </ElOption>
+                </ElSelect>
+              </ElFormItem>
+            </ElCol>
+            <ElCol :span="8">
+              <ElFormItem prop="duration" label="持续时间">
+                <ElInputNumber v-model="motionGroupProps.duration" />
+              </ElFormItem>
+            </ElCol>
+            <ElCol :span="8">
+              <ElFormItem prop="delay" label="延迟动画">
+                <ElInputNumber v-model="motionGroupProps.delay" />
+              </ElFormItem>
+            </ElCol>
+            <ElCol :span="8">
+              <ElFormItem prop="hovered.scale" label="Hover缩放">
+                <ElInputNumber v-model="motionGroupProps.hovered.scale" />
+              </ElFormItem>
+            </ElCol>
+            <ElCol :span="8">
+              <ElFormItem prop="hovered.tapped" label="按下时缩放">
+                <ElInputNumber v-model="motionGroupProps.tapped.scale" />
+              </ElFormItem>
+            </ElCol>
+          </ElRow>
+        </ElForm>
       </div>
-    </Card>
+    </ElCard>
   </Page>
 </template>

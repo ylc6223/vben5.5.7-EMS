@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { Page } from '@vben/common-ui';
 
-import { Button, Card, message } from 'ant-design-vue';
+import { ElButton, ElCard, ElMessage } from 'element-plus';
 
 import { useVbenForm, z } from '#/adapter/form';
 
@@ -224,22 +224,27 @@ const [Form, formApi] = useVbenForm({
 });
 
 function onSubmit(values: Record<string, any>) {
-  message.success({
-    content: `form values: ${JSON.stringify(values)}`,
+  ElMessage.success({
+    message: `form values: ${JSON.stringify(values)}`,
   });
 }
 </script>
 
 <template>
   <Page description="表单校验示例" title="表单组件">
-    <Card title="基础组件校验示例">
-      <template #extra>
-        <Button @click="() => formApi.validate()">校验表单</Button>
-        <Button class="mx-2" @click="() => formApi.resetValidate()">
-          清空校验信息
-        </Button>
+    <ElCard>
+      <template #header>
+        <div class="flex items-center justify-between">
+          <span>基础组件校验示例</span>
+          <div class="flex gap-2">
+            <ElButton @click="() => formApi.validate()">校验表单</ElButton>
+            <ElButton @click="() => formApi.resetValidate()">
+              清空校验信息
+            </ElButton>
+          </div>
+        </div>
       </template>
       <Form />
-    </Card>
+    </ElCard>
   </Page>
 </template>

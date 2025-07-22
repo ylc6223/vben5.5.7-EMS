@@ -3,20 +3,20 @@ import type { JsonViewerAction, JsonViewerValue } from '@vben/common-ui';
 
 import { JsonViewer, Page } from '@vben/common-ui';
 
-import { Card, message } from 'ant-design-vue';
+import { ElCard, ElMessage } from 'element-plus';
 
 import { json1, json2 } from './data';
 
 function handleKeyClick(key: string) {
-  message.info(`点击了Key ${key}`);
+  ElMessage.info(`点击了Key ${key}`);
 }
 
 function handleValueClick(value: JsonViewerValue) {
-  message.info(`点击了Value ${JSON.stringify(value)}`);
+  ElMessage.info(`点击了Value ${JSON.stringify(value)}`);
 }
 
 function handleCopied(_event: JsonViewerAction) {
-  message.success('已复制JSON');
+  ElMessage.success('已复制JSON');
 }
 </script>
 <template>
@@ -24,10 +24,12 @@ function handleCopied(_event: JsonViewerAction) {
     title="Json Viewer"
     description="一个渲染 JSON 结构数据的组件，支持复制、展开等，简单易用"
   >
-    <Card title="默认配置">
+    <ElCard>
+      <template #header>默认配置</template>
       <JsonViewer :value="json1" />
-    </Card>
-    <Card title="可复制、默认展开3层、显示边框、事件处理" class="mt-4">
+    </ElCard>
+    <ElCard class="mt-4">
+      <template #header>可复制、默认展开3层、显示边框、事件处理</template>
       <JsonViewer
         :value="json2"
         :expand-depth="3"
@@ -38,14 +40,15 @@ function handleCopied(_event: JsonViewerAction) {
         @copied="handleCopied"
         boxed
       />
-    </Card>
-    <Card title="预览模式" class="mt-4">
+    </ElCard>
+    <ElCard class="mt-4">
+      <template #header>预览模式</template>
       <JsonViewer
         :value="json2"
         copyable
         preview-mode
         :show-array-index="false"
       />
-    </Card>
+    </ElCard>
   </Page>
 </template>

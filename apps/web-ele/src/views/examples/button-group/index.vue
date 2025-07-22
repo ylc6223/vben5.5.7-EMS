@@ -11,7 +11,7 @@ import {
 } from '@vben/common-ui';
 import { LoaderCircle, Square, SquareCheckBig } from '@vben/icons';
 
-import { Button, Card, message } from 'ant-design-vue';
+import { ElButton, ElCard, ElMessage } from 'element-plus';
 
 import { useVbenForm } from '#/adapter/form';
 
@@ -34,13 +34,13 @@ function resetValues() {
 
 function beforeChange(v: any, isChecked: boolean) {
   return new Promise((resolve) => {
-    message.loading({
-      content: `正在设置${v}为${isChecked ? '选中' : '未选中'}...`,
+    ElMessage.loading({
+      message: `正在设置${v}为${isChecked ? '选中' : '未选中'}...`,
       duration: 0,
       key: 'beforeChange',
     });
     setTimeout(() => {
-      message.success({ content: `${v} 已设置成功`, key: 'beforeChange' });
+      ElMessage.success({ message: `${v} 已设置成功`, key: 'beforeChange' });
       resolve(true);
     }, 2000);
   });
@@ -136,7 +136,7 @@ const [Form] = useVbenForm({
 function onBtnClick(value: any) {
   const opt = options.find((o) => o.value === value);
   if (opt) {
-    message.success(`点击了按钮${opt.label}，value = ${value}`);
+    ElMessage.success(`点击了按钮${opt.label}，value = ${value}`);
   }
 }
 </script>
@@ -145,9 +145,12 @@ function onBtnClick(value: any) {
     title="VbenButtonGroup 按钮组"
     description="VbenButtonGroup是一个按钮容器，用于包裹一组按钮，协调整体样式。VbenCheckButtonGroup则可以作为一个表单组件，提供单选或多选功能"
   >
-    <Card title="基本用法">
-      <template #extra>
-        <Button type="primary" @click="resetValues">清空值</Button>
+    <ElCard>
+      <template #header>
+        <div class="flex items-center justify-between">
+          <span>基本用法</span>
+          <ElButton type="primary" @click="resetValues">清空值</ElButton>
+        </div>
       </template>
       <p class="mt-4">按钮组：</p>
       <div class="mt-2 flex flex-col gap-2">
@@ -220,10 +223,11 @@ function onBtnClick(value: any) {
           </template>
         </VbenCheckButtonGroup>
       </div>
-    </Card>
+    </ElCard>
 
-    <Card title="设置" class="mt-4">
+    <ElCard class="mt-4">
+      <template #header>设置</template>
       <Form />
-    </Card>
+    </ElCard>
   </Page>
 </template>

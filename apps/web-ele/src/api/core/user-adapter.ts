@@ -29,7 +29,7 @@ export function transformApiUserInfo(apiUserInfo: ApiUserInfo): UserInfo {
     userId: apiUserInfo.orgId?.toString() || "", // 使用orgId作为userId
     username: apiUserInfo.account || "",
     realName: apiUserInfo.realName || "",
-    avatar: apiUserInfo.avatar || "/default-avatar.png", // 提供默认头像
+    avatar: apiUserInfo.avatar || "https://unpkg.com/@vbenjs/static-source@0.1.7/source/avatar-v1.webp", // 提供默认头像
 
     // 从buttons数组推导角色信息
     roles: deriveRolesFromButtons(apiUserInfo.buttons || []),

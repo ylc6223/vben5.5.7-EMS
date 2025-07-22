@@ -3,7 +3,7 @@ import type { VxeGridProps } from '#/adapter/vxe-table';
 
 import { Page } from '@vben/common-ui';
 
-import { Button } from 'ant-design-vue';
+import { ElButton } from 'element-plus';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { getExampleTableApi } from '#/api';
@@ -17,7 +17,7 @@ interface RowType {
   releaseDate: string;
 }
 
-const gridOptions: VxeGridProps<RowType> = {
+const gridOptions: VxeGridProps<ElRowType> = {
   checkboxConfig: {
     highlight: true,
     labelField: 'name',
@@ -69,12 +69,12 @@ const [Grid, gridApi] = useVbenVxeGrid({
   <Page auto-content-height>
     <Grid table-title="数据列表" table-title-help="提示">
       <template #toolbar-tools>
-        <Button class="mr-2" type="primary" @click="() => gridApi.query()">
+        <ElButton class="mr-2" type="primary" @click="() => gridApi.query()">
           刷新当前页面
-        </Button>
-        <Button type="primary" @click="() => gridApi.reload()">
+        </ElButton>
+        <ElButton type="primary" @click="() => gridApi.reload()">
           刷新并返回第一页
-        </Button>
+        </ElButton>
       </template>
     </Grid>
   </Page>

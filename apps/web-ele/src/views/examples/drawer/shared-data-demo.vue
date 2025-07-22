@@ -3,7 +3,7 @@ import { ref } from 'vue';
 
 import { useVbenDrawer } from '@vben/common-ui';
 
-import { message } from 'ant-design-vue';
+import { ElMessage } from 'element-plus';
 
 const data = ref();
 
@@ -12,7 +12,7 @@ const [Drawer, drawerApi] = useVbenDrawer({
     drawerApi.close();
   },
   onConfirm() {
-    message.info('onConfirm');
+    ElMessage.info('onConfirm');
     // drawerApi.close();
   },
   onOpenChange(isOpen: boolean) {

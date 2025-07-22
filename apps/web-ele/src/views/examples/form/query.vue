@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { Page } from '@vben/common-ui';
 
-import { Card, message } from 'ant-design-vue';
+import { ElCard, ElMessage } from 'element-plus';
 
 import { useVbenForm } from '#/adapter/form';
 
@@ -80,7 +80,7 @@ const [QueryForm] = useVbenForm({
   // 是否可展开
   showCollapseButton: true,
   submitButtonOptions: {
-    content: '查询',
+    message: '查询',
   },
   // 大屏一行显示3个，中屏一行显示2个，小屏一行显示1个
   wrapperClass: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
@@ -119,16 +119,14 @@ const [QueryForm1] = useVbenForm({
   // 是否可展开
   showCollapseButton: true,
   submitButtonOptions: {
-    content: '查询',
+    message: '查询',
   },
   // 大屏一行显示3个，中屏一行显示2个，小屏一行显示1个
   wrapperClass: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
 });
 
 function onSubmit(values: Record<string, any>) {
-  message.success({
-    content: `form values: ${JSON.stringify(values)}`,
-  });
+  ElMessage.success(`form values: ${JSON.stringify(values)}`);
 }
 </script>
 
@@ -137,11 +135,13 @@ function onSubmit(values: Record<string, any>) {
     description="查询表单，常用语和表格组合使用，可进行收缩展开。"
     title="表单组件"
   >
-    <Card class="mb-5" title="查询表单，默认展开">
+    <ElCard class="mb-5">
+      <template #header>查询表单，默认展开</template>
       <QueryForm />
-    </Card>
-    <Card title="查询表单，默认折叠，折叠时保留2行">
+    </ElCard>
+    <ElCard>
+      <template #header>查询表单，默认折叠，折叠时保留2行</template>
       <QueryForm1 />
-    </Card>
+    </ElCard>
   </Page>
 </template>

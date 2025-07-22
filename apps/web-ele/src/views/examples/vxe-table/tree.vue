@@ -3,7 +3,7 @@ import type { VxeGridProps } from '#/adapter/vxe-table';
 
 import { Page } from '@vben/common-ui';
 
-import { Button } from 'ant-design-vue';
+import { ElButton } from 'element-plus';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 
@@ -18,7 +18,7 @@ interface RowType {
   type: string;
 }
 
-const gridOptions: VxeGridProps<RowType> = {
+const gridOptions: VxeGridProps<ElRowType> = {
   columns: [
     { type: 'seq', width: 70 },
     { field: 'name', minWidth: 300, title: 'Name', treeNode: true },
@@ -52,10 +52,10 @@ const collapseAll = () => {
   <Page>
     <Grid table-title="数据列表" table-title-help="提示">
       <template #toolbar-tools>
-        <Button class="mr-2" type="primary" @click="expandAll">
+        <ElButton class="mr-2" type="primary" @click="expandAll">
           展开全部
-        </Button>
-        <Button type="primary" @click="collapseAll"> 折叠全部 </Button>
+        </ElButton>
+        <ElButton type="primary" @click="collapseAll"> 折叠全部 </ElButton>
       </template>
     </Grid>
   </Page>

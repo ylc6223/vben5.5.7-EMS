@@ -3,7 +3,7 @@ import { ref } from 'vue';
 
 import { useVbenModal } from '@vben/common-ui';
 
-import { Button, message } from 'ant-design-vue';
+import { ElButton, ElMessage } from 'element-plus';
 
 const list = ref<number[]>([]);
 
@@ -12,7 +12,7 @@ const [Modal, modalApi] = useVbenModal({
     modalApi.close();
   },
   onConfirm() {
-    message.info('onConfirm');
+    ElMessage.info('onConfirm');
   },
   onOpenChange(isOpen) {
     if (isOpen) {
@@ -43,7 +43,7 @@ function handleUpdate(len?: number) {
       {{ item }}
     </div>
     <template #prepend-footer>
-      <Button type="link" @click="handleUpdate()">点击更新数据</Button>
+      <ElButton link type="primary" @click="handleUpdate()">点击更新数据</ElButton>
     </template>
   </Modal>
 </template>

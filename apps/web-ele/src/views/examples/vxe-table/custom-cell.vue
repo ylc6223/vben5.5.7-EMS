@@ -3,7 +3,7 @@ import type { VxeGridProps } from '#/adapter/vxe-table';
 
 import { Page } from '@vben/common-ui';
 
-import { Button, Image, Switch, Tag } from 'ant-design-vue';
+import { ElButton, ElImage, ElSwitch, ElTag } from 'element-plus';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { getExampleTableApi } from '#/api';
@@ -20,7 +20,7 @@ interface RowType {
   status: 'error' | 'success' | 'warning';
 }
 
-const gridOptions: VxeGridProps<RowType> = {
+const gridOptions: VxeGridProps<ElRowType> = {
   checkboxConfig: {
     highlight: true,
     labelField: 'name',
@@ -92,16 +92,16 @@ const [Grid] = useVbenVxeGrid({ gridOptions });
   <Page auto-content-height>
     <Grid>
       <template #image-url="{ row }">
-        <Image :src="row.imageUrl" height="30" width="30" />
+        <ElImage :src="row.imageUrl" style="height: 30px; width: 30px;" />
       </template>
       <template #open="{ row }">
-        <Switch v-model:checked="row.open" />
+        <ElSwitch v-model="row.open" />
       </template>
       <template #status="{ row }">
-        <Tag :color="row.color">{{ row.status }}</Tag>
+        <ElTag :color="row.color">{{ row.status }}</ElTag>
       </template>
       <template #action>
-        <Button type="link">编辑</Button>
+        <ElButton link type="primary">编辑</ElButton>
       </template>
     </Grid>
   </Page>

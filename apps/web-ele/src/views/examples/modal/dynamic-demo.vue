@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useVbenModal } from '@vben/common-ui';
 
-import { Button, message } from 'ant-design-vue';
+import { ElButton, ElMessage } from 'element-plus';
 
 const [Modal, modalApi] = useVbenModal({
   draggable: true,
@@ -9,7 +9,7 @@ const [Modal, modalApi] = useVbenModal({
     modalApi.close();
   },
   onConfirm() {
-    message.info('onConfirm');
+    ElMessage.info('onConfirm');
     // modalApi.close();
   },
   title: '动态修改配置示例',
@@ -30,12 +30,12 @@ function handleToggleFullscreen() {
 <template>
   <Modal>
     <div class="flex-col-center">
-      <Button class="mb-3" type="primary" @click="handleUpdateTitle()">
+      <ElButton class="mb-3" type="primary" @click="handleUpdateTitle()">
         内部动态修改标题
-      </Button>
-      <Button class="mb-3" type="primary" @click="handleToggleFullscreen()">
+      </ElButton>
+      <ElButton class="mb-3" type="primary" @click="handleToggleFullscreen()">
         {{ state.fullscreen ? '退出全屏' : '打开全屏' }}
-      </Button>
+      </ElButton>
     </div>
   </Modal>
 </template>

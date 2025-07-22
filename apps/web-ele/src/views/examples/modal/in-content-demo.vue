@@ -3,7 +3,7 @@ import { ref } from 'vue';
 
 import { useVbenModal } from '@vben/common-ui';
 
-import { Input, message } from 'ant-design-vue';
+import { ElInput, ElMessage } from 'element-plus';
 
 const [Modal, modalApi] = useVbenModal({
   destroyOnClose: false,
@@ -11,7 +11,7 @@ const [Modal, modalApi] = useVbenModal({
     modalApi.close();
   },
   onConfirm() {
-    message.info('onConfirm');
+    ElMessage.info('onConfirm');
     // modalApi.close();
   },
 });
@@ -25,6 +25,6 @@ const value = ref();
     title-tooltip="标题提示内容"
   >
     此弹窗指定在内容区域打开，并且在关闭之后弹窗内容不会被销毁
-    <Input v-model:value="value" placeholder="KeepAlive测试" />
+    <ElInput v-model="value" placeholder="KeepAlive测试" />
   </Modal>
 </template>

@@ -5,11 +5,11 @@ import { Page, SliderRotateCaptcha } from '@vben/common-ui';
 import { preferences } from '@vben/preferences';
 import { useUserStore } from '@vben/stores';
 
-import { Card, message } from 'ant-design-vue';
+import { ElCard, ElMessage } from 'element-plus';
 
 const userStore = useUserStore();
 function handleSuccess() {
-  message.success('success!');
+  ElMessage.success('success!');
 }
 
 const avatar = computed(() => {
@@ -19,10 +19,11 @@ const avatar = computed(() => {
 
 <template>
   <Page description="用于前端简单的拖动校验场景" title="滑块旋转校验">
-    <Card class="mb-5" title="基本示例">
+    <ElCard class="mb-5">
+      <template #header>基本示例</template>
       <div class="flex items-center justify-center p-4">
         <SliderRotateCaptcha :src="avatar" @success="handleSuccess" />
       </div>
-    </Card>
+    </ElCard>
   </Page>
 </template>

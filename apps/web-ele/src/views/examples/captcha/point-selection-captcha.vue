@@ -5,7 +5,7 @@ import { reactive, ref } from 'vue';
 
 import { Page, PointSelectionCaptcha } from '@vben/common-ui';
 
-import { Card, Input, InputNumber, message, Switch } from 'ant-design-vue';
+import { ElCard, ElInput, ElInputNumber, ElMessage, ElSwitch } from 'element-plus';
 
 import { $t } from '#/locales';
 
@@ -31,9 +31,7 @@ const params = reactive({
   width: undefined,
 });
 const handleConfirm = (points: CaptchaPoint[], clear: () => void) => {
-  message.success({
-    content: `captcha points: ${JSON.stringify(points)}`,
-  });
+  ElMessage.success(`captcha points: ${JSON.stringify(points)}`);
   clear();
   selectedPoints.value = [];
 };
@@ -50,92 +48,89 @@ const handleClick = (point: CaptchaPoint) => {
     :description="$t('examples.captcha.pageDescription')"
     :title="$t('examples.captcha.pageTitle')"
   >
-    <Card :title="$t('examples.captcha.basic')" class="mb-4 overflow-x-auto">
+    <ElCard class="mb-4 overflow-x-auto">
+      <template #header>{{ $t('examples.captcha.basic') }}</template>
       <div class="mb-3 flex items-center justify-start">
-        <Input
-          v-model:value="params.title"
+        <ElInput
+          v-model="params.title"
           :placeholder="$t('examples.captcha.titlePlaceholder')"
           class="w-64"
         />
-        <Input
-          v-model:value="params.captchaImageUrl"
+        <ElInput
+          v-model="params.captchaImageUrl"
           :placeholder="$t('examples.captcha.captchaImageUrlPlaceholder')"
           class="ml-8 w-64"
         />
         <div class="ml-8 flex w-96 items-center">
-          <Switch
-            v-model:checked="params.showHintImage"
-            :checked-children="$t('examples.captcha.hintImage')"
-            :un-checked-children="$t('examples.captcha.hintText')"
+          <ElSwitch
+            v-model="params.showHintImage"
+            :active-text="$t('examples.captcha.hintImage')"
+            :inactive-text="$t('examples.captcha.hintText')"
             class="mr-4 w-40"
           />
-          <Input
+          <ElInput
             v-show="params.showHintImage"
-            v-model:value="params.hintImageUrl"
+            v-model="params.hintImageUrl"
             :placeholder="$t('examples.captcha.hintImagePlaceholder')"
           />
-          <Input
+          <ElInput
             v-show="!params.showHintImage"
-            v-model:value="params.hintText"
+            v-model="params.hintText"
             :placeholder="$t('examples.captcha.hintTextPlaceholder')"
           />
         </div>
 
-        <Switch
-          v-model:checked="params.showConfirm"
-          :checked-children="$t('examples.captcha.showConfirm')"
-          :un-checked-children="$t('examples.captcha.hideConfirm')"
+        <ElSwitch
+          v-model="params.showConfirm"
+          :active-text="$t('examples.captcha.showConfirm')"
+          :inactive-text="$t('examples.captcha.hideConfirm')"
           class="ml-8 w-28"
         />
       </div>
       <div class="mb-3 flex items-center justify-start">
-        <div>
-          <InputNumber
-            v-model:value="params.width"
+        <div class="flex items-center">
+          <ElInputNumber
+            v-model="params.width"
             :min="1"
             :placeholder="$t('examples.captcha.widthPlaceholder')"
             :precision="0"
             :step="1"
-            class="w-64"
-          >
-            <template #addonAfter>px</template>
-          </InputNumber>
+            class="w-56"
+          />
+          <span class="ml-2 text-gray-500">px</span>
         </div>
-        <div class="ml-8">
-          <InputNumber
-            v-model:value="params.height"
+        <div class="ml-8 flex items-center">
+          <ElInputNumber
+            v-model="params.height"
             :min="1"
             :placeholder="$t('examples.captcha.heightPlaceholder')"
             :precision="0"
             :step="1"
-            class="w-64"
-          >
-            <template #addonAfter>px</template>
-          </InputNumber>
+            class="w-56"
+          />
+          <span class="ml-2 text-gray-500">px</span>
         </div>
-        <div class="ml-8">
-          <InputNumber
-            v-model:value="params.paddingX"
+        <div class="ml-8 flex items-center">
+          <ElInputNumber
+            v-model="params.paddingX"
             :min="1"
             :placeholder="$t('examples.captcha.paddingXPlaceholder')"
             :precision="0"
             :step="1"
-            class="w-64"
-          >
-            <template #addonAfter>px</template>
-          </InputNumber>
+            class="w-56"
+          />
+          <span class="ml-2 text-gray-500">px</span>
         </div>
-        <div class="ml-8">
-          <InputNumber
-            v-model:value="params.paddingY"
+        <div class="ml-8 flex items-center">
+          <ElInputNumber
+            v-model="params.paddingY"
             :min="1"
             :placeholder="$t('examples.captcha.paddingYPlaceholder')"
             :precision="0"
             :step="1"
-            class="w-64"
-          >
-            <template #addonAfter>px</template>
-          </InputNumber>
+            class="w-56"
+          />
+          <span class="ml-2 text-gray-500">px</span>
         </div>
       </div>
 
@@ -176,6 +171,6 @@ const handleClick = (point: CaptchaPoint) => {
           }}</span>
         </li>
       </ol>
-    </Card>
+    </ElCard>
   </Page>
 </template>

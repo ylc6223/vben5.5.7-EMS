@@ -123,10 +123,23 @@ const ElUpload = defineAsyncComponent(() =>
     import('element-plus/es/components/upload/style/css'),
   ]).then(([res]) => res.ElUpload),
 );
+const ElMention = defineAsyncComponent(() =>
+  Promise.all([
+    import('element-plus/es/components/mention/index'),
+    import('element-plus/es/components/mention/style/css'),
+  ]).then(([res]) => res.ElMention),
+);
+const ElRate = defineAsyncComponent(() =>
+  Promise.all([
+    import('element-plus/es/components/rate/index'),
+    import('element-plus/es/components/rate/style/css'),
+  ]).then(([res]) => res.ElRate),
+);
 
 // 导入自定义 SearchSelector 组件
-const SearchSelector = defineAsyncComponent(() =>
-  import('../../views/comprehensive_reports/components/SearchSelector.vue'),
+const SearchSelector = defineAsyncComponent(
+  () =>
+    import('../../views/comprehensive_reports/components/SearchSelector.vue'),
 );
 
 const withDefaultPlaceholder = <T extends Component>(
@@ -175,12 +188,17 @@ export type ComponentType =
   | 'IconPicker'
   | 'Input'
   | 'InputNumber'
+  | 'InputPassword'
+  | 'Mentions'
+  | 'Radio'
   | 'RadioGroup'
   | 'RangePicker'
+  | 'Rate'
   | 'SearchSelector'
   | 'Select'
   | 'Space'
   | 'Switch'
+  | 'Textarea'
   | 'TimePicker'
   | 'TreeSelect'
   | 'Upload'
@@ -254,6 +272,13 @@ async function initComponentAdapter() {
     }),
     Input: withDefaultPlaceholder(ElInput, 'input'),
     InputNumber: withDefaultPlaceholder(ElInputNumber, 'input'),
+    InputPassword: withDefaultPlaceholder(ElInput, 'input', {
+      type: 'password',
+      showPassword: true,
+    }),
+    Mentions: withDefaultPlaceholder(ElMention, 'input'),
+    Radio: ElRadio,
+    Rate: ElRate,
     RadioGroup: (props, { attrs, slots }) => {
       let defaultSlot;
       if (Reflect.has(slots, 'default')) {
@@ -273,11 +298,31 @@ async function initComponentAdapter() {
         { ...slots, default: defaultSlot },
       );
     },
-    Select: (props, { attrs, slots }) => {
-      return h(ElSelectV2, { ...props, attrs }, slots);
-    },
+    Select: withDefaultPlaceholder(
+      defineComponent({
+        name: 'VbenSelect',
+        setup(props: any, { attrs, slots, expose }) {
+          const selectRef = ref();
+
+          // 暴露组件实例的方法
+          expose({
+            focus: () => selectRef.value?.focus?.(),
+            blur: () => selectRef.value?.blur?.(),
+            toggleMenu: () => selectRef.value?.toggleMenu?.(),
+          });
+
+          return () => h(ElSelectV2, {
+            ...props,
+            ...attrs,
+            ref: selectRef
+          }, slots);
+        },
+      }),
+      'select'
+    ),
     Space: ElSpace,
     Switch: ElSwitch,
+    Textarea: withDefaultPlaceholder(ElInput, 'input', { type: 'textarea' }),
     TimePicker: (props, { attrs, slots }) => {
       const { name, id, isRange } = props;
       const extraProps: Recordable<any> = {};

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useVbenModal } from '@vben/common-ui';
 
-import { message } from 'ant-design-vue';
+import { ElMessage } from 'element-plus';
 
 import { useVbenForm } from '#/adapter/form';
 
@@ -68,18 +68,18 @@ const [Modal, modalApi] = useVbenModal({
 });
 
 function onSubmit(values: Record<string, any>) {
-  message.loading({
-    content: '正在提交中...',
+  ElMessage({
+    message: '正在提交中...',
+    type: 'info',
     duration: 0,
-    key: 'is-form-submitting',
   });
   modalApi.lock();
   setTimeout(() => {
     modalApi.close();
-    message.success({
-      content: `提交成功：${JSON.stringify(values)}`,
-      duration: 2,
-      key: 'is-form-submitting',
+    ElMessage({
+      message: `提交成功：${JSON.stringify(values)}`,
+      type: 'success',
+      duration: 2000,
     });
   }, 3000);
 }

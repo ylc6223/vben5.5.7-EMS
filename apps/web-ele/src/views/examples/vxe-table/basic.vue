@@ -3,7 +3,7 @@ import type { VxeGridListeners, VxeGridProps } from '#/adapter/vxe-table';
 
 import { Page } from '@vben/common-ui';
 
-import { Button, message } from 'ant-design-vue';
+import { ElButton, ElMessage } from 'element-plus';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 
@@ -19,7 +19,7 @@ interface RowType {
   role: string;
 }
 
-const gridOptions: VxeGridProps<RowType> = {
+const gridOptions: VxeGridProps<ElRowType> = {
   columns: [
     { title: '序号', type: 'seq', width: 50 },
     { field: 'name', title: 'Name' },
@@ -37,9 +37,9 @@ const gridOptions: VxeGridProps<RowType> = {
   },
 };
 
-const gridEvents: VxeGridListeners<RowType> = {
+const gridEvents: VxeGridListeners<ElRowType> = {
   cellClick: ({ row }) => {
-    message.info(`cell-click: ${row.name}`);
+    ElMessage.info(`cell-click: ${row.name}`);
   },
 };
 
@@ -78,18 +78,18 @@ function changeLoading() {
     </template>
     <Grid table-title="基础列表" table-title-help="提示">
       <!-- <template #toolbar-actions>
-        <Button class="mr-2" type="primary">左侧插槽</Button>
+        <ElButton class="mr-2" type="primary">左侧插槽</ElButton>
       </template> -->
       <template #toolbar-tools>
-        <Button class="mr-2" type="primary" @click="changeBorder">
+        <ElButton class="mr-2" type="primary" @click="changeBorder">
           {{ showBorder ? '隐藏' : '显示' }}边框
-        </Button>
-        <Button class="mr-2" type="primary" @click="changeLoading">
+        </ElButton>
+        <ElButton class="mr-2" type="primary" @click="changeLoading">
           显示loading
-        </Button>
-        <Button type="primary" @click="changeStripe">
+        </ElButton>
+        <ElButton type="primary" @click="changeStripe">
           {{ showStripe ? '隐藏' : '显示' }}斑马纹
-        </Button>
+        </ElButton>
       </template>
     </Grid>
   </Page>

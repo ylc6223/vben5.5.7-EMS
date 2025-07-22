@@ -10,7 +10,7 @@ import {
   useVbenModal,
 } from '@vben/common-ui';
 
-import { Button, Card, Flex, message } from 'ant-design-vue';
+import { ElButton, ElCard, ElMessage, ElSpace } from 'element-plus';
 
 import DocButton from '../doc-button.vue';
 import AutoHeightDemo from './auto-height-demo.vue';
@@ -86,7 +86,7 @@ function openDynamicModal() {
 function openSharedModal() {
   sharedModalApi
     .setData({
-      content: '外部传递的数据 content',
+      message: '外部传递的数据 content',
       payload: '外部传递的数据 payload',
     })
     .open();
@@ -118,7 +118,7 @@ function openAlert() {
     content: '这是一个弹窗',
     icon: 'success',
   }).then(() => {
-    message.info('用户关闭了弹窗');
+    ElMessage.info('用户关闭了弹窗');
   });
 }
 
@@ -143,10 +143,10 @@ function openConfirm() {
     icon: 'question',
   })
     .then(() => {
-      message.success('用户确认了操作');
+      ElMessage.success('用户确认了操作');
     })
     .catch(() => {
-      message.error('用户取消了操作');
+      ElMessage.error('用户取消了操作');
     });
 }
 
@@ -154,7 +154,7 @@ async function openPrompt() {
   prompt<string>({
     async beforeClose({ isConfirm, value }) {
       if (isConfirm && value === '芝士') {
-        message.error('不能吃芝士');
+        ElMessage.error('不能吃芝士');
         return false;
       }
     },
@@ -164,10 +164,10 @@ async function openPrompt() {
     overlayBlur: 3,
   })
     .then((res) => {
-      message.success(`用户输入了：${res}`);
+      ElMessage.success(`用户输入了：${res}`);
     })
     .catch(() => {
-      message.error('用户取消了输入');
+      ElMessage.error('用户取消了输入');
     });
 }
 </script>
@@ -190,89 +190,111 @@ async function openPrompt() {
     <FormModal />
     <NestedModal />
     <BlurModal />
-    <Flex wrap="wrap" class="w-full" gap="10">
-      <Card class="w-[300px]" title="基本使用">
+    <ElSpace wrap="wrap" class="w-full" gap="10">
+      <ElCard class="w-[300px]">
+        <template #header>基本使用</template>
         <p>一个基础的弹窗示例</p>
-        <template #actions>
-          <Button type="primary" @click="openBaseModal">打开弹窗</Button>
-        </template>
-      </Card>
+        <div class="mt-4 border-t border-gray-200 pt-4">
+          <ElButton type="primary" @click="openBaseModal">打开弹窗</ElButton>
+        </div>
+      </ElCard>
 
-      <Card class="w-[300px]" title="指定容器+关闭后不销毁">
+      <ElCard class="w-[300px]">
+        <template #header>指定容器+关闭后不销毁</template>
         <p>在内容区域打开弹窗的示例</p>
-        <template #actions>
-          <Button type="primary" @click="openInContentModal">打开弹窗</Button>
-        </template>
-      </Card>
-
-      <Card class="w-[300px]" title="内容高度自适应">
-        <p>可根据内容并自动调整高度</p>
-        <template #actions>
-          <Button type="primary" @click="openAutoHeightModal">
+        <div class="mt-4 border-t border-gray-200 pt-4">
+          <ElButton type="primary" @click="openInContentModal">
             打开弹窗
-          </Button>
-        </template>
-      </Card>
+          </ElButton>
+        </div>
+      </ElCard>
 
-      <Card class="w-[300px]" title="可拖拽示例">
+      <ElCard class="w-[300px]">
+        <template #header>内容高度自适应</template>
+        <p>可根据内容并自动调整高度</p>
+        <div class="mt-4 border-t border-gray-200 pt-4">
+          <ElButton type="primary" @click="openAutoHeightModal">
+            打开弹窗
+          </ElButton>
+        </div>
+      </ElCard>
+
+      <ElCard class="w-[300px]">
+        <template #header>可拖拽示例</template>
         <p>配置 draggable 可开启拖拽功能</p>
-        <template #actions>
-          <Button type="primary" @click="openDragModal"> 打开弹窗 </Button>
-        </template>
-      </Card>
+        <div class="mt-4 border-t border-gray-200 pt-4">
+          <ElButton type="primary" @click="openDragModal"> 打开弹窗 </ElButton>
+        </div>
+      </ElCard>
 
-      <Card class="w-[300px]" title="动态配置示例">
+      <ElCard class="w-[300px]">
+        <template #header>
+          <div class="flex items-center justify-between">
+            <span>动态配置示例</span>
+            <ElButton link type="primary" @click="openDynamicModal">
+              打开弹窗
+            </ElButton>
+          </div>
+        </template>
         <p>通过 setState 动态调整弹窗数据</p>
-        <template #extra>
-          <Button type="link" @click="openDynamicModal">打开弹窗</Button>
-        </template>
-        <template #actions>
-          <Button type="primary" @click="handleUpdateTitle">
+        <div class="mt-4 border-t border-gray-200 pt-4">
+          <ElButton type="primary" @click="handleUpdateTitle">
             外部修改标题并打开
-          </Button>
-        </template>
-      </Card>
+          </ElButton>
+        </div>
+      </ElCard>
 
-      <Card class="w-[300px]" title="内外数据共享示例">
+      <ElCard class="w-[300px]">
+        <template #header>内外数据共享示例</template>
         <p>通过共享 sharedData 来进行数据交互</p>
-        <template #actions>
-          <Button type="primary" @click="openSharedModal">
+        <div class="mt-4 border-t border-gray-200 pt-4">
+          <ElButton type="primary" @click="openSharedModal">
             打开弹窗并传递数据
-          </Button>
-        </template>
-      </Card>
+          </ElButton>
+        </div>
+      </ElCard>
 
-      <Card class="w-[300px]" title="表单弹窗示例">
+      <ElCard class="w-[300px]">
+        <template #header>表单弹窗示例</template>
         <p>弹窗与表单结合</p>
-        <template #actions>
-          <Button type="primary" @click="openFormModal"> 打开表单弹窗 </Button>
-        </template>
-      </Card>
+        <div class="mt-4 border-t border-gray-200 pt-4">
+          <ElButton type="primary" @click="openFormModal">
+            打开表单弹窗
+          </ElButton>
+        </div>
+      </ElCard>
 
-      <Card class="w-[300px]" title="嵌套弹窗示例">
+      <ElCard class="w-[300px]">
+        <template #header>嵌套弹窗示例</template>
         <p>在已经打开的弹窗中再次打开弹窗</p>
-        <template #actions>
-          <Button type="primary" @click="openNestedModal">打开嵌套弹窗</Button>
-        </template>
-      </Card>
+        <div class="mt-4 border-t border-gray-200 pt-4">
+          <ElButton type="primary" @click="openNestedModal">
+            打开嵌套弹窗
+          </ElButton>
+        </div>
+      </ElCard>
 
-      <Card class="w-[300px]" title="遮罩模糊示例">
+      <ElCard class="w-[300px]">
+        <template #header>遮罩模糊示例</template>
         <p>遮罩层应用类似毛玻璃的模糊效果</p>
-        <template #actions>
-          <Button type="primary" @click="openBlurModal">打开弹窗</Button>
-        </template>
-      </Card>
-      <Card class="w-[300px]" title="轻量提示弹窗">
-        <template #extra>
-          <DocButton path="/components/common-ui/vben-alert" />
+        <div class="mt-4 border-t border-gray-200 pt-4">
+          <ElButton type="primary" @click="openBlurModal">打开弹窗</ElButton>
+        </div>
+      </ElCard>
+      <ElCard class="w-[300px]">
+        <template #header>
+          <div class="flex items-center justify-between">
+            <span>轻量提示弹窗</span>
+            <DocButton path="/components/common-ui/vben-alert" />
+          </div>
         </template>
         <p>通过快捷方法创建动态提示弹窗，适合一些轻量的提示和确认、输入等</p>
-        <template #actions>
-          <Button type="primary" @click="openAlert">Alert</Button>
-          <Button type="primary" @click="openConfirm">Confirm</Button>
-          <Button type="primary" @click="openPrompt">Prompt</Button>
-        </template>
-      </Card>
-    </Flex>
+        <div class="mt-4 flex gap-2 border-t border-gray-200 pt-4">
+          <ElButton type="primary" @click="openAlert">Alert</ElButton>
+          <ElButton type="primary" @click="openConfirm">Confirm</ElButton>
+          <ElButton type="primary" @click="openPrompt">Prompt</ElButton>
+        </div>
+      </ElCard>
+    </ElSpace>
   </Page>
 </template>

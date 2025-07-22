@@ -3,7 +3,7 @@ import type { VxeGridProps } from '#/adapter/vxe-table';
 
 import { Page } from '@vben/common-ui';
 
-import { Button, message } from 'ant-design-vue';
+import { ElButton, ElMessage } from 'element-plus';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { getExampleTableApi } from '#/api';
@@ -17,7 +17,7 @@ interface RowType {
   releaseDate: string;
 }
 
-const gridOptions: VxeGridProps<RowType> = {
+const gridOptions: VxeGridProps<ElRowType> = {
   columns: [
     { title: '序号', type: 'seq', width: 50 },
     { editRender: { name: 'input' }, field: 'category', title: 'Category' },
@@ -66,8 +66,8 @@ async function saveRowEvent(row: RowType) {
   gridApi.setLoading(true);
   setTimeout(() => {
     gridApi.setLoading(false);
-    message.success({
-      content: `保存成功！category=${row.category}`,
+    ElMessage.success({
+      message: `保存成功！category=${row.category}`,
     });
   }, 600);
 }
@@ -82,11 +82,11 @@ const cancelRowEvent = (_row: RowType) => {
     <Grid>
       <template #action="{ row }">
         <template v-if="hasEditStatus(row)">
-          <Button type="link" @click="saveRowEvent(row)">保存</Button>
-          <Button type="link" @click="cancelRowEvent(row)">取消</Button>
+          <ElButton link type="primary" @click="saveRowEvent(row)">保存</ElButton>
+          <ElButton link type="primary" @click="cancelRowEvent(row)">取消</ElButton>
         </template>
         <template v-else>
-          <Button type="link" @click="editRowEvent(row)">编辑</Button>
+          <ElButton link type="primary" @click="editRowEvent(row)">编辑</ElButton>
         </template>
       </template>
     </Grid>

@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import type { UploadFile } from 'ant-design-vue';
+import type { UploadFile } from 'element-plus';
 
 import { h, ref, toRaw } from 'vue';
 
 import { Page } from '@vben/common-ui';
 
 import { useDebounceFn } from '@vueuse/core';
-import { Button, Card, message, Spin, Tag } from 'ant-design-vue';
+import { ElButton, ElCard, ElMessage, ElTag } from 'element-plus';
 import dayjs from 'dayjs';
 
 import { useVbenForm, z } from '#/adapter/form';
@@ -47,7 +47,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
   // 提交函数
   handleSubmit: onSubmit,
   handleValuesChange(_values, fieldsChanged) {
-    message.info(`表单以下字段发生变化：${fieldsChanged.join('，')}`);
+    ElMessage.info(`表单以下字段发生变化：${fieldsChanged.join('，')}`);
   },
 
   // 垂直布局，label和input在不同行，值为vertical
@@ -115,7 +115,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
       label: '远程搜索',
       renderComponentContent: () => {
         return {
-          notFoundContent: fetching.value ? h(Spin) : undefined,
+          notFoundContent: fetching.value ? h('div', { class: 'el-loading-spinner' }, 'Loading...') : undefined,
         };
       },
       rules: 'selectRequired',
@@ -178,7 +178,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
         showSearch: true,
       },
       fieldName: 'options',
-      label: () => h(Tag, { color: 'warning' }, () => '😎自定义：'),
+      label: () => h(ElTag, { type: 'warning' }, () => '😎自定义：'),
     },
     {
       component: 'RadioGroup',
@@ -199,11 +199,14 @@ const [BaseForm, baseFormApi] = useVbenForm({
     },
     {
       component: 'Radio',
+      componentProps: {
+        value: 'radio-option', // Element Plus Radio 需要明确的 value
+      },
       fieldName: 'radio',
-      label: '',
+      label: '单选按钮',
       renderComponentContent: () => {
         return {
-          default: () => ['Radio'],
+          default: () => ['Radio 选项'],
         };
       },
     },
@@ -273,16 +276,26 @@ const [BaseForm, baseFormApi] = useVbenForm({
     },
     {
       component: 'DatePicker',
+      componentProps: {
+        placeholder: '请选择日期',
+      },
       fieldName: 'datePicker',
       label: '日期选择框',
     },
     {
       component: 'RangePicker',
+      componentProps: {
+        startPlaceholder: '开始日期',
+        endPlaceholder: '结束日期',
+      },
       fieldName: 'rangePicker',
       label: '范围选择器',
     },
     {
       component: 'TimePicker',
+      componentProps: {
+        placeholder: '请选择时间',
+      },
       fieldName: 'timePicker',
       label: '时间选择框',
     },
@@ -372,19 +385,19 @@ function onSubmit(values: Record<string, any>) {
   ].join(', ');
 
   if (failedFiles.length === 0) {
-    message.success({
-      content: `${$t('examples.form.upload-urls')}: ${msg}`,
+    ElMessage.success({
+      message: `${$t('examples.form.upload-urls')}: ${msg}`,
     });
   } else {
-    message.error({
-      content: `${$t('examples.form.upload-error')}: ${msg}`,
+    ElMessage.error({
+      message: `${$t('examples.form.upload-error')}: ${msg}`,
     });
     return;
   }
   // 如果需要可提交前替换为需要的urls
   values.files = doneFiles.map((file) => file.response?.url || file.url);
-  message.success({
-    content: `form values: ${JSON.stringify(values)}`,
+  ElMessage.success({
+    message: `form values: ${JSON.stringify(values)}`,
   });
 }
 
@@ -394,7 +407,7 @@ function handleSetFormValue() {
    */
   baseFormApi.setValues({
     checkboxGroup: ['1'],
-    datePicker: dayjs('2022-01-01'),
+    datePicker: dayjs('2022-01-01').toDate(), // 转换为 Date 对象
     files: [
       {
         name: 'example.png',
@@ -408,10 +421,10 @@ function handleSetFormValue() {
     options: '1',
     password: '2',
     radioGroup: '1',
-    rangePicker: [dayjs('2022-01-01'), dayjs('2022-01-02')],
+    rangePicker: [dayjs('2022-01-01').toDate(), dayjs('2022-01-02').toDate()], // 转换为 Date 对象数组
     rate: 3,
     switch: true,
-    timePicker: dayjs('2022-01-01 12:00:00'),
+    timePicker: dayjs('2022-01-01 12:00:00').toDate(), // 转换为 Date 对象
     treeSelect: 'leaf1',
     username: '1',
   });
@@ -437,11 +450,14 @@ function handleSetFormValue() {
     <template #extra>
       <DocButton class="mb-2" path="/components/common-ui/vben-form" />
     </template>
-    <Card title="基础示例">
-      <template #extra>
-        <Button type="primary" @click="handleSetFormValue">设置表单值</Button>
+    <ElCard>
+      <template #header>
+        <div class="flex items-center justify-between">
+          <span>基础示例</span>
+          <ElButton type="primary" @click="handleSetFormValue">设置表单值</ElButton>
+        </div>
       </template>
       <BaseForm />
-    </Card>
+    </ElCard>
   </Page>
 </template>
