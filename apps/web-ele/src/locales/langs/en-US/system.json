@@ -270,5 +270,91 @@
       "restore": "Restore",
       "dataView": "Data View"
     }
+  },
+  "chargingIncomeReport": {
+    "title": "Charging Income Report",
+    "description": "Display detailed data of charging pile income",
+    "time": "Time",
+    "date": "Date",
+    "month": "Month",
+    "sharp": "Sharp",
+    "peak": "Peak",
+    "flat": "Flat",
+    "valley": "Valley",
+    "deepValley": "Deep Valley",
+    "sharpElectricity": "Electricity(kW·h)",
+    "sharpCost": "Cost(¥)",
+    "peakElectricity": "Electricity(kW·h)",
+    "peakCost": "Cost(¥)",
+    "flatElectricity": "Electricity(kW·h)",
+    "flatCost": "Cost(¥)",
+    "valleyElectricity": "Electricity(kW·h)",
+    "valleyCost": "Cost(¥)",
+    "deepValleyElectricity": "Electricity(kW·h)",
+    "deepValleyCost": "Cost(¥)",
+    "chargingAmount": "Charging Amount(¥)",
+    "netProfit": "Net Profit(¥)",
+    "tabs": {
+      "monthly": "Monthly Report",
+      "yearly": "Yearly Report"
+    },
+    "form": {
+      "enterpriseSelect": "Enterprise Selection",
+      "enterprisePlaceholder": "Please select enterprise",
+      "enterpriseSearchPlaceholder": "Enter enterprise name to search",
+      "dateRange": "Date Range",
+      "monthRange": "Month Range",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "startMonth": "Start Month",
+      "endMonth": "End Month",
+      "separator": "to"
+    },
+    "footer": {
+      "total": "Total"
+    }
+  },
+  "windPowerIncomeReport": {
+    "title": "Wind Power Income Report",
+    "description": "Display detailed data of wind power generation income",
+    "time": "Time",
+    "date": "Date",
+    "month": "Month",
+    "sharp": "Sharp",
+    "peak": "Peak",
+    "flat": "Flat",
+    "valley": "Valley",
+    "deepValley": "Deep Valley",
+    "sharpElectricity": "Electricity(kW·h)",
+    "sharpIncome": "Income(¥)",
+    "peakElectricity": "Electricity(kW·h)",
+    "peakIncome": "Income(¥)",
+    "flatElectricity": "Electricity(kW·h)",
+    "flatIncome": "Income(¥)",
+    "valleyElectricity": "Electricity(kW·h)",
+    "valleyIncome": "Income(¥)",
+    "deepValleyElectricity": "Electricity(kW·h)",
+    "deepValleyIncome": "Income(¥)",
+    "totalAmount": "Total Generation(kW·h)",
+    "totalIncome": "Total Income(¥)",
+    "tabs": {
+      "monthly": "Monthly Report",
+      "yearly": "Yearly Report"
+    },
+    "form": {
+      "enterpriseSelect": "Enterprise Selection",
+      "enterprisePlaceholder": "Please select enterprise",
+      "enterpriseSearchPlaceholder": "Enter enterprise name to search",
+      "dateRange": "Date Range",
+      "monthRange": "Month Range",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "startMonth": "Start Month",
+      "endMonth": "End Month",
+      "separator": "to"
+    },
+    "footer": {
+      "total": "Total"
+    }
   }
 }

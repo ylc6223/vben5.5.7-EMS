@@ -195,6 +195,59 @@ export async function getPhotovoltaicIncomeReportApi(
   });
 }
 
+// 充电收益报表数据类型定义
+export interface ChargingIncomeReportData {
+  time: string; // 时间字段
+
+  // 尖时段
+  sharpElectricity: number; // 尖电量(kW·h)
+  sharpCost: number; // 尖成本(元)
+
+  // 峰时段
+  peakElectricity: number; // 峰电量(kW·h)
+  peakCost: number; // 峰成本(元)
+
+  // 平时段
+  flatElectricity: number; // 平电量(kW·h)
+  flatCost: number; // 平成本(元)
+
+  // 谷时段
+  valleyElectricity: number; // 谷电量(kW·h)
+  valleyCost: number; // 谷成本(元)
+
+  // 深谷时段
+  deepValleyElectricity: number; // 深谷电量(kW·h)
+  deepValleyCost: number; // 深谷成本(元)
+
+  // 汇总列
+  chargingAmount: number; // 充电金额(元)
+  netProfit: number; // 净收益(元) = 充电金额 - 总成本
+}
+
+// 充电收益报表查询参数
+export interface ChargingIncomeReportParams {
+  startTime?: string;
+  endTime?: string;
+  enterprise?: string;
+  reportType?: 'monthly' | 'yearly';
+}
+
+// 充电收益报表响应数据
+export interface ChargingIncomeReportResponse {
+  items: ChargingIncomeReportData[];
+}
+
+/**
+ * 获取充电收益报表数据
+ */
+export async function getChargingIncomeReportApi(
+  params?: ChargingIncomeReportParams,
+): Promise<ChargingIncomeReportResponse> {
+  return requestClient.get<ChargingIncomeReportResponse>('/income/charging-report', {
+    params,
+  });
+}
+
 /**
  * 获取储能收益报表数据
  */
@@ -202,6 +255,59 @@ export async function getEnergyStorageIncomeReportApi(
   params?: EnergyStorageIncomeReportParams,
 ): Promise<EnergyStorageIncomeReportResponse> {
   return requestClient.get<EnergyStorageIncomeReportResponse>('/income/energy-storage-report', {
+    params,
+  });
+}
+
+// 风电收益报表数据类型定义
+export interface WindPowerIncomeReportData {
+  time: string; // 时间字段
+
+  // 尖时段
+  sharpElectricity: number; // 尖电量(kW·h)
+  sharpIncome: number; // 尖收益(元)
+
+  // 峰时段
+  peakElectricity: number; // 峰电量(kW·h)
+  peakIncome: number; // 峰收益(元)
+
+  // 平时段
+  flatElectricity: number; // 平电量(kW·h)
+  flatIncome: number; // 平收益(元)
+
+  // 谷时段
+  valleyElectricity: number; // 谷电量(kW·h)
+  valleyIncome: number; // 谷收益(元)
+
+  // 深谷时段
+  deepValleyElectricity: number; // 深谷电量(kW·h)
+  deepValleyIncome: number; // 深谷收益(元)
+
+  // 汇总列
+  totalAmount: number; // 总发电量(kW·h)
+  totalIncome: number; // 总收益(元)
+}
+
+// 风电收益报表查询参数
+export interface WindPowerIncomeReportParams {
+  startTime?: string;
+  endTime?: string;
+  enterprise?: string;
+  reportType?: 'monthly' | 'yearly';
+}
+
+// 风电收益报表响应数据
+export interface WindPowerIncomeReportResponse {
+  items: WindPowerIncomeReportData[];
+}
+
+/**
+ * 获取风电收益报表数据
+ */
+export async function getWindPowerIncomeReportApi(
+  params?: WindPowerIncomeReportParams,
+): Promise<WindPowerIncomeReportResponse> {
+  return requestClient.get<WindPowerIncomeReportResponse>('/income/wind-power-report', {
     params,
   });
 }

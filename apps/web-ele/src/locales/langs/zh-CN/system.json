@@ -272,5 +272,91 @@
       "dataView": "数据视图"
     }
   },
+  "chargingIncomeReport": {
+    "title": "充电收益报表",
+    "description": "显示充电桩收益的详细数据",
+    "time": "时间",
+    "date": "日期",
+    "month": "月份",
+    "sharp": "尖",
+    "peak": "峰",
+    "flat": "平",
+    "valley": "谷",
+    "deepValley": "深谷",
+    "sharpElectricity": "电量(kW·h)",
+    "sharpCost": "成本(元)",
+    "peakElectricity": "电量(kW·h)",
+    "peakCost": "成本(元)",
+    "flatElectricity": "电量(kW·h)",
+    "flatCost": "成本(元)",
+    "valleyElectricity": "电量(kW·h)",
+    "valleyCost": "成本(元)",
+    "deepValleyElectricity": "电量(kW·h)",
+    "deepValleyCost": "成本(元)",
+    "chargingAmount": "充电金额(元)",
+    "netProfit": "净收益(元)",
+    "tabs": {
+      "monthly": "月报",
+      "yearly": "年报"
+    },
+    "form": {
+      "enterpriseSelect": "企业选择",
+      "enterprisePlaceholder": "请选择企业",
+      "enterpriseSearchPlaceholder": "输入企业名称搜索",
+      "dateRange": "日期范围",
+      "monthRange": "月份范围",
+      "startDate": "开始日期",
+      "endDate": "结束日期",
+      "startMonth": "开始月份",
+      "endMonth": "结束月份",
+      "separator": "至"
+    },
+    "footer": {
+      "total": "合计"
+    }
+  },
+  "windPowerIncomeReport": {
+    "title": "风电收益报表",
+    "description": "显示风电发电收益的详细数据",
+    "time": "时间",
+    "date": "日期",
+    "month": "月份",
+    "sharp": "尖",
+    "peak": "峰",
+    "flat": "平",
+    "valley": "谷",
+    "deepValley": "深谷",
+    "sharpElectricity": "电量(kW·h)",
+    "sharpIncome": "收益(元)",
+    "peakElectricity": "电量(kW·h)",
+    "peakIncome": "收益(元)",
+    "flatElectricity": "电量(kW·h)",
+    "flatIncome": "收益(元)",
+    "valleyElectricity": "电量(kW·h)",
+    "valleyIncome": "收益(元)",
+    "deepValleyElectricity": "电量(kW·h)",
+    "deepValleyIncome": "收益(元)",
+    "totalAmount": "总发电量(kW·h)",
+    "totalIncome": "总收益(元)",
+    "tabs": {
+      "monthly": "月报",
+      "yearly": "年报"
+    },
+    "form": {
+      "enterpriseSelect": "企业选择",
+      "enterprisePlaceholder": "请选择企业",
+      "enterpriseSearchPlaceholder": "输入企业名称搜索",
+      "dateRange": "日期范围",
+      "monthRange": "月份范围",
+      "startDate": "开始日期",
+      "endDate": "结束日期",
+      "startMonth": "开始月份",
+      "endMonth": "结束月份",
+      "separator": "至"
+    },
+    "footer": {
+      "total": "合计"
+    }
+  },
   "title": "系统管理"
 }
