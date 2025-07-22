@@ -109,5 +109,168 @@
       "total": "合计"
     }
   },
+  "incomeReport": {
+    "title": "企业收益报表",
+    "description": "显示企业各项收益的详细数据",
+    "time": "时间",
+    "date": "日期",
+    "month": "月份",
+    "chargingPile": "充电桩",
+    "electricityAmount": "电量(kW·h)",
+    "chargingPileIncome": "收益(元)",
+    "windPower": "风电",
+    "windConsumptionAmount": "消纳量(kW·h)",
+    "windGridConnectionAmount": "并网量(kW·h)",
+    "windIncomeAmount": "收益(元)",
+    "totalIncome": "合计",
+    "totalIncomeAmount": "收益(元)",
+    "storageIncome": "储能",
+    "chargeAmount": "充电量(kW·h)",
+    "dischargeAmount": "放电量(kW·h)",
+    "storageIncomeAmount": "收益(元)",
+    "solarIncome": "光伏",
+    "consumption": "消纳",
+    "consumptionAmount": "消纳量(kW·h)",
+    "gridConnection": "上网",
+    "gridConnectionAmount": "并网量(kW·h)",
+    "income": "收益(元)",
+    "total": "总",
+    "charge": "充电",
+    "discharge": "放电",
+    "timeSlots": {
+      "sharp": "尖",
+      "peak": "峰",
+      "flat": "平",
+      "valley": "谷",
+      "deepValley": "深谷",
+      "total": "总"
+    },
+    "refreshData": "刷新数据",
+    "tabs": {
+      "monthly": "月报",
+      "yearly": "年报"
+    },
+    "form": {
+      "enterpriseSelect": "企业选择",
+      "enterprisePlaceholder": "请选择企业",
+      "enterpriseSearchPlaceholder": "输入企业名称搜索",
+      "dateRange": "日期范围",
+      "monthRange": "月份范围",
+      "startDate": "开始日期",
+      "endDate": "结束日期",
+      "startMonth": "开始月份",
+      "endMonth": "结束月份",
+      "separator": "至"
+    },
+    "footer": {
+      "total": "合计"
+    }
+  },
+  "photovoltaicIncomeReport": {
+    "title": "光伏收益报表",
+    "description": "显示光伏发电系统收益的详细数据",
+    "time": "时间",
+    "date": "日期",
+    "month": "月份",
+    "consumption": "消纳",
+    "sharpAmount": "尖电量(kW·h)",
+    "sharpIncome": "尖收益(元)",
+    "peakAmount": "峰电量(kW·h)",
+    "peakIncome": "峰收益(元)",
+    "flatAmount": "平电量(kW·h)",
+    "flatIncome": "平收益(元)",
+    "valleyAmount": "谷电量(kW·h)",
+    "valleyIncome": "谷收益(元)",
+    "deepValleyAmount": "深谷电量(kW·h)",
+    "deepValleyIncome": "深谷收益(元)",
+    "consumptionTotalIncome": "总收益",
+    "grid": "上网",
+    "gridAmount": "电量(kW·h)",
+    "gridIncome": "收益(元)",
+    "total": "总",
+    "totalAmount": "电量(kW·h)",
+    "totalIncome": "收益(元)",
+    "tabs": {
+      "monthly": "月报",
+      "yearly": "年报"
+    },
+    "form": {
+      "enterpriseSelect": "企业选择",
+      "enterprisePlaceholder": "请选择企业",
+      "enterpriseSearchPlaceholder": "输入企业名称搜索",
+      "dateRange": "日期范围",
+      "monthRange": "月份范围",
+      "startDate": "开始日期",
+      "endDate": "结束日期",
+      "startMonth": "开始月份",
+      "endMonth": "结束月份",
+      "separator": "至"
+    },
+    "footer": {
+      "total": "合计"
+    }
+  },
+  "energyStorageIncomeReport": {
+    "title": "储能收益报表",
+    "description": "显示储能系统收益的详细数据",
+    "time": "时间",
+    "date": "日期",
+    "month": "月份",
+    "chargingElectricity": "充电电量(kW·h)",
+    "dischargingElectricity": "放电电量(kW·h)",
+    "chargingCost": "充电成本(元)",
+    "dischargingIncome": "放电收益(元)",
+    "totalNetIncome": "总净收益(元)",
+    "sharp": "尖",
+    "peak": "峰",
+    "flat": "平",
+    "valley": "谷",
+    "deepValley": "深谷",
+    "chargingPile": "充电桩",
+    "electricityAmount": "电量(kW·h)",
+    "chargingPileIncome": "收益(元)",
+    "windPower": "风电",
+    "windConsumptionAmount": "消纳量(kW·h)",
+    "windGridConnectionAmount": "并网量(kW·h)",
+    "windIncomeAmount": "收益(元)",
+    "totalIncome": "合计",
+    "totalIncomeAmount": "收益(元)",
+    "storageIncome": "储能",
+    "chargeAmount": "充电量(kW·h)",
+    "dischargeAmount": "放电量(kW·h)",
+    "storageIncomeAmount": "收益(元)",
+    "tabs": {
+      "monthly": "月报",
+      "yearly": "年报"
+    },
+    "form": {
+      "enterpriseSelect": "企业选择",
+      "enterprisePlaceholder": "请选择企业",
+      "enterpriseSearchPlaceholder": "输入企业名称搜索",
+      "dateRange": "日期范围",
+      "monthRange": "月份范围",
+      "startDate": "开始日期",
+      "endDate": "结束日期",
+      "startMonth": "开始月份",
+      "endMonth": "结束月份",
+      "separator": "至"
+    },
+    "footer": {
+      "total": "合计"
+    },
+    "chart": {
+      "totalChargingElectricity": "总充电量",
+      "totalDischargingElectricity": "总放电量",
+      "totalChargingCost": "总充电成本",
+      "totalDischargingIncome": "总放电收益",
+      "unitElectricity": "kWh",
+      "unitCurrency": "元",
+      "saveAsImage": "保存为图片",
+      "dataZoom": "区域缩放",
+      "dataZoomReset": "区域缩放还原",
+      "restore": "还原",
+      "dataView": "数据视图"
+    }
+  },
   "title": "系统管理"
 }

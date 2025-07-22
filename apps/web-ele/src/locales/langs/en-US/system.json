@@ -107,5 +107,168 @@
     "footer": {
       "total": "Total"
     }
+  },
+  "incomeReport": {
+    "title": "Enterprise Income Report",
+    "description": "Display detailed data of enterprise income from various sources",
+    "time": "Time",
+    "date": "Date",
+    "month": "Month",
+    "chargingPile": "Charging Pile",
+    "electricityAmount": "Electricity Amount(kW·h)",
+    "chargingPileIncome": "Income(¥)",
+    "windPower": "Wind Power",
+    "windConsumptionAmount": "Consumption Amount(kW·h)",
+    "windGridConnectionAmount": "Grid Connection Amount(kW·h)",
+    "windIncomeAmount": "Income(¥)",
+    "totalIncome": "Total",
+    "totalIncomeAmount": "Income(¥)",
+    "storageIncome": "Energy Storage",
+    "chargeAmount": "Charge Amount(kW·h)",
+    "dischargeAmount": "Discharge Amount(kW·h)",
+    "storageIncomeAmount": "Income(¥)",
+    "solarIncome": "Solar",
+    "consumption": "Consumption",
+    "consumptionAmount": "Consumption Amount(kW·h)",
+    "gridConnection": "Grid Connection",
+    "gridConnectionAmount": "Grid Connection Amount(kW·h)",
+    "income": "Income(¥)",
+    "total": "Total",
+    "charge": "Charge",
+    "discharge": "Discharge",
+    "timeSlots": {
+      "sharp": "Sharp",
+      "peak": "Peak",
+      "flat": "Flat",
+      "valley": "Valley",
+      "deepValley": "Deep Valley",
+      "total": "Total"
+    },
+    "refreshData": "Refresh Data",
+    "tabs": {
+      "monthly": "Monthly Report",
+      "yearly": "Yearly Report"
+    },
+    "form": {
+      "enterpriseSelect": "Enterprise Selection",
+      "enterprisePlaceholder": "Please select enterprise",
+      "enterpriseSearchPlaceholder": "Enter enterprise name to search",
+      "dateRange": "Date Range",
+      "monthRange": "Month Range",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "startMonth": "Start Month",
+      "endMonth": "End Month",
+      "separator": "to"
+    },
+    "footer": {
+      "total": "Total"
+    }
+  },
+  "photovoltaicIncomeReport": {
+    "title": "Photovoltaic Income Report",
+    "description": "Display detailed data of photovoltaic power generation system income",
+    "time": "Time",
+    "date": "Date",
+    "month": "Month",
+    "consumption": "Consumption",
+    "sharpAmount": "Sharp Amount(kWh)",
+    "sharpIncome": "Sharp Income(¥)",
+    "peakAmount": "Peak Amount(kWh)",
+    "peakIncome": "Peak Income(¥)",
+    "flatAmount": "Flat Amount(kWh)",
+    "flatIncome": "Flat Income(¥)",
+    "valleyAmount": "Valley Amount(kWh)",
+    "valleyIncome": "Valley Income(¥)",
+    "deepValleyAmount": "Deep Valley Amount(kWh)",
+    "deepValleyIncome": "Deep Valley Income(¥)",
+    "consumptionTotalIncome": "Total Income",
+    "grid": "Grid",
+    "gridAmount": "Amount(kWh)",
+    "gridIncome": "Income(¥)",
+    "total": "Total",
+    "totalAmount": "Amount(kWh)",
+    "totalIncome": "Income(¥)",
+    "tabs": {
+      "monthly": "Monthly Report",
+      "yearly": "Yearly Report"
+    },
+    "form": {
+      "enterpriseSelect": "Enterprise Selection",
+      "enterprisePlaceholder": "Please select enterprise",
+      "enterpriseSearchPlaceholder": "Enter enterprise name to search",
+      "dateRange": "Date Range",
+      "monthRange": "Month Range",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "startMonth": "Start Month",
+      "endMonth": "End Month",
+      "separator": "to"
+    },
+    "footer": {
+      "total": "Total"
+    }
+  },
+  "energyStorageIncomeReport": {
+    "title": "Energy Storage Income Report",
+    "description": "Display detailed data of energy storage system income",
+    "time": "Time",
+    "date": "Date",
+    "month": "Month",
+    "chargingElectricity": "Charging Electricity(kW·h)",
+    "dischargingElectricity": "Discharging Electricity(kW·h)",
+    "chargingCost": "Charging Cost(¥)",
+    "dischargingIncome": "Discharging Income(¥)",
+    "totalNetIncome": "Total Net Income(¥)",
+    "sharp": "Sharp",
+    "peak": "Peak",
+    "flat": "Flat",
+    "valley": "Valley",
+    "deepValley": "Deep Valley",
+    "chargingPile": "Charging Pile",
+    "electricityAmount": "Electricity Amount(kW·h)",
+    "chargingPileIncome": "Income(¥)",
+    "windPower": "Wind Power",
+    "windConsumptionAmount": "Consumption Amount(kW·h)",
+    "windGridConnectionAmount": "Grid Connection Amount(kW·h)",
+    "windIncomeAmount": "Income(¥)",
+    "totalIncome": "Total",
+    "totalIncomeAmount": "Income(¥)",
+    "storageIncome": "Energy Storage",
+    "chargeAmount": "Charge Amount(kW·h)",
+    "dischargeAmount": "Discharge Amount(kW·h)",
+    "storageIncomeAmount": "Income(¥)",
+    "tabs": {
+      "monthly": "Monthly Report",
+      "yearly": "Yearly Report"
+    },
+    "form": {
+      "enterpriseSelect": "Enterprise Selection",
+      "enterprisePlaceholder": "Please select enterprise",
+      "enterpriseSearchPlaceholder": "Enter enterprise name to search",
+      "dateRange": "Date Range",
+      "monthRange": "Month Range",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "startMonth": "Start Month",
+      "endMonth": "End Month",
+      "separator": "to"
+    },
+    "footer": {
+      "total": "Total"
+    },
+    "chart": {
+      "totalChargingElectricity": "Total Charging Electricity",
+      "totalDischargingElectricity": "Total Discharging Electricity",
+      "totalChargingCost": "Total Charging Cost",
+      "totalDischargingIncome": "Total Discharging Income",
+      "unitElectricity": "kWh",
+      "unitCurrency": "¥",
+      "saveAsImage": "Save as Image",
+      "dataZoom": "Data Zoom",
+      "dataZoomReset": "Reset Zoom",
+      "restore": "Restore",
+      "dataView": "Data View"
+    }
   }
 }

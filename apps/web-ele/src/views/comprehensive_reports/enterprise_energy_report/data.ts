@@ -52,9 +52,10 @@ export function useColumns(
       align: 'center',
       field: 'time',
       fixed: 'left',
-      title: reportType === 'monthly'
-        ? $t('system.energyReport.date')
-        : $t('system.energyReport.month'),
+      title:
+        reportType === 'monthly'
+          ? $t('system.energyReport.date')
+          : $t('system.energyReport.month'),
       width: 120,
     },
     // 负荷(kW·h)分组

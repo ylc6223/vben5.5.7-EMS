@@ -1,7 +1,117 @@
+<script setup lang="ts">
+import type { Company } from './companyService';
+
+import { ref } from 'vue';
+
+import { searchCompanies } from './companyService';
+import SearchSelector from './SearchSelector.vue';
+
+// 企业选择
+const selectedCompany = ref();
+const selectedCompanyInfo = ref<Company | null>(null);
+
+// 城市选择
+const selectedCity = ref();
+
+// 部门选择
+const selectedDepartment = ref();
+const departments = ref([
+  { label: '技术部', value: 'tech' },
+  { label: '市场部', value: 'marketing' },
+  { label: '销售部', value: 'sales' },
+  { label: '人事部', value: 'hr' },
+  { label: '财务部', value: 'finance' },
+]);
+
+// 错误处理
+const selectedError = ref();
+const errorMessage = ref('');
+
+// 自定义配置
+const selectedCustom = ref();
+const customConfig = ref({
+  remote: true,
+  debounceDelay: 300,
+  minSearchLength: 1,
+});
+
+// 城市数据源（本地模式）
+const loadCities = async () => {
+  await new Promise((resolve) => setTimeout(resolve, 500));
+  return [
+    { label: '北京', value: 'beijing' },
+    { label: '上海', value: 'shanghai' },
+    { label: '广州', value: 'guangzhou' },
+    { label: '深圳', value: 'shenzhen' },
+    { label: '杭州', value: 'hangzhou' },
+    { label: '南京', value: 'nanjing' },
+  ];
+};
+
+// 错误数据源
+const errorDataSource = async (keyword?: string) => {
+  await new Promise((resolve) => setTimeout(resolve, 300));
+  throw new Error('模拟网络错误');
+};
+
+// 自定义数据源
+const customDataSource = async (keyword?: string) => {
+  await new Promise((resolve) =>
+    setTimeout(resolve, customConfig.value.debounceDelay),
+  );
+
+  const data = [
+    { label: '自定义选项1', value: 'custom1' },
+    { label: '自定义选项2', value: 'custom2' },
+    { label: '自定义选项3', value: 'custom3' },
+    { label: '测试选项A', value: 'testA' },
+    { label: '测试选项B', value: 'testB' },
+  ];
+
+  if (!keyword) return data;
+
+  return data.filter((item) =>
+    item.label.toLowerCase().includes(keyword.toLowerCase()),
+  );
+};
+
+// 事件处理
+const handleCompanyChange = (value: any, option: Company) => {
+  selectedCompanyInfo.value = option;
+  console.log('选择企业:', option);
+};
+
+const handleCityChange = (value: any, option: any) => {
+  console.log('选择城市:', option);
+};
+
+const handleDepartmentChange = (value: any, option: any) => {
+  console.log('选择部门:', option);
+};
+
+const handleErrorChange = (value: any, option: any) => {
+  console.log('错误测试选择:', option);
+};
+
+const handleCustomChange = (value: any, option: any) => {
+  console.log('自定义配置选择:', option);
+};
+
+const handleLoadError = (error: any) => {
+  errorMessage.value = `加载失败: ${error.message}`;
+  console.error('数据加载错误:', error);
+
+  // 3秒后清除错误信息
+  setTimeout(() => {
+    errorMessage.value = '';
+  }, 3000);
+};
+</script>
+
 <template>
   <div class="demo-container">
     <h2>SearchSelector 高级功能演示</h2>
-    
+
     <div class="demo-section">
       <h3>1. 异步数据源 + 远程搜索</h3>
       <SearchSelector
@@ -76,13 +186,25 @@
       <h3>5. 自定义配置</h3>
       <div class="config-controls">
         <label>
-          <input type="checkbox" v-model="customConfig.remote"> 远程模式
+          <input type="checkbox" v-model="customConfig.remote" /> 远程模式
         </label>
         <label>
-          <input type="number" v-model="customConfig.debounceDelay" min="0" max="2000"> 防抖延迟(ms)
+          <input
+            type="number"
+            v-model="customConfig.debounceDelay"
+            min="0"
+            max="2000"
+          />
+          防抖延迟(ms)
         </label>
         <label>
-          <input type="number" v-model="customConfig.minSearchLength" min="0" max="5"> 最小搜索长度
+          <input
+            type="number"
+            v-model="customConfig.minSearchLength"
+            min="0"
+            max="5"
+          />
+          最小搜索长度
         </label>
       </div>
       <SearchSelector
@@ -98,111 +220,6 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { ref, computed } from 'vue'
-import SearchSelector from './SearchSelector.vue'
-import { searchCompanies, type Company } from '../services/companyService'
-
-// 企业选择
-const selectedCompany = ref()
-const selectedCompanyInfo = ref<Company | null>(null)
-
-// 城市选择
-const selectedCity = ref()
-
-// 部门选择
-const selectedDepartment = ref()
-const departments = ref([
-  { label: '技术部', value: 'tech' },
-  { label: '市场部', value: 'marketing' },
-  { label: '销售部', value: 'sales' },
-  { label: '人事部', value: 'hr' },
-  { label: '财务部', value: 'finance' }
-])
-
-// 错误处理
-const selectedError = ref()
-const errorMessage = ref('')
-
-// 自定义配置
-const selectedCustom = ref()
-const customConfig = ref({
-  remote: true,
-  debounceDelay: 300,
-  minSearchLength: 1
-})
-
-// 城市数据源（本地模式）
-const loadCities = async () => {
-  await new Promise(resolve => setTimeout(resolve, 500))
-  return [
-    { label: '北京', value: 'beijing' },
-    { label: '上海', value: 'shanghai' },
-    { label: '广州', value: 'guangzhou' },
-    { label: '深圳', value: 'shenzhen' },
-    { label: '杭州', value: 'hangzhou' },
-    { label: '南京', value: 'nanjing' }
-  ]
-}
-
-// 错误数据源
-const errorDataSource = async (keyword?: string) => {
-  await new Promise(resolve => setTimeout(resolve, 300))
-  throw new Error('模拟网络错误')
-}
-
-// 自定义数据源
-const customDataSource = async (keyword?: string) => {
-  await new Promise(resolve => setTimeout(resolve, customConfig.value.debounceDelay))
-  
-  const data = [
-    { label: '自定义选项1', value: 'custom1' },
-    { label: '自定义选项2', value: 'custom2' },
-    { label: '自定义选项3', value: 'custom3' },
-    { label: '测试选项A', value: 'testA' },
-    { label: '测试选项B', value: 'testB' }
-  ]
-  
-  if (!keyword) return data
-  
-  return data.filter(item => 
-    item.label.toLowerCase().includes(keyword.toLowerCase())
-  )
-}
-
-// 事件处理
-const handleCompanyChange = (value: any, option: Company) => {
-  selectedCompanyInfo.value = option
-  console.log('选择企业:', option)
-}
-
-const handleCityChange = (value: any, option: any) => {
-  console.log('选择城市:', option)
-}
-
-const handleDepartmentChange = (value: any, option: any) => {
-  console.log('选择部门:', option)
-}
-
-const handleErrorChange = (value: any, option: any) => {
-  console.log('错误测试选择:', option)
-}
-
-const handleCustomChange = (value: any, option: any) => {
-  console.log('自定义配置选择:', option)
-}
-
-const handleLoadError = (error: any) => {
-  errorMessage.value = `加载失败: ${error.message}`
-  console.error('数据加载错误:', error)
-  
-  // 3秒后清除错误信息
-  setTimeout(() => {
-    errorMessage.value = ''
-  }, 3000)
-}
-</script>
 
 <style scoped>
 .demo-container {
@@ -281,7 +298,7 @@ const handleLoadError = (error: any) => {
   font-size: 14px;
 }
 
-.config-controls input[type="number"] {
+.config-controls input[type='number'] {
   width: 80px;
   padding: 4px 8px;
   border: 1px solid #dcdfe6;
