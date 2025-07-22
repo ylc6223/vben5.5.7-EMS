@@ -1,0 +1,1 @@
+import{_ as r}from"./bootstrap-CRMPbCAg.js";import{h as n,j as o,l as t}from"../jse/index-index-BLEn1CMS.js";const s={};function a(c,e){return o(),n("div",null,e[0]||(e[0]=[t("h1",null,"驾驶舱",-1)]))}const _=r(s,[["render",a]]);export{_ as default};
