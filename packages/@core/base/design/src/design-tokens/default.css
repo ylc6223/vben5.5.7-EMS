@@ -380,3 +380,27 @@
   --input: 220 13% 91%;
   --ring: 224 71.4% 4.1%;
 }
+
+[data-theme='tech-blue'] {
+  /* --background: 0 0% 100%; */
+  --foreground: 178 100% 17%;
+  --card: 0 0% 100%;
+  --card-foreground: 178 100% 17%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 178 100% 17%;
+  --primary-foreground: 0 0% 98%;
+  --secondary: 178 50% 92%;
+  --secondary-foreground: 178 100% 17%;
+  --muted: 178 30% 94%;
+  --muted-foreground: 178 50% 45%;
+  --accent: 178 40% 88%;
+  --accent-foreground: 178 100% 17%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 178 30% 85%;
+  --input: 178 35% 90%;
+  --ring: 178 78% 64%;
+  --sidebar: 178 78% 64%;
+  --sidebar-deep: 178 78% 64%;
+  --header: 0 0% 100%;
+}

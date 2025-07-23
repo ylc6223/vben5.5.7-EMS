@@ -77,6 +77,9 @@ function typeView(name: BuiltinThemeType) {
     case 'slate': {
       return $t('preferences.theme.builtin.slate');
     }
+    case 'tech-blue': {
+      return $t('preferences.theme.builtin.techBlue');
+    }
     case 'violet': {
       return $t('preferences.theme.builtin.violet');
     }

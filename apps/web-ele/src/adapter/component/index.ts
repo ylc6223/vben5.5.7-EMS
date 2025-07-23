@@ -311,14 +311,19 @@ async function initComponentAdapter() {
             toggleMenu: () => selectRef.value?.toggleMenu?.(),
           });
 
-          return () => h(ElSelectV2, {
-            ...props,
-            ...attrs,
-            ref: selectRef
-          }, slots);
+          return () =>
+            h(
+              ElSelectV2,
+              {
+                ...props,
+                ...attrs,
+                ref: selectRef,
+              },
+              slots,
+            );
         },
       }),
-      'select'
+      'select',
     ),
     Space: ElSpace,
     Switch: ElSwitch,

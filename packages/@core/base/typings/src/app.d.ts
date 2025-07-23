@@ -32,6 +32,7 @@ type BuiltinThemeType =
   | 'sky-blue'
   | 'slate'
   | 'stone'
+  | 'tech-blue'
   | 'violet'
   | 'yellow'
   | 'zinc'
