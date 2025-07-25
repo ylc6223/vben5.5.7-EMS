@@ -660,26 +660,26 @@ gridOptions: {
 
   // 表头背景色设置
   .vxe-header--column {
-    background-color: hsl(var(--primary) / 0.15) !important;
-    border-right: 1px solid white;
-    border-bottom: 1px solid white;
+    //background-color: hsl(var(--primary) / 0.15) !important;
+    border-right: 1px solid var(--vxe-header-border-color);
+    border-bottom: 1px solid var(--vxe-header-border-color);
     font-weight: 600;
   }
 
   // 深色模式下的表头背景色
   .dark .vxe-header--column {
-    background-color: hsl(var(--accent) / 1) !important;
+    background-color: hsl(var(--accent-foreground)) !important;
   }
 
   // 数据行边框使用设计系统颜色
   .vxe-body--column {
-    border-right: 1px solid hsl(var(--border));
-    border-bottom: 1px solid hsl(var(--border));
+    border-right: 1px solid var(--vxe-ui-table-border-color);
+    border-bottom: 1px solid var(--vxe-ui-table-border-color);
   }
 
   // 悬停效果
   .vxe-body--row:hover {
-    background-color: hsl(var(--accent) / 0.1);
+    //background-color: hsl(var(--accent) / 0.1);
   }
 
   // 移除最后一列的右边框

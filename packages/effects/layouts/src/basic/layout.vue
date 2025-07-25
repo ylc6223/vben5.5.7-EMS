@@ -213,6 +213,7 @@ const headerSlots = computed(() => {
     :tabbar-enable="preferences.tabbar.enable"
     :tabbar-height="preferences.tabbar.height"
     :z-index="preferences.app.zIndex"
+    :preferences="preferences"
     @side-mouse-leave="handleSideMouseLeave"
     @toggle-sidebar="toggleSidebar"
     @update:sidebar-collapse="
@@ -241,6 +242,8 @@ const headerSlots = computed(() => {
         :text="preferences.app.name"
         :theme="showHeaderNav ? headerTheme : theme"
         @click="clickLogo"
+        :is-block="preferences.logo.isBlock"
+        :logo-size="preferences.logo.logoSize"
       >
         <template v-if="$slots['logo-text']" #text>
           <slot name="logo-text"></slot>
@@ -249,10 +252,13 @@ const headerSlots = computed(() => {
     </template>
     <!-- 头部区域 -->
     <template #header>
+      <!--  这里是右边的头部 不包含左边开关，容易搞混LayoutHeader  -->
       <LayoutHeader
         :theme="theme"
+        :use-custom-header="preferences.header.useCustomHeader"
         @clear-preferences-and-logout="clearPreferencesAndLogout"
       >
+        <!-- 面包屑 -->
         <template
           v-if="!showHeaderNav && preferences.breadcrumb.enable"
           #breadcrumb
@@ -264,6 +270,7 @@ const headerSlots = computed(() => {
             :type="preferences.breadcrumb.styleType"
           />
         </template>
+        <!-- 菜单 -->
         <template v-if="showHeaderNav" #menu>
           <LayoutMenu
             :default-active="headerActive"
@@ -275,6 +282,7 @@ const headerSlots = computed(() => {
             @select="handleMenuSelect"
           />
         </template>
+        <!-- 下拉菜单 -->
         <template #user-dropdown>
           <slot name="user-dropdown"></slot>
         </template>

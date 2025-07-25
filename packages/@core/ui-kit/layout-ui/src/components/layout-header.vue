@@ -62,6 +62,7 @@ const logoStyle = computed((): CSSProperties => {
 
 <template>
   <header
+    v-if="!$attrs.preferences.header.useCustomHeader"
     :class="theme"
     :style="style"
     class="border-border bg-header top-0 flex w-full flex-[0_0_auto] items-center border-b pl-2 transition-[margin-top] duration-200"
@@ -74,4 +75,32 @@ const logoStyle = computed((): CSSProperties => {
 
     <slot></slot>
   </header>
+  <!-- 使用自定义header -->
+  <header
+    v-else
+    :class="theme"
+    :style="style"
+    class="border-border bg-header top-0 flex w-full flex-[0_0_auto] flex-col border-b transition-[margin-top] duration-200 dark:[html[data-theme='tech-blue']_&]:border-[hsl(var(--border-bottom-color))]"
+  >
+    <div class="navbar flex items-center justify-between">
+      <div class="flex items-center">
+        <slot name="toggle-button"> </slot>
+        <slot name="title">
+          <h1
+            class="text-foreground float-left overflow-hidden text-ellipsis whitespace-nowrap text-[26px] font-bold leading-[50px]"
+          >
+            {{ $attrs.preferences.app.headerTitle }}
+          </h1>
+        </slot>
+      </div>
+      <div class="flex">
+        <slot></slot>
+      </div>
+    </div>
+  </header>
 </template>
+<style lang="scss" scoped>
+header {
+  --border-bottom-color: var(--header-border);
+}
+</style>

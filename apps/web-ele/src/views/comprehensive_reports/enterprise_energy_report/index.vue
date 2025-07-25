@@ -15,8 +15,8 @@ import dayjs from 'dayjs';
 import { ElTabPane, ElTabs } from 'element-plus';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-import { getEnterpriseEnergyReportApi } from '#/api/energy/report';
 import { searchEnterprisesApi } from '#/api/energy/enterprise';
+import { getEnterpriseEnergyReportApi } from '#/api/energy/report';
 
 import { useColumns } from './data';
 
@@ -101,7 +101,9 @@ function createFormOptions(reportType: ReportType): VbenFormProps {
         componentProps: {
           class: 'w-full sm:max-w-xs md:max-w-sm lg:max-w-md xl:max-w-sm',
           placeholder: $t('system.energyReport.form.enterprisePlaceholder'),
-          searchPlaceholder: $t('system.energyReport.form.enterpriseSearchPlaceholder'),
+          searchPlaceholder: $t(
+            'system.energyReport.form.enterpriseSearchPlaceholder',
+          ),
           buttonType: 'default',
           buttonSize: 'default',
           placement: 'bottom-start',
@@ -111,7 +113,10 @@ function createFormOptions(reportType: ReportType): VbenFormProps {
           // 使用异步数据源获取企业列表
           dataSource: async (keyword?: string) => {
             try {
-              console.log('SearchSelector dataSource called with keyword:', keyword);
+              console.log(
+                'SearchSelector dataSource called with keyword:',
+                keyword,
+              );
               // 调用企业搜索API，当 keyword 为空或 undefined 时，获取所有企业列表
               const result = await searchEnterprisesApi(keyword || undefined);
               console.log('Enterprise list loaded:', result.length, 'items');
@@ -129,17 +134,21 @@ function createFormOptions(reportType: ReportType): VbenFormProps {
 
               // 如果有搜索关键词，进行过滤
               if (keyword && keyword.trim()) {
-                return mockData.filter(item =>
-                  item.label.toLowerCase().includes(keyword.toLowerCase())
+                return mockData.filter((item) =>
+                  item.label.toLowerCase().includes(keyword.toLowerCase()),
                 );
               }
 
-              console.log('Using fallback enterprise data:', mockData.length, 'items');
+              console.log(
+                'Using fallback enterprise data:',
+                mockData.length,
+                'items',
+              );
               return mockData;
             }
           },
           // 监听企业选择变化
-          onChange: (value: string | number, option: any) => {
+          onChange: (value: number | string, option: any) => {
             console.log('Enterprise selected:', value, option);
           },
         },
@@ -154,11 +163,17 @@ function createFormOptions(reportType: ReportType): VbenFormProps {
               dayjs().endOf('month'),
             ],
         fieldName: 'time',
-        label: isMonthly ? $t('system.energyReport.form.dateRange') : $t('system.energyReport.form.monthRange'),
+        label: isMonthly
+          ? $t('system.energyReport.form.dateRange')
+          : $t('system.energyReport.form.monthRange'),
         componentProps: {
           class: 'w-full',
-          startPlaceholder: isMonthly ? $t('system.energyReport.form.startDate') : $t('system.energyReport.form.startMonth'),
-          endPlaceholder: isMonthly ? $t('system.energyReport.form.endDate') : $t('system.energyReport.form.endMonth'),
+          startPlaceholder: isMonthly
+            ? $t('system.energyReport.form.startDate')
+            : $t('system.energyReport.form.startMonth'),
+          endPlaceholder: isMonthly
+            ? $t('system.energyReport.form.endDate')
+            : $t('system.energyReport.form.endMonth'),
           rangeSeparator: $t('system.energyReport.form.separator'),
           format: isMonthly ? 'YYYY-MM-DD' : 'YYYY-MM',
           valueFormat: isMonthly ? 'YYYY-MM-DD' : 'YYYY-MM',
@@ -364,7 +379,12 @@ watch(activeTab, (newTab) => {
 </script>
 <template>
   <Page auto-content-height>
-    <ElTabs v-model="activeTab" tab-position="left" class="energy-report-tabs">
+    <ElTabs
+      v-model="activeTab"
+      type="border-card"
+      tab-position="left"
+      class="energy-report-tabs"
+    >
       <ElTabPane :label="$t('system.energyReport.tabs.monthly')" name="monthly">
         <MonthlyGrid
           :table-title="`${$t('system.energyReport.title')} - ${$t('system.energyReport.tabs.monthly')}`"
@@ -452,16 +472,16 @@ watch(activeTab, (newTab) => {
 
   // 表头样式 - 恢复原来的设置并遵循设计系统
   .vxe-header--column {
-    background-color: hsl(var(--primary) / 0.15) !important;
-    border-right: 1px solid white;
-    border-bottom: 1px solid white;
+    //background-color: hsl(var(--primary) / 0.15) !important;
+    border-right: 1px solid var(--vxe-ui-table-header-border-color);
+    border-bottom: 1px solid var(--vxe-ui-table-header-border-color);
     font-weight: 600;
     color: inherit !important;
   }
 
   // 深色模式下的表头背景色
   .dark .vxe-header--column {
-    background-color: hsl(var(--accent) / 1) !important;
+    background-color: hsl(var(--accent-foreground)) !important;
   }
 
   // 覆盖VXE Table的默认表头字体颜色，让其遵循设计系统
@@ -475,20 +495,20 @@ watch(activeTab, (newTab) => {
 
   // 数据行边框使用设计系统颜色
   .vxe-body--column {
-    border-right: 1px solid hsl(var(--border));
-    border-bottom: 1px solid hsl(var(--border));
+    border-right: 1px solid var(--vxe-ui-table-border-color);
+    border-bottom: 1px solid var(--vxe-ui-table-border-color);
   }
 
   // 悬停效果
   .vxe-body--row:hover {
-    background-color: hsl(var(--accent) / 0.1);
+    //background-color: hsl(var(--accent) / 0.1);
   }
 
   // 表尾合计行样式
   .vxe-footer--column {
     background-color: hsl(var(--muted));
     font-weight: 600;
-    border-right: 1px solid hsl(var(--border));
+    border-right: 1px solid var(--vxe-ui-table-border-color);
   }
 
   // 只对真正的最后一列（表格最右侧）移除右边框
@@ -499,7 +519,7 @@ watch(activeTab, (newTab) => {
 
   // 确保所有表头列都有白色右边框，除非是表格的最后一列
   .vxe-header--column {
-    border-right: 1px solid white !important;
+    //border-right: 1px solid white !important;
   }
 
   // 只对表格最右侧的列移除右边框

@@ -163,7 +163,8 @@ const contentStyle = computed((): CSSProperties => {
 
   return {
     height: `calc(100% - ${headerHeight + collapseHeight}px)`,
-    paddingTop: '8px',
+    // paddingTop: '8px',
+    paddingTop: '0px',
     ...contentWidthStyle.value,
   };
 });

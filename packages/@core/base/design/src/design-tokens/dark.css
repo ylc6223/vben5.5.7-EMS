@@ -59,6 +59,8 @@
   /* 颜色次要 */
   --secondary: 240 5% 17%;
   --secondary-foreground: 0 0% 98%;
+  --secondary-hover: 240 5% 17% / 15%;
+  --secondary-subtle: 240 5% 17% / 10%;
 
   /* Used for accents such as hover effects on <DropdownMenuItem>, <SelectItem>...etc */
   --accent: 216 5% 19%;
@@ -447,26 +449,41 @@
 
 .dark[data-theme='tech-blue'],
 [data-theme='tech-blue'] .dark {
-  --background: 210 100% 8%;
-  --background-deep: 210 100% 6%;
-  --foreground: 0 0% 95%;
-  --card: 210 100% 12%;
-  --card-foreground: 0 0% 95%;
-  --popover: 210 100% 14%;
-  --popover-foreground: 0 0% 98%;
-  --primary-foreground: 0 0% 98%;
-  --secondary: 210 100% 18%;
+  /* Default background color of <body />...etc */
+  --background: 228.65 57.81% 25.1%;
+
+  /* 主体区域背景色 */
+  --background-deep: 228.65 57.81% 25.1%;
+
+  /* Background color for <Card /> */
+  --card: 230 60% 33.33%;
+
+  /* --card: 222.2 84% 4.9%; */
+  --card-foreground: 210 40% 98%;
+
+  --primary: 228.24 64.56% 15.49%; /*菜单主色*/
+  --foreground: 0 0 100%; /*字体色*/
+  --secondary: 210 100% 18%; /*辅助色 背景色*/
   --secondary-foreground: 0 0% 98%;
-  --muted: 210 100% 20%;
-  --muted-foreground: 210 50% 65%;
-  --accent: 210 100% 22%;
-  --accent-foreground: 0 0% 98%;
-  --destructive: 359.21 68.47% 56.47%;
-  --destructive-foreground: 0 0% 98%;
-  --border: 210 100% 25%;
-  --input: 0deg 0% 100% / 10%;
-  --ring: 207 85% 45%;
-  --sidebar: 207 85% 45%;
-  --sidebar-deep: 207 85% 45%;
-  --header: 210 100% 12%;
+  --accent: 228.65 57.81% 25.1%; /*菜单高亮*/
+  /*--muted: 170 40% 92%;*/
+  /*--muted-foreground: 170 50% 40%;*/
+  /*--accent: 170 50% 80%;*/
+  --accent-foreground: 222.92 52.42% 51.37%;
+  /*--destructive: 0 84.2% 60.2%;*/
+  /*--destructive-foreground: 0 0% 98%;*/
+  /*--border: 170 40% 80%;*/
+  /*--input: 170 30% 88%;*/
+  /*--ring: 170 100% 23.7%;*/
+  --sidebar: 228.24 64.56% 15.49%;
+  --header: 228.65 57.81% 25.1%; /*页面顶部背景色 跟标签页一个色*/
+  /*227.77 52.82% 38.24%*/ /*tab标签页未选中背景色*/
+  --tab-deactive-bg: 227.77 52.82% 38.24%;
+  --header-border: 222.92 52.42% 51.37%; /*tabs下边框背景色*/
+  --vxe-row-hover-background-color: 227.79 52.56% 42.16%;
+  /*230 60% 33.33%)*/ /*卡片背景色*/
+  --vxe-header-border-color: 220 83.25% 62.55%;
+  /*--sidebar-deep: 170 100% 23.7%;*/
+  /*--header: 0 0% 100%;*/
+  --tech-light-white: 0 0% 100%;
 }

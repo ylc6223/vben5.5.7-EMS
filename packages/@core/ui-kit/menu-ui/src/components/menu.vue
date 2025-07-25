@@ -387,7 +387,7 @@ $namespace: vben;
   height: var(--menu-item-height);
   padding: var(--menu-item-padding-y) var(--menu-item-padding-x);
   margin: 0 var(--menu-item-margin-x) var(--menu-item-margin-y)
-    var(--menu-item-margin-x);
+  var(--menu-item-margin-x);
   font-size: var(--menu-font-size);
   color: var(--menu-item-color);
   white-space: nowrap;
@@ -450,16 +450,17 @@ $namespace: vben;
   --menu-item-padding-x: 12px;
   --menu-item-popup-padding-y: 20px;
   --menu-item-popup-padding-x: 12px;
-  --menu-item-margin-y: 2px;
+  //--menu-item-margin-y: 2px;
+  --menu-item-margin-y: 0px;
   --menu-item-margin-x: 0px;
   --menu-item-collapse-padding-y: 23.5px;
   --menu-item-collapse-padding-x: 0px;
   --menu-item-collapse-margin-y: 4px;
   --menu-item-collapse-margin-x: 0px;
   --menu-item-radius: 0px;
-  --menu-item-indent: 16px;
+  --menu-item-indent: 24px;/*加菜单项间距*/
   --menu-font-size: 14px;
-
+  /*默认配置不要动*/
   &.is-dark {
     --menu-background-color: hsl(var(--menu));
     // --menu-submenu-opened-background-color: hsl(var(--menu-opened-dark));
@@ -475,7 +476,7 @@ $namespace: vben;
     --menu-submenu-active-background-color: transparent;
     --menu-submenu-background-color: var(--menu-background-color);
   }
-
+  /*默认配置不要动*/
   &.is-light {
     --menu-background-color: hsl(var(--menu));
     // --menu-submenu-opened-background-color: hsl(var(--menu-opened));
@@ -493,9 +494,9 @@ $namespace: vben;
   }
 
   &.is-rounded {
-    --menu-item-margin-x: 8px;
+    //--menu-item-margin-x: 8px;
     --menu-item-collapse-margin-x: 6px;
-    --menu-item-radius: 8px;
+    //--menu-item-radius: 8px;
   }
 
   &.is-horizontal:not(.is-rounded) {
@@ -818,7 +819,8 @@ $namespace: vben;
   &__icon-arrow {
     position: absolute;
     top: 50%;
-    right: 10px;
+    //right: 10px;
+    right: calc(var(--menu-item-indent) / 1);
     width: inherit;
     margin-top: -8px;
     margin-right: 0;
@@ -867,6 +869,117 @@ $namespace: vben;
     // svg {
     //   fill: var(--menu-submenu-hover-color);
     // }
+  }
+}
+
+// 科技蓝主题亮色特殊处理 - 使用白色文字和辅助色背景
+:root[data-theme='tech-blue'] {
+  .#{$namespace}-menu {
+    &.is-light {
+      //字体颜色
+      --menu-item-color: hsl(var(--tech-light-white));
+      --menu-item-hover-color: var(--menu-item-color);
+      --menu-item-active-color: hsl(var(--menu-item-color));
+      //背景色
+      --menu-item-hover-background-color: hsl(var(--secondary-hover));
+      --menu-item-active-background-color: hsl(var(--secondary-hover));
+      //菜单子项字体颜色和背景色
+      --menu-submenu-hover-color: hsl(var(--accent-foreground));
+      --menu-submenu-active-color: hsl(var(--accent-foreground));
+
+      --menu-submenu-hover-background-color: hsl(var(--secondary-subtle));
+      --menu-submenu-active-background-color: hsl(var(--secondary-subtle));
+      --menu-submenu-background-color: var(--menu-background-color);
+
+      .#{$namespace}-menu-item:not(.is-active):hover {
+        //color: var(--menu-item-hover-color);
+        background: hsl(var(--secondary-hover)) !important;
+      }
+      // 子菜单展开且激活状态下的背景色
+      .#{$namespace}-sub-menu.is-opened.is-active .#{$namespace}-menu {
+      }
+    }
+  }
+}
+/*科技蓝深色模式*/
+:root[data-theme='tech-blue'].dark {
+  .#{$namespace}-menu {
+    --menu-submenu-active-background-color: hsl(var(--accent));
+    // 垂直菜单
+    &.is-vertical {
+      &:not(.#{$namespace}-menu.is-collapse) {
+        & .#{$namespace}-menu-item-group__title {
+        }
+
+        & > .#{$namespace}-sub-menu {
+          & > .#{$namespace}-menu {
+            & > .#{$namespace}-menu-item {
+            }
+            /*二级菜单*/
+            & > .#{$namespace}-menu-item:not(.is-active) {
+              background-color: hsl(230deg 60% 33.33%) !important;
+            }
+            & > .#{$namespace}-menu-item.is-active {
+              background-color: hsl(220deg 69.23% 56.67%);
+            }
+            & > .#{$namespace}-menu-item:not(.is-active):hover {
+              background-color: hsl(220deg 69.23% 56.67%) !important;
+            }
+          }
+
+          & > .#{$namespace}-sub-menu-content {
+          }
+        }
+        & > .#{$namespace}-menu-item {
+        }
+      }
+      /*带有三级菜单的二级菜单*/
+      & > .#{$namespace}-sub-menu {
+        & > .#{$namespace}-menu {
+          & > .#{$namespace}-menu-item {
+          }
+          /*二级菜单*/
+          & > .#{$namespace}-menu-item:not(.is-active) {
+            background-color: hsl(230deg 60% 33.33%) !important;
+          }
+          & > .#{$namespace}-menu-item.is-active {
+            background-color: hsl(220deg 69.23% 56.67%);
+          }
+          & > .#{$namespace}-menu-item:not(.is-active):hover {
+            background-color: hsl(220deg 69.23% 56.67%) !important;
+          }
+          & > .#{$namespace}-sub-menu {
+            & > .#{$namespace}-sub-menu-content {
+              background-color: hsl(230deg 60% 33.33%) !important;
+            }
+          }
+        }
+
+        & > .#{$namespace}-sub-menu-content {
+        }
+      }
+    }
+
+    &.is-horizontal {
+      & > .#{$namespace}-menu-item.is-active {
+        color: var(--foreground);
+      }
+    }
+
+    .#{$namespace}-menu-item.is-active {
+      color: var(--foreground);
+    }
+    .#{$namespace}-menu-item:not(.is-active):hover {
+      color: var(--foreground);
+    }
+  }
+  .#{$namespace}-sub-menu.is-active
+    div[data-state='open']
+    > .#{$namespace}-sub-menu-content,
+  .#{$namespace}-sub-menu.is-active > .#{$namespace}-sub-menu-content {
+    color: var(--menu-submenu-active-color);
+    background: var(--menu-submenu-active-background-color);
+    fill: var(--menu-submenu-active-color);
   }
 }
 </style>

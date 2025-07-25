@@ -343,7 +343,7 @@ watch(activeTab, (newTab) => {
 </script>
 <template>
   <Page auto-content-height>
-    <ElTabs v-model="activeTab" tab-position="left" class="wind-power-income-report-tabs">
+    <ElTabs v-model="activeTab" type="border-card" tab-position="left" class="wind-power-income-report-tabs">
       <ElTabPane :label="$t('system.windPowerIncomeReport.tabs.monthly')" name="monthly">
         <MonthlyGrid
           :table-title="`${$t('system.windPowerIncomeReport.title')} - ${$t('system.windPowerIncomeReport.tabs.monthly')}`"
@@ -435,16 +435,16 @@ watch(activeTab, (newTab) => {
 
   // 表头样式 - 恢复原来的设置并遵循设计系统
   .vxe-header--column {
-    background-color: hsl(var(--primary) / 0.15) !important;
-    border-right: 1px solid white;
-    border-bottom: 1px solid white;
+    //background-color: hsl(var(--primary) / 0.15) !important;
+    border-right: 1px solid var(--vxe-header-border-color);
+    border-bottom: 1px solid var(--vxe-header-border-color);
     font-weight: 600;
     color: inherit !important;
   }
 
   // 深色模式下的表头背景色
   .dark .vxe-header--column {
-    background-color: hsl(var(--accent) / 1) !important;
+    background-color: hsl(var(--accent-foreground)) !important;
   }
 
   // 覆盖VXE Table的默认表头字体颜色，让其遵循设计系统
@@ -458,13 +458,13 @@ watch(activeTab, (newTab) => {
 
   // 数据行边框使用设计系统颜色
   .vxe-body--column {
-    border-right: 1px solid hsl(var(--border));
-    border-bottom: 1px solid hsl(var(--border));
+    border-right: 1px solid var(--vxe-ui-table-border-color);
+    border-bottom: 1px solid var(--vxe-ui-table-border-color);
   }
 
   // 悬停效果
   .vxe-body--row:hover {
-    background-color: hsl(var(--accent) / 0.1);
+    //background-color: hsl(var(--accent) / 0.1);
   }
 
   // 表格容器自适应
@@ -497,7 +497,7 @@ watch(activeTab, (newTab) => {
 
   // 确保所有表头列都有白色右边框，除非是表格的最后一列
   .vxe-header--column {
-    border-right: 1px solid white !important;
+    //border-right: 1px solid white !important;
   }
 
   // 只对表格最右侧的列移除右边框

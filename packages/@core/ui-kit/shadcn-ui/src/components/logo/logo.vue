@@ -15,6 +15,10 @@ interface Props {
    */
   href?: string;
   /**
+   * @zh_CN 是否独占一行
+   */
+  isBlock?: false;
+  /**
    * @zh_CN Logo 图片大小
    */
   logoSize?: number;
@@ -47,9 +51,12 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-  <div :class="theme" class="flex h-full items-center text-lg">
+  <div
+    :class="[theme, { 'justify-center': isBlock }]"
+    class="flex h-full items-center text-lg"
+  >
     <a
-      :class="$attrs.class"
+      :class="[$attrs.class, { 'flex-col mt-5': isBlock }]"
       :href="href"
       class="flex h-full items-center gap-2 overflow-hidden px-3 text-lg leading-normal transition-all duration-500"
     >
@@ -57,13 +64,15 @@ withDefaults(defineProps<Props>(), {
         v-if="src"
         :alt="text"
         :src="src"
-        :size="logoSize"
+        :size="collapsed ? 32 : logoSize"
         :fit="fit"
         class="relative rounded-none bg-transparent"
       />
       <template v-if="!collapsed">
         <slot name="text">
-          <span class="text-foreground truncate text-nowrap font-semibold">
+          <span
+            class="text-foreground truncate text-nowrap font-semibold [html[data-theme='tech-blue']:not(.dark)_&]:text-white"
+          >
             {{ text }}
           </span>
         </slot>

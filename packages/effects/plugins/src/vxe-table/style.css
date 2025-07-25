@@ -115,3 +115,31 @@
 .vxe-grid--layout-body-content-wrapper {
   overflow: hidden;
 }
+/*深色模式下的表头背景色*/
+:root[data-theme='tech-blue'].dark .vxe-grid {
+  --vxe-ui-layout-background-color: hsl(var(--tab-deactive-bg));
+  --vxe-ui-table-header-background-color: hsl(var(--accent-foreground));
+
+  --vxe-ui-table-border-color: hsl(var(--accent-foreground));
+  --vxe-ui-table-header-border-color: hsl(var(--vxe-header-border-color));
+  --vxe-ui-table-row-hover-background-color: hsl(var(--vxe-row-hover-background-color));
+  --vxe-ui-table-row-striped-background-color: hsl(var(--accent) / 60%);
+  --vxe-ui-table-row-hover-striped-background-color: hsl(var(--accent));
+  --vxe-ui-table-row-radio-checked-background-color: hsl(var(--accent));
+  --vxe-ui-table-row-hover-radio-checked-background-color: hsl(
+    var(--accent-hover)
+  );
+  --vxe-ui-table-row-checkbox-checked-background-color: hsl(var(--accent));
+  --vxe-ui-table-row-hover-checkbox-checked-background-color: hsl(
+    var(--accent-hover)
+  );
+  --vxe-ui-table-row-current-background-color: hsl(var(--accent));
+  --vxe-ui-table-row-hover-current-background-color: hsl(var(--accent-hover));
+  --vxe-ui-font-primary-tinge-color: hsl(var(--primary));
+  --vxe-ui-font-primary-lighten-color: hsl(var(--primary) / 60%);
+  --vxe-ui-font-primary-darken-color: hsl(var(--primary));
+
+  height: auto !important;
+
+  /* --vxe-ui-table-fixed-scrolling-box-shadow-color: rgb(0 0 0 / 80%); */
+}

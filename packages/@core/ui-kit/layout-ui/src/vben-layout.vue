@@ -531,14 +531,17 @@ const idMainContent = ELEMENT_ID_MAIN_CONTENT;
       <div
         :class="[
           {
-            'shadow-[0_16px_24px_hsl(var(--background))]': scrollY > 20,
+            'shadow-[0_16px_24px_hsl(var(--background))]':
+              scrollY > 20 && !$attrs.preferences.header.useCustomHeader,
           },
           SCROLL_FIXED_CLASS,
         ]"
         :style="headerWrapperStyle"
         class="overflow-hidden transition-all duration-200"
       >
+        <!--    这里这个其实是layout-header    -->
         <LayoutHeader
+          :preferences="$attrs.preferences"
           v-if="headerVisible"
           :full-width="!isSideMode"
           :height="headerHeight"
@@ -556,10 +559,10 @@ const idMainContent = ELEMENT_ID_MAIN_CONTENT;
           <template #toggle-button>
             <VbenIconButton
               v-if="showHeaderToggleButton"
-              class="my-0 mr-1 rounded-md"
+              class="my-0 box-border h-[50px] w-[50px] rounded-md px-[15px] text-white"
               @click="handleHeaderToggle"
             >
-              <Menu class="size-4" />
+              <Menu class="size-4 h-6 w-6 text-white" />
             </VbenIconButton>
           </template>
           <slot name="header"></slot>
@@ -569,6 +572,11 @@ const idMainContent = ELEMENT_ID_MAIN_CONTENT;
           v-if="tabbarEnable"
           :height="tabbarHeight"
           :style="tabbarStyle"
+          :class="[
+            {
+              'absolute top-[50px]': $attrs.preferences.header.useCustomHeader,
+            },
+          ]"
         >
           <slot name="tabbar"></slot>
         </LayoutTabbar>

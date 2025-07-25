@@ -20,6 +20,10 @@ interface Props {
    * Logo 主题
    */
   theme?: string;
+  /*
+   *  使用自定义header
+   * */
+  useCustomHeader?: boolean;
 }
 
 defineOptions({
@@ -28,6 +32,7 @@ defineOptions({
 
 withDefaults(defineProps<Props>(), {
   theme: 'light',
+  useCustomHeader: false,
 });
 
 const emit = defineEmits<{ clearPreferencesAndLogout: [] }>();
@@ -113,19 +118,23 @@ function clearPreferencesAndLogout() {
 </script>
 
 <template>
-  <template
-    v-for="slot in leftSlots.filter((item) => item.index < REFERENCE_VALUE)"
-    :key="slot.name"
-  >
-    <slot :name="slot.name">
-      <template v-if="slot.name === 'refresh'">
-        <VbenIconButton class="my-0 mr-1 rounded-md" @click="refresh">
-          <RotateCw class="size-4" />
-        </VbenIconButton>
-      </template>
-    </slot>
-  </template>
-  <div class="flex-center hidden lg:block">
+  <!-- 刷新按钮  -->
+  <div v-if="!useCustomHeader">
+    <template
+      v-for="slot in leftSlots.filter((item) => item.index < REFERENCE_VALUE)"
+      :key="slot.name"
+    >
+      <slot :name="slot.name">
+        <template v-if="slot.name === 'refresh'">
+          <VbenIconButton class="my-0 mr-1 rounded-md" @click="refresh">
+            <RotateCw class="size-4" />
+          </VbenIconButton>
+        </template>
+      </slot>
+    </template>
+  </div>
+  <!-- 自定义header情况下不要渲染 面包屑插槽  -->
+  <div v-if="!useCustomHeader" class="flex-center hidden lg:block">
     <slot name="breadcrumb"></slot>
   </div>
   <template
@@ -134,12 +143,14 @@ function clearPreferencesAndLogout() {
   >
     <slot :name="slot.name"></slot>
   </template>
+
   <div
     :class="`menu-align-${preferences.header.menuAlign}`"
     class="flex h-full min-w-0 flex-1 items-center"
   >
     <slot name="menu"></slot>
   </div>
+
   <div class="flex h-full min-w-0 flex-shrink-0 items-center">
     <template v-for="slot in rightSlots" :key="slot.name">
       <slot :name="slot.name">

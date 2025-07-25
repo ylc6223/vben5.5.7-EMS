@@ -69,6 +69,26 @@ function onMouseDown(e: MouseEvent, tab: TabConfig) {
     emit('close', tab.key);
   }
 }
+
+// 简化的关闭图标样式计算
+const getCloseIconClass = (tab: TabConfig) => {
+  return [
+    'tabs-chrome__close-icon',
+    {
+      'is-active': tab.key === active.value,
+    },
+  ];
+};
+
+// 简化的固定图标样式计算
+const getPinIconClass = (tab: TabConfig) => {
+  return [
+    'tabs-chrome__pin-icon',
+    {
+      'is-active': tab.key === active.value,
+    },
+  ];
+};
 </script>
 
 <template>
@@ -103,7 +123,7 @@ function onMouseDown(e: MouseEvent, tab: TabConfig) {
           :modal="false"
           item-class="pr-6"
         >
-          <div class="relative size-full px-1">
+          <div class="relative mr-[5px] size-full px-1">
             <!-- divider -->
             <div
               v-if="i !== 0 && tab.key !== active"
@@ -114,17 +134,17 @@ function onMouseDown(e: MouseEvent, tab: TabConfig) {
               class="tabs-chrome__background absolute z-[-1] size-full px-[calc(var(--gap)-1px)] py-0 transition-opacity duration-150"
             >
               <div
-                class="tabs-chrome__background-content group-[.is-active]:bg-primary/15 dark:group-[.is-active]:bg-accent h-full rounded-tl-[var(--gap)] rounded-tr-[var(--gap)] duration-150"
+                class="tabs-chrome__background-content group-[.is-active]:bg-primary/15 dark:group-[.is-active]:bg-accent dark:[html[data-theme='tech-blue']_&]:group-[.is-active]:bg-accent-foreground h-full rounded-tl-[var(--gap)] rounded-tr-[var(--gap)] duration-150 dark:[html[data-theme='tech-blue']_&]:rounded-none"
               ></div>
               <svg
-                class="tabs-chrome__background-before group-[.is-active]:fill-primary/15 dark:group-[.is-active]:fill-accent absolute bottom-0 left-[-1px] fill-transparent transition-all duration-150"
+                class="tabs-chrome__background-before group-[.is-active]:fill-primary/15 dark:group-[.is-active]:fill-accent dark:[html[data-theme='tech-blue']_&]:group-[.is-active]:fill-accent-foreground absolute bottom-0 left-[-1px] fill-transparent transition-all duration-150 dark:[html[data-theme='tech-blue']_&]:group-[.is-active]:invisible"
                 height="7"
                 width="7"
               >
                 <path d="M 0 7 A 7 7 0 0 0 7 0 L 7 7 Z" />
               </svg>
               <svg
-                class="tabs-chrome__background-after group-[.is-active]:fill-primary/15 dark:group-[.is-active]:fill-accent absolute bottom-0 right-[-1px] fill-transparent transition-all duration-150"
+                class="tabs-chrome__background-after group-[.is-active]:fill-primary/15 dark:group-[.is-active]:fill-accent dark:[html[data-theme='tech-blue']_&]:group-[.is-active]:fill-accent-foreground absolute bottom-0 right-[-1px] fill-transparent transition-all duration-150 dark:[html[data-theme='tech-blue']_&]:group-[.is-active]:invisible"
                 height="7"
                 width="7"
               >
@@ -139,19 +159,19 @@ function onMouseDown(e: MouseEvent, tab: TabConfig) {
               <!-- close-icon -->
               <X
                 v-show="!tab.affixTab && tabsView.length > 1 && tab.closable"
-                class="hover:bg-accent stroke-accent-foreground/80 hover:stroke-accent-foreground text-accent-foreground/80 group-[.is-active]:text-accent-foreground mt-[2px] size-3 cursor-pointer rounded-full transition-all"
+                :class="getCloseIconClass(tab)"
                 @click.stop="() => emit('close', tab.key)"
               />
               <Pin
                 v-show="tab.affixTab && tabsView.length > 1 && tab.closable"
-                class="hover:text-accent-foreground text-accent-foreground/80 group-[.is-active]:text-accent-foreground mt-[1px] size-3.5 cursor-pointer rounded-full transition-all"
+                :class="getPinIconClass(tab)"
                 @click.stop="() => emit('unpin', tab)"
               />
             </div>
 
             <!-- tab-item-main -->
             <div
-              class="tabs-chrome__item-main group-[.is-active]:text-primary dark:group-[.is-active]:text-accent-foreground text-accent-foreground z-[2] mx-[calc(var(--gap)*2)] my-0 flex h-full items-center overflow-hidden rounded-tl-[5px] rounded-tr-[5px] pl-2 pr-4 duration-150"
+              class="tabs-chrome__item-main group-[.is-active]:text-primary dark:group-[.is-active]:text-accent-foreground text-accent-foreground z-[2] mx-[calc(var(--gap)*2)] my-0 flex h-full items-center overflow-hidden rounded-tl-[5px] rounded-tr-[5px] pl-2 pr-4 duration-150 dark:[html[data-theme='tech-blue']_&]:group-[.is-active]:text-white"
             >
               <VbenIcon
                 v-if="showIcon"
@@ -205,5 +225,81 @@ function onMouseDown(e: MouseEvent, tab: TabConfig) {
       }
     }
   }
+
+  /* 简化的关闭图标样式 */
+  &__close-icon {
+    @apply mt-[2px] size-3 cursor-pointer rounded-full transition-all;
+    @apply stroke-accent-foreground/80 text-accent-foreground/80 [html[data-theme='tech-blue']_&]:text-foreground [html[data-theme='tech-blue']_&]:stroke-foreground;
+
+    &:hover {
+      @apply bg-accent stroke-accent-foreground;
+    }
+
+    /* 激活状态样式 */
+    .group.is-active & {
+      @apply text-accent-foreground;
+    }
+
+    /* 深色模式下的 tech-blue 主题特殊样式 */
+    :root[data-theme='tech-blue'].dark .group.is-active & {
+      @apply bg-accent-foreground text-white;
+    }
+
+    :root[data-theme='tech-blue'].dark .group.is-active &:hover {
+      @apply bg-accent-foreground;
+    }
+  }
+
+  /* 简化的固定图标样式 */
+  &__pin-icon {
+    @apply mt-[1px] size-3.5 cursor-pointer rounded-full transition-all;
+    @apply text-accent-foreground/80 [html[data-theme='tech-blue']_&]:text-foreground;
+
+    &:hover {
+      @apply text-accent-foreground;
+    }
+
+    /* 激活状态样式 */
+    .group.is-active & {
+      @apply text-accent-foreground;
+    }
+
+    /* 深色模式下的 tech-blue 主题特殊样式 */
+    :root[data-theme='tech-blue'].dark .group.is-active & {
+      @apply text-white;
+    }
+  }
+}
+</style>
+<style lang="scss">
+.tabs-chrome {
+  --techdark-tab-bg: var(---tab-deactive-bg);
+}
+:root[data-theme='tech-blue']:not(.dark)
+  .tabs-chrome__item:not(.dragging):hover:not(.is-active)
+  .tabs-chrome__background-content {
+  @apply bg-primary/15;
+}
+:root[data-theme='tech-blue'].dark
+  .tabs-chrome__item:not(.dragging):hover:not(.is-active)
+  .tabs-chrome__background-content {
+  @apply mx-0 rounded-none;
+  background-color: hsl(var(--techdark-tab-bg));
+}
+:root[data-theme='tech-blue'].dark
+  .tabs-chrome__item:not(.dragging):not(.is-active)
+  .tabs-chrome__background-content {
+  @apply rounded-none;
+  background-color: hsl(var(--techdark-tab-bg));
+}
+:root[data-theme='tech-blue'].dark
+  .tabs-chrome__item:not(.dragging):not(.is-active)
+  .tabs-chrome__item-main {
+  @apply text-foreground;
+}
+:root[data-theme='tech-blue'].dark
+  .tabs-chrome__item:not(.dragging)
+  .tabs-chrome__background {
+  @apply rounded-none pb-[2px];
 }
 </style>

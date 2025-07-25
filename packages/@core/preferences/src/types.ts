@@ -59,6 +59,8 @@ interface AppPreferences {
    * @zh_CN 是否开启refreshToken
    */
   enableRefreshToken: boolean;
+  /** 顶栏标题 */
+  headerTitle: string;
   /** 是否移动端 */
   isMobile: boolean;
   /** 布局方式 */
@@ -129,6 +131,8 @@ interface HeaderPreferences {
   menuAlign: LayoutHeaderMenuAlignType;
   /** header显示模式 */
   mode: LayoutHeaderModeType;
+  /* 是否使用自定义顶栏*/
+  useCustomHeader: boolean;
 }
 
 interface LogoPreferences {
@@ -136,6 +140,10 @@ interface LogoPreferences {
   enable: boolean;
   /** logo图片适应方式 */
   fit: 'contain' | 'cover' | 'fill' | 'none' | 'scale-down';
+  /** logo是否独占一行 */
+  isBlock: boolean;
+  /** logo大小 */
+  logoSize: number;
   /** logo地址 */
   source: string;
 }

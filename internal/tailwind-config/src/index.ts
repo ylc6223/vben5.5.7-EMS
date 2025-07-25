@@ -71,6 +71,8 @@ const shadcnUiColors = {
     DEFAULT: 'hsl(var(--secondary))',
     desc: 'hsl(var(--secondary-desc))',
     foreground: 'hsl(var(--secondary-foreground))',
+    hover: 'hsl(var(--secondary-hover))',
+    subtle: 'hsl(var(--secondary-subtle))',
   },
 };
 
